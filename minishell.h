@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:16:37 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/20 15:51:55 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:55:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "LIBFT/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <stdlib.h>
 
 typedef struct s_global
 {
@@ -24,7 +24,13 @@ typedef struct s_global
     char **split;
     t_list *element;
 } t_global;
-
+void	ft_pwd();
+void	ft_exit(t_global *input);
+void	ft_chdir(t_global *input);
+void	ft_env(char **envp);
+void	ft_echo(t_global *input);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	is_builtin(char *cmd, char **envp, t_global *input);
 void	ft_free_split(char **split);
 
 #endif

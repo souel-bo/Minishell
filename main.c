@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 20:24:27 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/21 00:24:48 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/03/21 23:06:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#include "LIBFT/libft.h"
 void print_element(t_list *list)
 {
     int i = 1;
@@ -35,16 +35,16 @@ t_list *lexer(t_global *input, t_list *list)
     }
     while (input->split[i])
     {
-        input->element = input->element = ft_lstnew(ft_strdup(input->split[i]));        ;
+        input->element = ft_lstnew(ft_strdup(input->split[i]));        ;
         ft_lstadd_back(&list, input->element);
         i++;
     }
-    ft_free_split(input->split);
-    input->split = NULL;
+    // ft_free_split(input->split);
+    // input->split = NULL;
     return list;
 }
 
-void open_promt(t_global *promt, t_list *list)
+void open_promt(t_global *promt, t_list *list, char **envp)
 {
     promt = malloc(sizeof(t_global));
     if (!promt)
@@ -60,6 +60,8 @@ void open_promt(t_global *promt, t_list *list)
         }
         list = lexer(promt, list);
         print_element(list);
+        if (is_builtin(list->content, envp, promt))
+            return ;
         free(promt->input);
         if (!promt->input)
         {
@@ -78,5 +80,5 @@ int main(int argc, char **argv, char **env)
 {
     t_global *promt = NULL;
     t_list *list = NULL;
-    open_promt(promt, list);
+    open_promt(promt, list, env);
 }

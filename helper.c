@@ -6,12 +6,13 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:50:25 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/21 23:53:30 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/03/22 00:01:25 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "LIBFT/libft.h"
 #include "minishell.h"
+
 
 void	ft_free_split(char **split)
 {

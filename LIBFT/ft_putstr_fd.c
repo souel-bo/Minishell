@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 05:56:13 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 03:05:38 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/10/28 10:23:07 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/08 18:19:18 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#include "libft.h"
 
-#include "minishell.h"
-
-t_token *tokenizer(char *input, t_token *tokens);
-
-#endif
+void	ft_putstr_fd(char *s, int fd)
+{
+	while (s && *s)
+		ft_putchar_fd(*s++, fd);
+}

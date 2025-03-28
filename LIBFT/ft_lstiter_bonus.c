@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 03:21:16 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/11/03 19:16:04 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/06 15:29:47 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-void	ft_lstclear(t_token **lst, void (*del)(void *))
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_token	*current;
-	t_token	*next_node;
+	t_list	*current;
 
-	if (!lst || !*lst || !del)
+	if (!lst || !f)
 		return ;
-	current = *lst;
+	current = lst;
 	while (current != NULL)
 	{
-		next_node = current->next;
-		ft_lstdelone(current, del);
-		current = next_node;
+		f(current->content);
+		current = current->next;
 	}
-	*lst = NULL;
 }

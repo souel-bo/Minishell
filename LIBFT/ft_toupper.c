@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstaddback.c                                    :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 02:59:41 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 03:00:13 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/10/26 01:43:02 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/08 18:44:38 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-void	ft_lstadd_back(t_token **lst, t_token *new)
+int	ft_toupper(int c)
 {
-	t_token	*last;
-
-	if (!new || !lst)
-		return ;
-	if (*lst == NULL)
-		*lst = new;
-	else
-	{
-		last = ft_lstlast(*lst);
-		last->next = new;
-	}
+	if (c >= 'a' && c <= 'z')
+		return (c -= 32);
+	return (c);
 }

@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 01:36:08 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 01:42:26 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/10/22 17:07:37 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/02 14:49:42 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_isdigit(int c)
 {
-	const char	*ptr;
-
-	ptr = s;
-	while (*ptr)
-		ptr++;
-	return ((size_t)(ptr - s));
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }

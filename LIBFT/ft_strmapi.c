@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 02:52:43 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 02:52:58 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/10/31 09:10:43 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/06 19:02:15 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	int	i;
+	char	*map;
+	int		i;
 
+	if (!s || !f)
+		return (NULL);
+	map = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!map)
+		return (NULL);
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
+		map[i] = f(i, s[i]);
 		i++;
 	}
-	if ((char)c == '\0')
-		return ((char *)&s[i]);
-	return (NULL);
+	map[i] = '\0';
+	return (map);
 }

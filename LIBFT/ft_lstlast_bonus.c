@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 03:04:35 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 03:05:09 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/11/02 18:22:34 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/06 15:30:21 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-t_token	*ft_lstlast(t_token *lst)
+t_list	*ft_lstlast(t_list *lst)
 {
-	t_token	*last_content;
+	t_list	*last_content;
 
 	if (!lst)
 		return (NULL);

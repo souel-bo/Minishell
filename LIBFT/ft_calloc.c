@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 01:29:33 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 04:20:03 by souel-bo         ###   ########.fr       */
+/*   Created: 2024/10/27 03:48:20 by souel-bo          #+#    #+#             */
+/*   Updated: 2024/11/11 15:27:13 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-char	*ft_strndup(char *s, size_t n)
+void	*ft_calloc(size_t count, size_t size)
 {
-	size_t i = 0;
-	char *str;
-	if (!s)
+	size_t	aloc_size;
+	void	*caloc;
+
+	if (size != 0 && count > (size_t)-1 / size)
 		return (NULL);
-	str = malloc(n + 1);
-	if (!str)
+	aloc_size = count * size;
+	caloc = malloc(aloc_size);
+	if (!caloc)
 		return (NULL);
-	while (i < n && s[i])
-	{
-		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	ft_memset(caloc, 0, aloc_size);
+	return (caloc);
 }

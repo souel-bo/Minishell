@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 01:59:17 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/03/28 21:23:37 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ typedef enum s_type
 	BUILTIN,
 	PIPE,
 	HERE_DOC,
+	DELIMITER,
 	APPEND,
 	RED_IN,
-	RED_OUT
+	RED_OUT,
+	FILE_NAME
+	// OR_OPERATOR,
+	// AND_OPERATOR
 }					t_type;
 
 typedef struct s_token

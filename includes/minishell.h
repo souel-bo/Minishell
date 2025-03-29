@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 21:23:37 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/03/29 04:21:57 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef enum s_type
 {
 	COMMAND,
+	argument,
 	BUILTIN,
 	PIPE,
 	HERE_DOC,

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 03:22:53 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/03/29 05:07:59 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int main(int argc, char **argv, char **envirement)
             input = readline("minishell $>: ");
             if (!input)
                 exit(1);
+            add_history(input);
             tokens = tokenizer(input, tokens);
             print(tokens);
             ft_lstclear(&tokens, free);

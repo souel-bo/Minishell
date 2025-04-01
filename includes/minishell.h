@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
+#include <stdio.h>
 typedef enum s_type
 {
 	COMMAND,

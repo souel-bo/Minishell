@@ -21,10 +21,21 @@ void print(t_token *list)
     }
 }
 
+int check_space(char *input)
+{
+    int i = 0;
+    while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+          i++;
+    if (input[i] == '\0')
+        return 1;
+    return 0;
+}
+
 int main(int argc, char **argv, char **envirement)
 {
        (void)argc;
        (void)argv;
+        (void)envirement;
        char *input;
        t_token *tokens =NULL;
        while (1)
@@ -32,10 +43,20 @@ int main(int argc, char **argv, char **envirement)
             input = readline("minishell $>: ");
             if (!input)
                 exit(1);
-            add_history(input);
-            tokens = tokenizer(input, tokens);
-            print(tokens);
-            ft_lstclear(&tokens, free);
-            free(input);
-       }
+            if (input)
+            {
+              if (check_space(input))
+              {
+                  free(input);
+                  input = readline("minishell $>: ");
+                  if (!input)
+                    exit(1);
+              }
+              add_history(input);
+              tokens = tokenizer(input, tokens);
+              print(tokens);
+              ft_lstclear(&tokens, free);
+              free(input);
+            }
+        }
 }

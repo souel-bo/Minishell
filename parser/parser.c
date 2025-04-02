@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 05:56:13 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/02 11:53:58 by sfyn             ###   ########.fr       */
+/*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
+/*   Updated: 2025/04/02 12:02:43 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#include "../includes/tokenizer.h"
 
-#include "minishell.h"
-
-t_token *tokenizer(char *input, t_token *tokens);
-int check_quotes(char *input);
-#endif
+int check_quotes(char *input)
+{
+    int i = 0;
+    int quotes = 0;
+    while (input[i])
+    {
+        if (input[i] == '\"')
+            quotes++;
+        i++;
+    }
+    if (quotes % 2 != 0)
+        return 1;
+    return 0;
+}

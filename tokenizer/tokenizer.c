@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/29 00:49:00 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/02 11:58:51 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ t_token	*tokenizer(char *input, t_token *tokens)
 	int		j;
 	t_token	*element;
 
-	i = 0;
+  i = 0;
 	j = 0;
+	if (check_quotes(input))
+	{
+		ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+		return NULL;
+	}
 	while (input[i])
 	{
 		while (input[i] && input[i] == ' ')

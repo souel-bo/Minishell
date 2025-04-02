@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 05:56:13 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/02 11:53:58 by sfyn             ###   ########.fr       */
+/*   Created: 2025/04/02 11:56:57 by sfyn              #+#    #+#             */
+/*   Updated: 2025/04/02 11:57:20 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#include "../includes/libft.h"
 
-#include "minishell.h"
-
-t_token *tokenizer(char *input, t_token *tokens);
-int check_quotes(char *input);
-#endif
+void	ft_putchar_fd(char c, int fd)
+{
+	if (fd < 0)
+		return ;
+	write(fd, &c, 1);
+}

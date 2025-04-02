@@ -1,15 +1,16 @@
 NAME = minishell
 
-CC = cc  -fsanitize=address -g3
+CC = cc  #-fsanitize=address -g3
 
 CFLAGS = -Wall -Wextra -Werror
 
 MINISHELL_SRC = main.c 
 
-TOKENIZER = tokenizer/tokenizer.c
+TOKENIZER = tokenizer/tokenizer.c parser/parser.c
 
 LIBFT_SRC = libft/ft_lstaddback.c  libft/ft_lstdelone.c  libft/ft_lstnew.c  libft/ft_strjoin.c  libft/ft_strlcpy.c  libft/ft_strndup.c\
-						libft/ft_lstclear.c    libft/ft_lstlast.c    libft/ft_strchr.c  libft/ft_strlcat.c  libft/ft_strlen.c 
+						libft/ft_lstclear.c    libft/ft_lstlast.c    libft/ft_strchr.c  libft/ft_strlcat.c  libft/ft_strlen.c\
+						libft/ft_putchar_fd.c libft/ft_putstr_fd.c  
 
 MINISHELL_OBJ = $(MINISHELL_SRC:.c=.o)
 

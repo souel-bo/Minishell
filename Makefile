@@ -27,7 +27,7 @@ $(NAME): $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ)
 	$(CC) $(CFLAGS) -c $< -o  $@
 
 clean:
-	rm -rf $(MINISHELL_OBJ)  $(LIBFT_OBJ)
+	rm -rf $(MINISHELL_OBJ)  $(LIBFT_OBJ) $(TOKENIZER_OBJ)
 
 fclean: clean
 	rm -rf $(NAME)

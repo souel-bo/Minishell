@@ -36,4 +36,4 @@ fclean: clean
 
 re: fclean all
 
-.SECONDARY: $(MINISHELL_OBJ) $(LIBFT_OBJ)
+.SECONDARY: $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ)

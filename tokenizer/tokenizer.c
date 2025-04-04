@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/04 10:51:18 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/04/04 15:50:19 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,10 @@ t_token	*tokenizer(char *input, t_token *tokens)
 				element = new_element(ft_strndup(&input[j], i - j));
 				ft_lstadd_back(&tokens, element);
 			}
-			if (input[i] == '<' && input[i + 1] == '<')
+			if ((input[i] == '<' && input[i + 1] == '<') || (input[i] == '>' && input[i + 1] == '>')
+			|| (input[i] == '|' && input[i + 1] == '|') || (input[i] == '&' && input[i + 1] == '&'))
 			{
-				element = new_element(ft_strndup("<<", 2));
-				ft_lstadd_back(&tokens, element);
-				i += 2;
-			}
-			else if (input[i] == '>' && input[i + 1] == '>')
-			{
-				element = new_element(ft_strndup(">>", 2));
-				ft_lstadd_back(&tokens, element);
-				i += 2;
-			}
-			else if (input[i] == '|' && input[i + 1] == '|')
-			{
-				element = new_element(ft_strndup("||", 2));
-				ft_lstadd_back(&tokens, element);
-				i += 2;
-			}
-			else if (input[i] == '&' && input[i + 1] == '&')
-			{
-				element = new_element(ft_strndup("&&", 2));
+				element = new_element(ft_strndup(&input[i], 2));
 				ft_lstadd_back(&tokens, element);
 				i += 2;
 			}

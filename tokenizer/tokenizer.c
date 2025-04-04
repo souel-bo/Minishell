@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/03 08:14:23 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/04/04 10:51:18 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_token	*tokenizer(char *input, t_token *tokens)
 			ft_lstadd_back(&tokens, element);
 			j = i;
 		}
-		else if (input[i] == '|' || input[i] == '<' || input[i] == '>' || input[i] == '&')
+		else if (input[i] == '|' || input[i] == '<' || input[i] == '>' || input[i] == '&' || input[i] == '\"')
 		{
 			if (i > j)
 			{
@@ -94,7 +94,7 @@ t_token	*tokenizer(char *input, t_token *tokens)
 		else if (input[i])
 		{
 			while (input[i] && input[i] != ' ' && input[i] != '|'
-				&& input[i] != '<' && input[i] != '>' && input[i] != '&')
+				&& input[i] != '<' && input[i] != '>' && input[i] != '&' && input[i] != '\"')
 				i++;
 			element = new_element(ft_strndup(&input[j], i - j));
 			ft_lstadd_back(&tokens, element);

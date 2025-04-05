@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/04 15:50:19 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/04/05 13:56:02 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_token	*tokenizer(char *input, t_token *tokens)
 		ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
 		return NULL;
 	}
+	if (check_parenthis(input))
+		return NULL;
 	while (input[i])
 	{
 		while (input[i] && (input[i] == ' ' || input[i] == '\t'))
@@ -47,6 +49,17 @@ t_token	*tokenizer(char *input, t_token *tokens)
 			while (input[i] && input[i] != '\'')
 				i++;
 			if (input[i] == '\'')
+				i++;
+			element = new_element(ft_strndup(&input[j], i - j));
+			ft_lstadd_back(&tokens, element);
+			j = i;
+		}
+		else if (input[i] == '(')
+		{
+			i++;
+			while (input[i] && input[i] != ')')
+				i++;
+			if (input[i] == ')')
 				i++;
 			element = new_element(ft_strndup(&input[j], i - j));
 			ft_lstadd_back(&tokens, element);

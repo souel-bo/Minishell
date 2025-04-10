@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 16:01:17 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/10 21:11:41 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void check_argument(t_token *iteration)
     while (iteration != NULL && !check_opperator(iteration->token))
     {
         iteration->type = ARGUMENT;
-        printf("%s , %s\n", type_to_string(iteration->type), iteration->token);
         iteration = iteration->next;
     }
 }
@@ -32,6 +31,18 @@ void check_argument(t_token *iteration)
 int check_if_builtin(t_token *token)
 {
     if (!ft_strncmp(token->token, "echo", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "cd", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "pwd", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "export", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "unset", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "env", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "exit", ft_strlen(token->token)))
         return 1;
     return 0;
 }

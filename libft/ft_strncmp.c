@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 05:56:13 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 14:36:20 by souel-bo         ###   ########.fr       */
+/*   Created: 2025/04/10 14:08:25 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/04/10 14:09:37 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#include "../includes/libft.h"
 
-#include "minishell.h"
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
 
-t_token *tokenizer(char *input, t_token *tokens);
-int check_quotes(char *input);
-int check_parenthis(char *input);
-t_token *lexer(t_token *list);
-#endif
+	i = 0;
+	while ((n > 0) && (s1[i] && s2[i]) && (s1[i] == s2[i]))
+	{
+		i++;
+		n--;
+	}
+	if (n == 0)
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

@@ -6,17 +6,44 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/29 05:07:59 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:47:07 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+
+const char *type_to_string(t_type type)
+{
+    if (type == WORD)
+        return "WORD";
+    else if (type == BUILTIN)
+        return "BUILTIN";
+    else if (type == PIPE)
+        return "PIPE";
+    else if (type == RED_IN)
+        return "RED_IN";
+    else if (type == RED_OUT)
+        return "RED_OUT";
+    else if (type == FILE_NAME)
+        return "FILE_NAME";
+	else if (type == HERE_DOC)
+        return "HERE_DOC";
+	else if (type == DELIMITER)
+        return "DELIMITER";
+	else if (type == APPEND)
+        return "APPEND";
+	else if (type == ARGUMENT)
+        return "ARGUMENT";
+    else
+        return "RANDOM";
+}
+
 void print(t_token *list)
 {
     while (list)
     {
-        printf("%s\n", list->token);
+        printf("[%s]%s\n", type_to_string(list->type),list->token);
         list = list->next;
     }
 }
@@ -37,7 +64,7 @@ int main(int argc, char **argv, char **envirement)
        (void)argv;
         (void)envirement;
        char *input;
-       t_token *tokens =NULL;
+       t_token *tokens = NULL;
        while (1)
        {
             input = readline("minishell $>: ");

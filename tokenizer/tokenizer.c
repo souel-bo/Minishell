@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/05 13:56:02 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/04/10 14:39:01 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ t_token	*tokenizer(char *input, t_token *tokens)
 			ft_lstadd_back(&tokens, element);
 		}
 	}
+	tokens = lexer(tokens);
 	return (tokens);
 }

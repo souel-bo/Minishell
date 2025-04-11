@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 15:47:07 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:06:21 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 const char *type_to_string(t_type type)
 {
-    if (type == WORD)
-        return "WORD";
-    else if (type == BUILTIN)
+    if (type == BUILTIN)
         return "BUILTIN";
     else if (type == PIPE)
         return "PIPE";
@@ -35,8 +33,7 @@ const char *type_to_string(t_type type)
         return "APPEND";
 	else if (type == ARGUMENT)
         return "ARGUMENT";
-    else
-        return "RANDOM";
+    return "WORD";
 }
 
 void print(t_token *list)

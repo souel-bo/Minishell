@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 21:11:41 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:05:09 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,56 @@ int check_if_builtin(t_token *token)
         return 1;
     return 0;
 }
+int check_if_operator(t_token *token)
+{
+    if (!ft_strncmp(token->token, "|", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, ">>", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
+        return 1;
+    else if (!ft_strncmp(token->token, ">", ft_strlen(token->token)))
+        return 1;
+    return 0;
+}
+
+void check_operator(t_token *token)
+{
+    if (!ft_strncmp(token->token, "|", ft_strlen(token->token)))
+        token->type = PIPE;
+    else if (!ft_strncmp(token->token, ">>", ft_strlen(token->token)))
+        token->type = APPEND;
+    else if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
+    {
+        token->type = RED_IN;
+        if (token->next)
+        {
+            token = token->next;
+            token->type = FILE_NAME;
+        }
+    }
+    else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
+    {
+        token->type = HERE_DOC;
+        if (token->next)
+        {
+            token = token->next;
+            token->type = DELIMITER;
+        }
+    }
+    else if (!ft_strncmp(token->token, ">", ft_strlen(token->token)))
+    {
+        token->type = RED_OUT;
+        if (token->next)
+        {
+            token = token->next;
+            token->type = FILE_NAME;
+        }
+    }
+}
+
 t_token *lexer(t_token *list)
 {
     t_token *iterate;
@@ -62,9 +112,13 @@ t_token *lexer(t_token *list)
                 check_argument(iterate);
             }
         }
+        else if (check_if_operator(iterate))
+        {
+            check_operator(iterate);
+        }
         else if (iterate->type == 0)
         {
-            iterate->type = RANDOM;
+            iterate->type = WORD;
         }
             iterate = iterate->next;
     }

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 15:45:44 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/11 15:55:15 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ typedef enum s_type
 	APPEND,
 	RED_IN,
 	RED_OUT,
-	FILE_NAME,
-	RANDOM
+	FILE_NAME
 	// OR_OPERATOR,
 	// AND_OPERATOR
 }					t_type;

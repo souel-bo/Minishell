@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/11 15:55:15 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:10:23 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 typedef enum s_type
 {
+	TEST,
 	WORD,
 	BUILTIN,
 	ARGUMENT,

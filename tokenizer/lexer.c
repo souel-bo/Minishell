@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/11 17:18:23 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/11 22:13:31 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_if_builtin(t_token *token)
 {
 	if (!ft_strncmp(token->token, "echo", ft_strlen(token->token)))
 		return (1);
-	else if (!ft_strncmp(token->token, "cd", ft_strlen(token->token)))
+	else if (!ft_strncmp(token->token, "cd", 2))
 		return (1);
 	else if (!ft_strncmp(token->token, "pwd", ft_strlen(token->token)))
 		return (1);
@@ -123,7 +123,7 @@ t_token	*lexer(t_token *list)
 		{
 			check_operator(iterate);
 		}
-		else if (iterate->type == 0)
+		else if (iterate->type == TEST)
 		{
 			iterate->type = WORD;
 		}

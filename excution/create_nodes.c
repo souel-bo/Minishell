@@ -128,24 +128,23 @@ void	execve_path(char **path, char **cmd, char **envp)
 	{
 		temp = ft_strjoin(path[i], "/");
 		if (!temp)
-			return (ft_free(path), ft_free(cmd), exit(1));
+			return (ft_free(path), ft_free(cmd));
 		full_cmd = ft_strjoin(temp, cmd[0]);
-        printf("full_cmd: %s\n %s\n", full_cmd,cmd[0]);
 		free(temp);
 		if (!full_cmd)
-			return (ft_free(path), ft_free(cmd), exit(1));
+			return (ft_free(path), ft_free(cmd));
 		if (access(full_cmd, X_OK) == 0)
 		{
 			ft_free(path);
 			if (execve(full_cmd, cmd, envp))
 				write(2, "execve failed\n", 14);
-            return (free(full_cmd), ft_free(cmd), exit(1));
+            return (free(full_cmd), ft_free(cmd));
 		}
 		free(full_cmd);
 		i++;
 	}
 	write(2, "command not found\n", 18);
-	return (ft_free(path), ft_free(cmd), exit(127));
+	return (ft_free(path), ft_free(cmd));
 }
 void ft_execution(t_new_list *list,char **envp)
 {
@@ -157,4 +156,5 @@ void ft_execution(t_new_list *list,char **envp)
         path = get_path();
         execve_path(path,list->args,envp);
     }
+    waitpid(pid, 0, 0);
 }

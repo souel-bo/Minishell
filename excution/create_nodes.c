@@ -106,83 +106,55 @@ void flag_nodes(t_new_list **node, t_type type)
     else
         (*node)->type = ITS_CMD;
 }
-
-char *resolve_command(char *command)
+int ft_isprint(int c)
 {
-    char *path_env = getenv("PATH");
-    char *path = NULL;
-    char *full_path = NULL;
-
-    if (!path_env)
-        return NULL;
-
-    path = strdup(path_env);
-    if (!path)
-        return NULL;
-
-    char *dir = strtok(path, ":");
-    while (dir)
-    {
-        full_path = malloc(strlen(dir) + strlen(command) + 2);
-        if (!full_path)
-        {
-            free(path);
-            return NULL;
-        }
-        sprintf(full_path, "%s/%s", dir, command);
-
-        if (access(full_path, X_OK) == 0)
-        {
-            free(path); 
-            return full_path;
-        }
-
-        free(full_path); 
-        dir = strtok(NULL, ":");
-    }
-
-    free(path);
-    return NULL;
+    return (c >= 32 && c <= 126);
+}
+char	**get_path()
+{
+    char *PATH;
+    PATH = getenv("PATH");
+	return (ft_split(PATH, ':'));
 }
 
-void ft_execution(t_new_list *list)
+void	execve_path(char **path, char **cmd, char **envp)
+{
+	char	*temp;
+	char	*full_cmd;
+
+	int (i) = 0;
+    
+	while (path[i])
+	{
+		temp = ft_strjoin(path[i], "/");
+		if (!temp)
+			return (ft_free(path), ft_free(cmd), exit(1));
+		full_cmd = ft_strjoin(temp, cmd[0]);
+        printf("full_cmd: %s\n %s\n", full_cmd,cmd[0]);
+		free(temp);
+		if (!full_cmd)
+			return (ft_free(path), ft_free(cmd), exit(1));
+		if (access(full_cmd, X_OK) == 0)
+		{
+			ft_free(path);
+			if (execve(full_cmd, cmd, envp))
+				write(2, "execve failed\n", 14);
+            return (free(full_cmd), ft_free(cmd), exit(1));
+		}
+		free(full_cmd);
+		i++;
+	}
+	write(2, "command not found\n", 18);
+	return (ft_free(path), ft_free(cmd), exit(127));
+}
+void ft_execution(t_new_list *list,char **envp)
 {
     int pid;
-    int status;
-    char *command_path;
-    if (!list || !list->args || !list->args[0])
-    {
-        write(2,"Error: No command to execute\n",30);
-        return;
-    }
-    command_path = resolve_command(list->args[0]);
-    if (!command_path)
-    {
-        write(2, "Error: Command not found: %s\n", 30);
-        return;
-    }
+    char **path;
     pid = fork();
     if (pid == 0)
     {
-        execve(command_path, list->args, NULL);
-        perror("execve");
-        free(command_path);
-        exit(EXIT_FAILURE);
+        path = get_path();
+        execve_path(path,list->args,envp);
     }
-    else if (pid > 0) 
-        waitpid(pid, &status, 0);
-    free(command_path); 
 }
-
-// void ft_execution(t_new_list *list)
-// {
-//     int pid;
-//     pid = fork();
-//     if (pid == 0)
-//     {
-//         if (access(list->args[0],X_OK))
-//             execve(list->args[0],list->args,NULL);
-//         else
-//             return ;
-//     }
-// }

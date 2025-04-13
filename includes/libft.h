@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/10 14:10:15 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:16:26 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 
 #include "minishell.h"
 
+char	*ft_word(char const *s, char c, size_t *i);
+size_t	ft_count_word(char const *s, char c);
+void	ft_free(char **ptr);
+char	**ft_make(char const *s, char c, char **ptr, size_t len);
+int ft_isprint(int c);
+char	**ft_split(char const *s, char c);
 t_token	*new_element(char *ptr);
 size_t	ft_strlen(const char *s);
 char *ft_strndup(char *s, size_t n);

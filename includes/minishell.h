@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/13 17:16:06 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:18:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_new_list
 
 # include "libft.h"
 # include "tokenizer.h"
-void ft_execution(t_new_list *list);
+void ft_execution(t_new_list *list,char **env);
 const char *type_to_string2(t_flag type);
 void flag_nodes(t_new_list **node, t_type type);
 t_new_list  *ft_create_list(t_token *tokens);

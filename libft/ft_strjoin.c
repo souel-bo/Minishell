@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 00:07:57 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/29 00:12:17 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:44:16 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,27 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*aloc_str;
-	size_t	len;
+	size_t	i;
+	size_t	j;
+	char	*ptr;
 
-	if (!s1)
-		return ((char *)s2);
-	else if (!s2)
-		return ((char *)s1);
-	if (!s1 && !s2)
+	if (!s1 || !s2)
 		return (NULL);
-	len = (ft_strlen(s1) + ft_strlen(s2)) + 1;
-	aloc_str = (char *)malloc
-		(sizeof(char) * (len));
-	if (!aloc_str)
+	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ptr)
 		return (NULL);
-	ft_strlcpy(aloc_str, s1, ft_strlen(s1) + 1);
-	ft_strlcat(aloc_str, s2, 1);
-	return (aloc_str);
+	i = 0;
+	j = 0;
+	while (s1[i])
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		ptr[i + j] = s2[j];
+		j++;
+	}
+	ptr[i + j] = '\0';
+	return (ptr);
 }

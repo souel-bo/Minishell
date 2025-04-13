@@ -6,12 +6,12 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/13 17:16:26 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/13 21:44:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
+#include <string.h> 
 
 const char *type_to_string(t_type type)
 {
@@ -75,7 +75,6 @@ int main(int argc, char **argv, char **envirement)
 {
        (void)argc;
        (void)argv;
-        (void)envirement;
        char *input;
        t_new_list *new_list;
        t_token *tokens = NULL;
@@ -97,7 +96,7 @@ int main(int argc, char **argv, char **envirement)
               tokens = tokenizer(input, tokens);
             //   print(tokens);
               new_list = ft_create_list(tokens);
-              ft_execution(new_list);
+              ft_execution(new_list,envirement);
               ft_lstclear(&tokens, free);
               free(input);
             }

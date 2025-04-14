@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/11 22:10:23 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/14 00:36:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,12 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-typedef struct s_operators
+typedef struct s_execution
 {
-	char *element;
-	t_type type;
-}					t_operators;
+	char **args;
+	
+	struct s_execution *next;
+} t_execution;
 
 # include "libft.h"
 # include "tokenizer.h"

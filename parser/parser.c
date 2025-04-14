@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/04/11 14:36:11 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:13:18 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,19 @@ int check_quotes(char *input)
         return 1;
     return 0;
 }
+
+int parser(char *input)
+{
+    if (input[0] == '|' && input[1] != '|')
+    {
+        ft_putstr_fd("minishell: parse error near '|'\n", 2);
+        return 1;
+    }
+    printf("test\n");
+    return 0;
+}
+
+
 int check_parenthis(char *input)
 {
     int i = 0;
@@ -83,4 +96,38 @@ int check_parenthis(char *input)
         return 1;
     }
     return 0;
+}
+
+int count_words(t_token *tokens)
+{
+	t_token *iterator;
+	iterator = tokens;
+	int i = 0;
+	while (iterator)
+	{
+		if (iterator->type == PIPE)
+			break;
+		i++;
+		iterator = iterator->next;
+	}	
+	return i;
+}
+
+t_execution *create_element(t_token *tokens)
+{
+	t_execution *element;
+	element = malloc(sizeof(t_execution));
+	if (!element)
+		return NULL;
+	element->args = malloc(sizeof(char *) * (count_words(tokens) + 1));
+	if (!element->args)
+		return NULL;
+	return element;
+}
+
+t_execution *pre_execution(t_token *tokens)
+{
+    t_execution *exec_list;
+    exec_list = NULL;
+	return exec_list;
 }

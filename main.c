@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/11 22:09:51 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/14 02:16:12 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ const char *type_to_string(t_type type)
 
 void print(t_token *list)
 {
+    printf("%d\n", count_words(list));
     while (list)
     {
         printf("[%s]%s\n", type_to_string(list->type),list->token);
@@ -65,6 +66,7 @@ int main(int argc, char **argv, char **envirement)
        while (1)
        {
             input = readline("minishell $>: ");
+			add_history(input);
             if (!input)
                 exit(1);
             if (input)
@@ -76,7 +78,6 @@ int main(int argc, char **argv, char **envirement)
                   if (!input)
                     exit(1);
               }
-              add_history(input);
               tokens = tokenizer(input, tokens);
               print(tokens);
               ft_lstclear(&tokens, free);

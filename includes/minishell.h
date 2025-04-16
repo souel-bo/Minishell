@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/14 00:36:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/16 09:30:28 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 typedef enum s_type
 {
 	TEST,
@@ -32,8 +33,6 @@ typedef enum s_type
 	RED_IN,
 	RED_OUT,
 	FILE_NAME
-	// OR_OPERATOR,
-	// AND_OPERATOR
 }					t_type;
 
 typedef struct s_token
@@ -46,7 +45,10 @@ typedef struct s_token
 typedef struct s_execution
 {
 	char **args;
-	
+	int infile;
+	int outfile;
+	int append_flag;
+	int heredoc;
 	struct s_execution *next;
 } t_execution;
 
@@ -54,5 +56,5 @@ typedef struct s_execution
 # include "tokenizer.h"
 
 const char *type_to_string(t_type type);
-
+t_execution *pre_execution(t_token *tokens);
 #endif

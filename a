@@ -1,0 +1,17 @@
+total 68
+drwxr-xr-x 8 souel-bo candidates   180 Apr 16 21:43 .
+drwxr-xr-x 3 souel-bo candidates    23 Apr  9 13:55 ..
+-rw-r--r-- 1 souel-bo candidates     0 Apr 16 21:49 a
+drwxr-xr-x 8 souel-bo candidates   185 Apr 14 02:48 .git
+drwxr-xr-x 2 souel-bo candidates    59 Apr  9 13:55 includes
+drwxr-xr-x 2 souel-bo candidates  4096 Apr 16 10:34 libft
+-rw-r--r-- 1 souel-bo candidates  2749 Apr 16 09:25 main.c
+-rw-r--r-- 1 souel-bo candidates  6832 Apr 16 10:34 main.o
+-rw-r--r-- 1 souel-bo candidates   912 Apr 16 09:18 Makefile
+-rwxr-xr-x 1 souel-bo candidates 41424 Apr 16 10:34 minishell
+drwxr-xr-x 2 souel-bo candidates    38 Apr 16 10:34 parser
+-rw-r--r-- 1 souel-bo candidates    86 Apr  9 13:55 supp.supp
+drwxr-xr-x 2 souel-bo candidates    74 Apr 16 10:34 tokenizer
+drwxr-xr-x 2 souel-bo candidates    27 Apr 11 20:58 .vscode
+ls 
+delimiter 

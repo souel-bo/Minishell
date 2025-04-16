@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/13 21:18:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:45:33 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_new_list
 	t_flag type;
 	int outfd;
 	int infd;
+	int here_doc;
 	struct s_new_list	*next;
 }					t_new_list;
 

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 00:07:57 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/13 21:44:16 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/16 22:18:02 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!ptr)
 		return (NULL);
 	i = 0;
-	j = 0;
 	while (s1[i])
 	{
 		ptr[i] = s1[i];
 		i++;
 	}
+	j = 0;
 	while (s2[j])
 	{
-		ptr[i + j] = s2[j];
+		ptr[i] = s2[j];
+		i++;
 		j++;
 	}
-	ptr[i + j] = '\0';
+	ptr[i] = '\0';
 	return (ptr);
 }

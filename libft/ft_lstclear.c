@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/16 21:58:01 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:34:10 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,26 @@ void	ft_lstclear(t_token **lst, void (*del)(void *))
 		current = next_node;
 	}
 	*lst = NULL;
+}
+void	ft_lstclear_v2(t_execution **lst)
+{
+	t_execution	*current;
+	t_execution	*next_node;
+	int i = 0;
+	if (!lst || !*lst)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		next_node = current->next;
+		i = 0;
+		while (current->args[i])
+		{
+			free(current->args[i]);
+			i++;
+		}
+		free(current->args);
+		current = next_node;
+	}
+	free(*lst);
 }

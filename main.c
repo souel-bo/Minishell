@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/16 09:25:03 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:20:39 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,15 @@ const char *type_to_string(t_type type)
     return "WORD";
 }
 
-void print(t_execution *list)
+void print(t_execution *list, t_token *list2)
 {
     int i;
+    
+    while (list2)
+    {
+        printf("{%s} %s\n", type_to_string(list2->type), list2->token);
+        list2 = list2->next;
+    }
     while (list)
     {
             i = 0;
@@ -49,6 +55,7 @@ void print(t_execution *list)
             }   
 
         printf("\n");
+        printf("%d\n%d\n", list->infile, list->outfile);
         list = list->next;
     }
 }
@@ -88,8 +95,9 @@ int main(int argc, char **argv, char **envirement)
               }
               tokens = tokenizer(input, tokens);
               pre = pre_execution(tokens);
-              print(pre);
+              print(pre, tokens);
               ft_lstclear(&tokens, free);
+              ft_lstclear_v2(&pre);
               free(input);
             }
         }

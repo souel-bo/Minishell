@@ -1,8 +1,8 @@
 NAME = minishell
 
-CC = cc   -g3
-
-# CFLAGS = -Wall -Wextra -Werror
+CC = cc   -g3 
+ 
+CFLAGS = -Wall -Wextra -Werror 
 
 MINISHELL_SRC = main.c 
 

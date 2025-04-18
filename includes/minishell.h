@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/16 09:30:28 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:31:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
 
 typedef enum s_type
 {
@@ -57,4 +58,5 @@ typedef struct s_execution
 
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
+void	ft_lstdelone_v2(t_execution *lst, void (*del)(void*));
 #endif

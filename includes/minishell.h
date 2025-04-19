@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/18 16:31:04 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:49:02 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ typedef struct s_execution
 	char **args;
 	int infile;
 	int outfile;
-	int append_flag;
-	int heredoc;
 	struct s_execution *next;
 } t_execution;
 

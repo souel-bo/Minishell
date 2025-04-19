@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/04/18 20:02:51 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/19 14:49:12 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,10 +131,8 @@ t_execution	*create_element(t_token *tokens)
 	element->args = malloc(sizeof(char *) * (count_words(tokens) + 1));
 	if (!element->args)
 		return (NULL);
-	element->heredoc = -2;
 	element->infile = -2;
 	element->outfile = -2;
-	element->append_flag = -2;
 	element->next = NULL;
 	return (element);
 }
@@ -162,44 +160,47 @@ int	open_file(char *file, int flag)
 	}
 	return (fd);
 }
-t_token	*copy_elements(t_execution *exec, t_token *iterate)
+t_token    *copy_elements(t_execution *exec, t_token *iterate)
 {
-	int	i;
-	int	fd;
+    int    i;
+    int    fd;
 
-	i = 0;
-	fd = -2;
-	while (iterate)
-	{
-		if (iterate->type == PIPE)
-			break ;
-		else if (iterate->type == RED_IN)
-		{
-			iterate = iterate->next;
-			exec->infile = open_file(iterate->token, -1);
-			iterate = iterate->next;
-			continue ;
-		}
-		else if (iterate->type == RED_OUT)
-		{
-			iterate = iterate->next;
-			exec->outfile = open_file(iterate->token, 0);
-			iterate = iterate->next;
-			continue ;
-		}
-		else if (iterate->type == APPEND)
-		{
-			iterate = iterate->next;
-			exec->outfile = open_file(iterate->token, 1);
-			iterate = iterate->next;
-			continue ;
-		}
-		exec->args[i] = ft_strndup(iterate->token, ft_strlen(iterate->token));
-		i++;
-		iterate = iterate->next;
-	}
-	exec->args[i] = NULL;
-	return (iterate);
+    i = 0;
+    fd = -2;
+    while (iterate)
+    {
+        if (iterate->type == PIPE)
+            break ;
+        else if (iterate->type == RED_IN)
+        {
+            iterate = iterate->next;
+            exec->infile = open_file(iterate->token, -1);
+            iterate = iterate->next;
+            continue ;
+        }
+        else if (iterate->type == RED_OUT)
+        {
+            iterate = iterate->next;
+            if (exec->outfile != -2)
+                close(exec->outfile);
+            if (exec->outfile != -1)
+                exec->outfile = open_file(iterate->token, 0);
+            iterate = iterate->next;
+            continue ;
+        }
+        else if (iterate->type == APPEND)
+        {
+            iterate = iterate->next;
+            exec->outfile = open_file(iterate->token, 1);
+            iterate = iterate->next;
+            continue ;
+        }
+        exec->args[i] = ft_strndup(iterate->token, ft_strlen(iterate->token));
+        i++;
+        iterate = iterate->next;
+    }
+    exec->args[i] = NULL;
+    return (iterate);
 }
 
 t_execution	*ft_lstlast_v2(t_execution *lst)

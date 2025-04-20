@@ -15,7 +15,7 @@ void ft_execution(t_execution *list,char **envp)
         if (ft_lstsize(list) == 1)
             execute_simple_cmnd(path,list->args,envp);
         else if (ft_lstsize(list) > 1)
-			exexute_pipes(path,list,envp);
+			execute_pipes(path,list,envp);
     }
     waitpid(pid, 0, 0);
 }

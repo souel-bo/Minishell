@@ -2,7 +2,7 @@
 #include "../includes/libft.h"
 #include "../includes/tokenizer.h"
 
-void	execve_path(char **path, char **cmd, char **envp)
+void	execute_simple_cmnd(char **path, char **cmd, char **envp)
 {
 	char	*temp;
 	char	*full_cmd;
@@ -40,21 +40,4 @@ char	**get_path()
     char *PATH;
     PATH = getenv("PATH");
     return (ft_split(PATH, ':'));
-}
-void ft_execution(t_execution *list,char **envp)
-{
-    int pid;
-    char **path;
-    pid = fork();
-    if (pid == 0)
-    {
-        path = get_path();
-        if (!path)
-            return (ft_free(path), ft_free(list->args));
-        if (ft_lstsize(list) == 1)
-            execve_path(path,list->args,envp);
-        else
-            printf("test\n");
-    }
-    waitpid(pid, 0, 0);
 }

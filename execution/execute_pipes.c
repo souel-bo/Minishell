@@ -26,21 +26,18 @@ void execute_pipes(char **path, t_execution *list, char **envp)
     // printf("%d",count);
     while(i < size)
     {
+        printf("%s\n",list->args[0]);
         if (i < size - 1)
             pipe(pipes[i % 2]);
         pid = fork();
         if (pid == 0)
         {
             if (i > 0)
-                if (dup2(pipes[(i + 1) % 2][0],0) == -1)
-                    perror("hadi");
+                dup2(pipes[(i + 1) % 2][0],0);
             if (i < size - 1)
-                if(dup2(pipes[i % 2][1],1) == -1)
-                    perror("wla hadi");
-            close(pipes[0][0]);
-            close (pipes[0][1]);
-            close (pipes[1][0]);
-            close (pipes[1][1]);
+                dup2(pipes[i % 2][1],1);
+            close(pipes[(i + 1) % 2][0]);
+            close(pipes[(i + 1) % 2][1]);
             execute_simple_cmnd(path,list->args,envp);
         }
         if (i > 0) 

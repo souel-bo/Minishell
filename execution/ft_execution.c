@@ -12,4 +12,6 @@ void ft_execution(t_execution *list,char **envp)
             execute_simple_cmnd(path,list->args,envp);
         else if (ft_lstsize(list) > 1)
 			execute_pipes(path,list,envp);
+        
+    ft_free(path);
 }

@@ -31,7 +31,7 @@ void	execute_simple_cmnd(char **path, char **cmd, char **envp)
 		}
 		write(2, cmd[0], ft_strlen(cmd[0]));
 		write(2, " : command not found\n", 22);
-		return (ft_free(path), ft_free(cmd));
+		return (ft_free(path), ft_free(cmd),exit(127));
 	}
 	waitpid(pid,0,0);
 }

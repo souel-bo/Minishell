@@ -6,13 +6,24 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/20 14:45:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/21 21:06:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
+void free_list(t_execution *list)
+{
+    t_execution *tmp;
 
+    while (list)
+    {
+        tmp = list->next;
+        ft_free(list->args);
+        list = tmp;
+    }
+    free(list);
+}
 const char *type_to_string(t_type type)
 {
     if (type == BUILTIN)
@@ -93,5 +104,6 @@ int main(int argc, char **argv, char **envirement)
               ft_lstclear(&tokens, free);
               free(input);
             }
+            // free_list(pre);
         }
 }

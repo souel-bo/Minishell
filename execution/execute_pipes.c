@@ -40,17 +40,17 @@ void execute_pipes(char **path, t_execution *list, char **envp)
                 close(pipes[i % 2][0]);
                 close(pipes[i % 2][1]);
             }
-            execute_simple_cmnd(path,list->args,envp);
+            helper_pipeline(path,list->args,envp);
         }
         if (i < 0) 
         {
             close(pipes[(i + 1) % 2][0]);
-            close(pipes[(i + 1) % 2][1]);
+            //close(pipes[(i + 1) % 2][1]);
         }
         if (i < size - 1)
         {
             close(pipes[i % 2][1]);
-            // close(pipes[i % 2][0]);
+            close(pipes[i % 2][0]);
         }
         i++;
         list = list->next;

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/20 14:51:29 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/21 20:36:47 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_execution
 
 # include "libft.h"
 # include "tokenizer.h"
+void	helper_pipeline(char **path, char **cmd, char **envp);
 void execute_pipes(char **path,t_execution *list,char **envp);
 char	**get_path();
 char	**ft_split(char const *s, char c);

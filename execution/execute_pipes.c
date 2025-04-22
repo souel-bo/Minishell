@@ -23,7 +23,7 @@ void execute_pipes(char **path, t_execution *list, char **envp)
     int pipes[2][2];
     pid_t pid;
     // count = count_pipe_line(list);
-    // printf("%d",count);
+    // printf("%d",count); cat | grep h
     while(i < size)
     {
         if (i < size - 1)
@@ -42,15 +42,15 @@ void execute_pipes(char **path, t_execution *list, char **envp)
             }
             helper_pipeline(path,list->args,envp);
         }
-        if (i < 0) 
+        if (i > 0) 
         {
             close(pipes[(i + 1) % 2][0]);
-            //close(pipes[(i + 1) % 2][1]);
+            close(pipes[(i + 1) % 2][1]);
         }
         if (i < size - 1)
         {
             close(pipes[i % 2][1]);
-            close(pipes[i % 2][0]);
+            // close(pipes[i % 2][0]);
         }
         i++;
         list = list->next;

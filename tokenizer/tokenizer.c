@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/22 04:45:43 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:29:12 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_token	*tokenizer(char *input, t_token *tokens)
 	{
 		while (input[i] && (input[i] == ' ' || input[i] == '\t'))
 			i++;
-		j = i;
 		if (!is_space_or_operator(input[i]))
 		{
 			j = i;
@@ -62,8 +61,11 @@ t_token	*tokenizer(char *input, t_token *tokens)
 				else
 					i++;
 			}
-			element = new_element(ft_strndup(&input[j], i - j));
-			ft_lstadd_back(&tokens, element);
+			if (i > j)
+			{
+				element = new_element(ft_strndup(&input[j], i - j));
+				ft_lstadd_back(&tokens, element);
+			}
 		}
 		else if (input[i] == '(')
 		{

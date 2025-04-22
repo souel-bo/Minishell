@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/16 22:26:56 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:10:15 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 
 #include "minishell.h"
 
-typedef struct s_list
-{
-    void			*content;
-    struct s_list	*next;
-}	t_list;
-
-int	ft_lstsize(t_execution *lst);
 t_token	*new_element(char *ptr);
 size_t	ft_strlen(const char *s);
 char *ft_strndup(char *s, size_t n);

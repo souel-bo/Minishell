@@ -2,7 +2,7 @@
 #include "../includes/libft.h"
 #include "../includes/tokenizer.h"
 
-void	execute_simple_cmnd(char **path, char **cmd, char **envp)
+void	execute_simple_cmnd(char **path, char **cmd, char **envp,t_execution *list)
 {
 	char	*temp;
 	char	*full_cmd;
@@ -12,6 +12,8 @@ void	execute_simple_cmnd(char **path, char **cmd, char **envp)
 	{
 		while (path[i])
 		{
+			// if (access(cmd[0],X_OK))
+			// 	execve(cmd[0],cmd,envp);
 			temp = ft_strjoin(path[i], "/");
 			if (!temp)
 				return (ft_free(path), ft_free(cmd));
@@ -22,6 +24,10 @@ void	execute_simple_cmnd(char **path, char **cmd, char **envp)
 			if (access(full_cmd, X_OK) == 0)
 			{
 				ft_free(path);
+				if (list->infile != -2)
+            		dup2(list->infile, 0);
+        		if (list->outfile != -2)
+					dup2(list->outfile, 1);
 				if (execve(full_cmd, cmd, envp))
 					write(2, "execve failed\n", 14);
 				return (free(full_cmd), ft_free(cmd));

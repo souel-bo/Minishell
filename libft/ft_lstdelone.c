@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:21:53 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/16 21:57:56 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:31:34 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,3 +19,4 @@ void	ft_lstdelone(t_token *lst, void (*del)(void*))
 	del(lst->token);
 	free(lst);
 }
+

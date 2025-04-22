@@ -6,24 +6,13 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/21 21:06:56 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:58:46 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void free_list(t_execution *list)
-{
-    t_execution *tmp;
 
-    while (list)
-    {
-        tmp = list->next;
-        ft_free(list->args);
-        list = tmp;
-    }
-    free(list);
-}
 const char *type_to_string(t_type type)
 {
     if (type == BUILTIN)
@@ -47,9 +36,15 @@ const char *type_to_string(t_type type)
     return "WORD";
 }
 
-void print(t_execution *list)
+void print(t_execution *list, t_token *list2)
 {
     int i;
+    
+    while (list2)
+    {
+        printf("{%s} %s\n", type_to_string(list2->type), list2->token);
+        list2 = list2->next;
+    }
     while (list)
     {
             i = 0;
@@ -60,6 +55,7 @@ void print(t_execution *list)
             }   
 
         printf("\n");
+        printf("%d\n%d\n", list->infile, list->outfile);
         list = list->next;
     }
 }
@@ -92,18 +88,20 @@ int main(int argc, char **argv, char **envirement)
             {
               if (check_space(input))
               {
-                  free(input);
-                  input = readline("minishell $>: ");
-                  if (!input)
+                free(input);
+                input = readline("minishell $>: ");
+                if (!input)
                     exit(1);
+                else
+                    continue;
               }
               tokens = tokenizer(input, tokens);
               pre = pre_execution(tokens);
-            //   print(pre);
+              print(pre, tokens);
               ft_execution(pre,envirement);
               ft_lstclear(&tokens, free);
+              ft_lstclear_v2(&pre);
               free(input);
             }
-            // free_list(pre);
         }
 }

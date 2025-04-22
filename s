@@ -1,0 +1,15 @@
+a
+execution
+hello
+includes
+libft
+main.c
+main.o
+Makefile
+minishell
+n
+out
+p
+parser
+s
+tokenizer

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/22 20:29:12 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/22 20:41:52 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_token	*tokenizer(char *input, t_token *tokens)
 				element = new_element(ft_strndup(&input[j], i - j));
 				ft_lstadd_back(&tokens, element);
 			}
+			j = i + 1;
 		}
 		else if (input[i] == '(')
 		{

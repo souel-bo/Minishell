@@ -48,10 +48,7 @@ void execute_pipes(char **path, t_execution *list, char **envp)
             close(pipes[(i + 1) % 2][1]);
         }
         if (i < size - 1)
-        {
             close(pipes[i % 2][1]);
-            // close(pipes[i % 2][0]);
-        }
         i++;
         list = list->next;
     }

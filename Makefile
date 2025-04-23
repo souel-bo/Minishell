@@ -39,3 +39,5 @@ fclean: clean
 .PHONY: all clean fclean re
 
 re: fclean all
+
+.SECONDARY: $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ)

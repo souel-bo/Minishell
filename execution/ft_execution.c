@@ -10,10 +10,6 @@ void ft_execution(t_execution *list,char **envp)
     size = count_pipe_line(list);
     if (!path)
             return (ft_free(path), ft_free(list->args));
-    if (ft_lstsize(list) == 1)
-        execute_simple_cmnd(path,list->args,envp,list);
-    else if (ft_lstsize(list) > 1)
-		    execute_pipes(path,list,envp,size);
-    
+    execute_pipes(path,list,envp,size);
     ft_free(path);
 }

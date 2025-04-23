@@ -11,8 +11,9 @@ void	execute_simple_cmnd(char **path, t_execution *list, char **envp)
   
 	while (path[i])
 	{
-		// if (access(cmd[0],X_OK))
-		// 	execve(cmd[0],cmd,envp);
+		if (access(list->args[0], X_OK) == 0)
+		return (execve(list->args[0], list->args, envp),
+			ft_free(list->args), exit(1));
 		temp = ft_strjoin(path[i], "/");
 		if (!temp)
 			return (ft_free(path), ft_free(list->args));

@@ -6,12 +6,11 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/19 14:50:20 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:19:49 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-
 
 const char *type_to_string(t_type type)
 {
@@ -39,7 +38,6 @@ const char *type_to_string(t_type type)
 void print(t_execution *list, t_token *list2)
 {
     int i;
-    
     while (list2)
     {
         printf("{%s} %s\n", type_to_string(list2->type), list2->token);
@@ -53,7 +51,6 @@ void print(t_execution *list, t_token *list2)
                 printf("%s ", list->args[i]);
                 i++;
             }   
-
         printf("\n");
         printf("%d\n%d\n", list->infile, list->outfile);
         list = list->next;

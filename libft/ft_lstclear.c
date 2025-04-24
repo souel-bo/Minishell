@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/18 16:34:10 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:26:04 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ void	ft_lstclear_v2(t_execution **lst)
 		{
 			free(current->args[i]);
 			i++;
+		}
+		if ((*lst)->infile != -2)
+        	close((*lst)->infile);
+			
+    	if ((*lst)->outfile != -2)
+		{
+        	close((*lst)->outfile);
 		}
 		free(current->args);
 		current = next_node;

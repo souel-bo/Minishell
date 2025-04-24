@@ -29,8 +29,10 @@ void execute_pipes(char **path, t_execution *list, char **envp,int size)
             if (i > 0)
                 dup2(pipes[(i + 1) % 2][0], 0);
             if (i < size - 1)
+            {
                 dup2(pipes[i % 2][1], 1);
-            close(pipes[i % 2][0]);
+                close(pipes[i % 2][0]);
+            }
             // close(pipes[i % 2][1]);
             execute_simple_cmnd(path,list,envp);
         }
@@ -50,4 +52,5 @@ void execute_pipes(char **path, t_execution *list, char **envp,int size)
         waitpid(pid[i], NULL, 0);
         i++;
     }
+    free(pid);
 }

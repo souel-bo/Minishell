@@ -8,7 +8,9 @@ void	execute_simple_cmnd(char **path, t_execution *list, char **envp)
 	char	*temp;
 	char	*full_cmd;
 	int (i) = 0;
-  
+	
+	// if (BUILTIN)
+		// ft_man_built//
 	while (path[i])
 	{
 		if (access(list->args[0], X_OK) == 0)
@@ -28,7 +30,10 @@ void	execute_simple_cmnd(char **path, t_execution *list, char **envp)
 			{
 				printf("lekhra\n");
 				if (list->infile == -1)
-					printf("%s : %s",list->args[0],"no file");
+				{
+					printf("%s : %s\n",list->next->args[0],"no file");
+					exit(1);
+				}
 				else
 					dup2(list->infile, 0);
 			}

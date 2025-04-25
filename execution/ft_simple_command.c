@@ -28,7 +28,6 @@ void	execute_simple_cmnd(char **path, t_execution *list, char **envp)
 			ft_free(path);
 			if (list->infile != -2)
 			{
-				printf("lekhra\n");
 				if (list->infile == -1)
 				{
 					printf("%s : %s\n",list->next->args[0],"no file");

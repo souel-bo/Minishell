@@ -2,6 +2,8 @@
     "files.associations": {
         "libft.h": "c",
         "tokenizer.h": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "global.h": "c",
+        "history.h": "c"
     }
 }

@@ -6,11 +6,12 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/23 18:02:29 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/25 18:03:57 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+t_envp *new_envp;
 
 
 const char *type_to_string(t_type type)
@@ -78,6 +79,11 @@ int main(int argc, char **argv, char **envirement)
        char *input;
        t_token *tokens = NULL;
        t_execution *pre = NULL;
+    //    t_envp *new_envp;    & of list to array fash nbgheh
+       new_envp = NULL;
+       new_envp = ft_create_envp(envirement);
+       if (!new_envp)
+        return 0;
        while (1)
        {
             input = readline("minishell $>: ");
@@ -97,8 +103,7 @@ int main(int argc, char **argv, char **envirement)
               }
               tokens = tokenizer(input, tokens);
               pre = pre_execution(tokens);
-            //   print(pre, tokens);
-              ft_execution(pre,envirement);
+              ft_execution(pre);
               ft_lstclear(&tokens, free);
               ft_lstclear_v2(&pre);
               free(input);

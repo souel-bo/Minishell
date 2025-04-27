@@ -6,12 +6,13 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/24 17:47:45 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/27 19:01:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -53,21 +54,41 @@ typedef struct s_execution
 	struct s_execution *next;
 } t_execution;
 
+typedef struct s_envp
+{
+	char *key;
+	char *value;
+	struct s_envp *next;
+} t_envp;
+extern t_envp *new_envp;
+
 # include "libft.h"
 # include "tokenizer.h"
-# include "expantion.h"
-void ifReda(t_execution *list);
+#include "expantion.h"
+void	ft_pwd();
+void ft_unset(t_execution *list);
+void ft_export(t_execution *list);
+int	is_builtin(char *cmd, char **envp,t_execution *list);
+void ft_unset(t_execution *list);
+char **listToArray();
+void	ft_env(char **envp);
+void ft_unset(t_execution *list);
+t_envp *ft_create_envp(char **envp);
+void	ft_lstadd_back2(t_envp **lst, t_envp *new);
+t_envp	*new_element2(char *line);
+int CountLenKey(char *line);
 int count_pipe_line(t_execution *list);
+int	ft_lstsize_envp(t_envp *lst);
 int	ft_lstsize(t_execution *lst);
 void	helper_pipeline(char **path, char **cmd, char **envp);
-void execute_pipes(char **path,t_execution *list,char **envp,int size);
+void execute_pipes(char **path,t_execution *list,int size);
 char	**get_path();
 char	**ft_split(char const *s, char c);
-void	execute_simple_cmnd(char **path, t_execution *list, char **envp);
+void	execute_simple_cmnd(char **path, t_execution *list);
 void ft_free(char **ptr);
 int ft_isprint(int c);
 char	**get_path();
-void ft_execution(t_execution *list,char **envp);
+void ft_execution(t_execution *list);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
 #endif

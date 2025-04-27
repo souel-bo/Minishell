@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 16:59:43 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/24 20:58:07 by souel-bo         ###   ########.fr       */
+/*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/04/27 20:01:39 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ t_token *expantion(t_token *tokens)
 				if (iterate->token[i] == '\'')
 					i++;
 			}
-			temp[j] = iterate->token[i];
-			j++;
-			i++;
+			else 
+			{
+				temp[j] = iterate->token[i];
+				j++;
+				i++;
+			}
 		}
 		temp[j] = '\0';
 		free(iterate->token);

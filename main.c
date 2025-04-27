@@ -6,11 +6,12 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/24 17:17:28 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/27 18:59:56 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+t_envp *new_envp;
 
 
 const char *type_to_string(t_type type)
@@ -69,6 +70,18 @@ int check_space(char *input)
         return 1;
     return 0;
 }
+void ft_freeEnvp(t_envp *envp)
+{
+    t_envp *temp;
+    while (envp)
+    {
+        temp = envp;
+        envp = envp->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
+    }
+}
 
 int main(int argc, char **argv, char **envirement)
 {
@@ -78,6 +91,11 @@ int main(int argc, char **argv, char **envirement)
        char *input;
        t_token *tokens = NULL;
        t_execution *pre = NULL;
+    //    t_envp *new_envp;    & of list to array fash nbgheh
+       new_envp = NULL;
+       new_envp = ft_create_envp(envirement);
+       if (!new_envp)
+        return 0;
        while (1)
        {
             input = readline("minishell $>: ");
@@ -98,11 +116,11 @@ int main(int argc, char **argv, char **envirement)
               tokens = tokenizer(input, tokens);
               tokens = expantion(tokens);
               pre = pre_execution(tokens);
-            //   print(pre, tokens);
-              ft_execution(pre,envirement);
+              ft_execution(pre);
               ft_lstclear(&tokens, free);
               ft_lstclear_v2(&pre);
               free(input);
             }
         }
+        ft_freeEnvp(new_envp);
 }

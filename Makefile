@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc -g3
+CC = cc -fsanitize=address -g3
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -12,9 +12,9 @@ EXPANTION = expantion/expantion.c
 
 LIBFT_SRC = libft/ft_lstaddback.c libft/ft_lstdelone.c libft/ft_lstnew.c libft/ft_strjoin.c libft/ft_strlcpy.c libft/ft_strndup.c \
             libft/ft_lstclear.c libft/ft_lstlast.c libft/ft_strchr.c libft/ft_strlcat.c libft/ft_strlen.c \
-            libft/ft_putchar_fd.c libft/ft_putstr_fd.c libft/ft_strncmp.c libft/ft_split.c libft/ft_lstsize.c
+            libft/ft_putchar_fd.c libft/ft_putstr_fd.c libft/ft_strncmp.c libft/ft_split.c libft/ft_lstsize.c libft/ft_atoi.c 
 
-EXECUTIN_SRC = execution/ft_simple_command.c execution/ft_execution.c execution/execute_pipes.c
+EXECUTIN_SRC = execution/ft_simple_command.c execution/ft_execution.c execution/execute_pipes.c execution/builtins.c
 
 EXECUTION_OBJ = $(EXECUTIN_SRC:.c=.o)
 
@@ -35,7 +35,7 @@ $(NAME):	$(MINISHELL_OBJ)	$(LIBFT_OBJ)	$(TOKENIZER_OBJ)	$(EXECUTION_OBJ) $(EXPAN
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(MINISHELL_OBJ)	$(LIBFT_OBJ)	$(TOKENIZER_OBJ)	$(EXECUTION_OBJ) $(EXPANTION_OBJ)
+	rm -rf $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ) $(EXPANTION_OBJ)
 
 fclean: clean
 	rm -rf $(NAME)
@@ -44,4 +44,4 @@ fclean: clean
 
 re: fclean all
 
-.SECONDARY: $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ)
+.SECONDARY: $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ) $(EXPANTION_OBJ)

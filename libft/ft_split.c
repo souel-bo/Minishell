@@ -1,6 +1,5 @@
 #include "../includes/libft.h"
-#include "../includes/minishell.h"
-#include "../includes/tokenizer.h"
+
 
 char	*ft_word(char const *s, char c, size_t *i)
 {

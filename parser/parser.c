@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/04/25 20:49:58 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/27 20:06:45 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int	check_quotes(char *input)
 			while (input[i] && input[i] != '\"')
 				i++;
 			if (input[i] && input[i] == '\"')
+			{
+				i++;
 				double_quotes++;
+			}
 		}
 		else if (input[i] == '\'')
 		{
@@ -39,9 +42,13 @@ int	check_quotes(char *input)
 			while (input[i] && input[i] != '\'')
 				i++;
 			if (input[i] && input[i] == '\'')
+			{
+				i++;
 				single_quotes++;
+			}
 		}
-		i++;
+		else
+			i++;
 	}
 	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
 		return (1);
@@ -181,7 +188,7 @@ t_token    *copy_elements(t_execution *exec, t_token *iterate)
         else if (iterate->type == RED_OUT)
         {
             iterate = iterate->next;
-            if (exec->outfile != -2 && exec->outfile != -1)
+            if (exec->outfile != -2)
                 close(exec->outfile);
             if (exec->outfile != -1)
                 exec->outfile = open_file(iterate->token, 0);
@@ -191,10 +198,7 @@ t_token    *copy_elements(t_execution *exec, t_token *iterate)
         else if (iterate->type == APPEND)
         {
             iterate = iterate->next;
-            if (exec->outfile != -2 && exec->outfile != -1)
-                close(exec->outfile);
-            if (exec->outfile != -1)
-                exec->outfile = open_file(iterate->token, 0);
+            exec->outfile = open_file(iterate->token, 1);
             iterate = iterate->next;
             continue ;
         }

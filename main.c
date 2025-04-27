@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/25 18:03:57 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/27 11:07:05 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ int check_space(char *input)
         return 1;
     return 0;
 }
+void ft_freeEnvp(t_envp *envp)
+{
+    t_envp *temp;
+    while (envp)
+    {
+        temp = envp;
+        envp = envp->next;
+        free(temp->key);
+        free(temp->value);
+        free(temp);
+    }
+}
 
 int main(int argc, char **argv, char **envirement)
 {
@@ -109,4 +121,5 @@ int main(int argc, char **argv, char **envirement)
               free(input);
             }
         }
+        ft_freeEnvp(new_envp);
 }

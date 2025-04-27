@@ -21,7 +21,8 @@ void execute_pipes(char **path, t_execution *list,int size)
     pid_t *pid = malloc(sizeof(pid_t) * size);
     while(i < size)
     {
-        if (is_builtin(list->args[0],listToArray(),list))        
+        char **envp = listToArray();
+        if (is_builtin(list->args[0],envp,list))        
         if (i < size - 1)
             pipe(pipes[i % 2]);
         pid[i] = fork();
@@ -43,6 +44,7 @@ void execute_pipes(char **path, t_execution *list,int size)
             close(pipes[i % 2][1]);
         i++;
         list = list->next;
+        ft_free(envp);
     }
     i = 0;
     while(i < size)

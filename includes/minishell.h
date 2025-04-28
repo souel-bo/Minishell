@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/25 15:47:13 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/27 12:28:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ extern t_envp *new_envp;
 
 # include "libft.h"
 # include "tokenizer.h"
+int if_builtin(char *cmd);
+
 void	ft_pwd();
 void ft_unset(t_execution *list);
 void ft_export(t_execution *list);

@@ -56,8 +56,7 @@ void	ft_env(char **envp)
 	int i = 0;
 	while (envp[i])
 	{
-		ft_putstr_fd(envp[i], 1);
-		ft_putchar_fd('\n', 1);
+		printf("%s\n", envp[i]);
 		i++;
 	}
 }
@@ -71,10 +70,18 @@ t_envp	*AddToList(char *line)
 	if (!node)
 		return NULL;
 	node->key = ft_strndup(line,LenKey);
-	if (line[LenKey] == '=')
-		node->value = ft_strndup(line + LenKey,ft_strlen(line));
+	printf("key ==== %s\n",node->key);
+	if (line[LenKey] == '=' && line[LenKey + 1] != '\0')
+	{
+		node->value = ft_strndup(line + LenKey + 1, ft_strlen(line) - LenKey + 1);
+		printf("value ===== %s\n",node->value);
+	}
+	else
+		node->value = ft_strdup("");
+	node->next = NULL;
 	return(node);
 }
+
 void ft_export(t_execution *list)
 {
 	int i;
@@ -82,12 +89,27 @@ void ft_export(t_execution *list)
 	t_envp *node;
 	while(list->args[i])
 	{
-		node = AddToList(list->args[i]);
-		// printf("%s%s\n",node->key,node->value);
-		ft_lstadd_back2(&new_envp,node);
+		node = new_element2(list->args[i]);
+		if (ft_strlen(node->value) > 0)
+			ft_lstadd_back2(&new_envp,node);
 		i++;
 	}
 }
+int if_builtin(char *cmd)
+{
+    if (!ft_strncmp(cmd, "export", 6))
+        return 1;
+    if (!ft_strncmp(cmd, "unset", 5))
+        return 1;
+    if (!ft_strncmp(cmd, "pwd", 3))
+        return 1;
+    if (!ft_strncmp(cmd, "env", 3))
+        return 1;
+    if (!ft_strncmp(cmd, "exit", 4))
+        return 1;
+    return 0;
+}
+
 int	is_builtin(char *cmd, char **envp,t_execution *list)
 {
 	if (!ft_strncmp(cmd, "export", 6))
@@ -112,7 +134,7 @@ void ft_unset(t_execution *list)
         prev = NULL;
         while (current) 
         {
-            if (!ft_strncmp(list->args[i], current->key, ft_strlen(list->args[i])) &&
+            if (!ft_strncmp(list->args[i], current->key , ft_strlen(list->args[i])) &&
                 current->key[ft_strlen(list->args[i])] == '\0') 
             {
                 if (prev == NULL) 
@@ -151,8 +173,7 @@ void	ft_pwd()
 		ft_putstr_fd("malloc failed\n", 2);
 		exit(1);
 	}
-	ft_putstr_fd(buf, 1);
-	ft_putchar_fd('\n', 1);
+	printf("%s\n", buf);
 	free(buf);
 }
 
@@ -211,7 +232,7 @@ t_envp	*new_element2(char *line)
     char *key = NULL;
     char *value = NULL;
 	int lenKey  = CountLenKey(line);
-	key = ft_strndup(line,lenKey); // a=jhjl
+	key = ft_strndup(line,lenKey);
 	value = ft_strndup(line + lenKey,ft_strlen(line) - lenKey);
 	new = malloc(sizeof(t_envp));
 	if (!new)

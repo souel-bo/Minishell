@@ -6,13 +6,13 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/27 20:01:39 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/28 04:40:05 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expantion.h"
 
-t_token *expantion(t_token *tokens)
+t_token *handle_quote(t_token *tokens)
 {
 	t_token *iterate = tokens;
 	char *temp;
@@ -66,4 +66,34 @@ t_token *expantion(t_token *tokens)
 		iterate = iterate->next;
 	}
 	return tokens;
+}
+
+t_token *expand_wildcard(t_token *token)
+{
+	t_token *iterate = token;
+	int i;
+	while (iterate)
+	{
+		i = 0;
+		while (iterate->token[i])
+		{
+			if (iterate->token[i] == '*' )
+			{
+				iterate->index = 1;
+				break;
+			}
+			i++;
+		}
+		iterate = iterate->next;
+	}
+	iterate = token;
+	
+	return token;
+}
+
+t_token *expantion(t_token *token)
+{
+	token = expand_wildcard(token);
+	token = handle_quote(token);
+	return token;
 }

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/27 19:01:58 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/28 06:31:05 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-
+#include <dirent.h>
 typedef enum s_type
 {
 	TEST,
@@ -43,6 +43,7 @@ typedef struct s_token
 {
 	char			*token;
 	t_type			type;
+	int index;
 	struct s_token	*next;
 }					t_token;
 

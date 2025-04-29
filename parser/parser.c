@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/04/27 20:06:45 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:09:13 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ int	check_quotes(char *input)
 			i++;
 			while (input[i] && input[i] != '\"')
 				i++;
-			if (input[i] && input[i] == '\"')
-			{
-				i++;
+			if (input[i] == '\"')
 				double_quotes++;
-			}
 		}
 		else if (input[i] == '\'')
 		{
@@ -41,14 +38,10 @@ int	check_quotes(char *input)
 			i++;
 			while (input[i] && input[i] != '\'')
 				i++;
-			if (input[i] && input[i] == '\'')
-			{
-				i++;
+			if (input[i] == '\'')
 				single_quotes++;
-			}
 		}
-		else
-			i++;
+		i++;
 	}
 	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
 		return (1);

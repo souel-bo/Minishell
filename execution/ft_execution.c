@@ -11,5 +11,5 @@ void ft_execution(t_execution *list)
     if (!path)
     return (ft_free(path), ft_free(list->args));    
     execute_pipes(path,list,size);
-    // ft_free(path);
+    ft_free(path);
 }

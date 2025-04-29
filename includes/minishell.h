@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/28 06:31:05 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/29 04:14:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-#include <dirent.h>
+
 typedef enum s_type
 {
 	TEST,
@@ -66,6 +66,8 @@ extern t_envp *new_envp;
 # include "libft.h"
 # include "tokenizer.h"
 #include "expantion.h"
+int if_builtin(char *cmd);
+
 void	ft_pwd();
 void ft_unset(t_execution *list);
 void ft_export(t_execution *list);

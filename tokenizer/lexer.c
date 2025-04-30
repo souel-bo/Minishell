@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/29 04:22:21 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:31:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,11 @@ t_token	*lexer(t_token *list)
 	iterate = list;
 	while (iterate != NULL)
 	{
-		if (check_if_builtin(iterate))
-		{
-			iterate->type = BUILTIN;
-			if (iterate->next)
-			{
-				iterate = iterate->next;
-				check_argument(iterate);
-			}
-		}
+if (check_if_builtin(iterate))
+{
+	iterate->type = BUILTIN;
+	check_argument(iterate->next);
+}
 		else if (check_if_operator(iterate))
 		{
 			check_operator(iterate);

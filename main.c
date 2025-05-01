@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/01 03:54:31 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:19:17 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,17 @@ void print(t_execution *list, t_token *list2)
                 printf("%s ", list->args[i]);
                 i++;
             }   
+            printf("\n");
+        if (list->file)
+        {
+            t_file *iterate = list->file;
 
-        printf("\n");
-        printf("%d\n%d\n", list->infile, list->outfile);
+            while (iterate)
+            { 
+                printf("[%s] [%d]\n", iterate->file_name, iterate->infile);
+                iterate = iterate->next;
+            }
+        }
         list = list->next;
     }
 }

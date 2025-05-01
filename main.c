@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/29 04:14:14 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/01 03:54:31 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ int main(int argc, char **argv, char **envirement)
        char *input;
        t_token *tokens = NULL;
        t_execution *pre = NULL;
-    //    t_envp *new_envp;    & of list to array fash nbgheh
-       new_envp = NULL;
-       new_envp = ft_create_envp(envirement);
-       if (!new_envp)
-        return 0;
+    // //    t_envp *new_envp;    & of list to array fash nbgheh
+    //    new_envp = NULL;
+    //    new_envp = ft_create_envp(envirement);
+    //    if (!new_envp)
+    //     return 0;
        while (1)
        {
             input = readline("minishell $>: ");
@@ -117,11 +117,11 @@ int main(int argc, char **argv, char **envirement)
               tokens = expantion(tokens);
               pre = pre_execution(tokens);
               print(pre, tokens);
-              ft_execution(pre);
+            //   ft_execution(pre);
               ft_lstclear(&tokens, free);
               ft_lstclear_v2(&pre);
               free(input);
             }
         }
-        ft_freeEnvp(new_envp);
+        // ft_freeEnvp(new_envp);
 }

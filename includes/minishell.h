@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/29 04:14:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/01 04:25:37 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,20 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_list
+{
+	char *file_name;
+	int infile;
+	int outfile;
+	struct s_list *next;
+} t_file;
+
 typedef struct s_execution
 {
 	char **args;
 	int infile;
 	int outfile;
+	t_file *file;
 	struct s_execution *next;
 } t_execution;
 

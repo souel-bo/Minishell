@@ -16,13 +16,23 @@ int CountLenKey(char *line)
 }
 void	ft_chdir(t_execution *input)
 {
+	t_envp *tmp = new_envp;
 	if (!input->args[1])
 	{
-		chdir(getenv("HOME"));
+		while(tmp)
+		{
+			if (ft_strncmp(tmp->key,"HOME",4))
+			{
+				chdir(getenv("HOME"));
+				break;
+			}
+			tmp = tmp->next;
+		}
 	}
 	else
 	{
-		chdir(input->args[1]);
+			chdir(input->args[1]);
+			printf("%s %s\n","cd: no such file or directory:",input->args[1]);
 	}
 }
 
@@ -51,13 +61,13 @@ void	ft_echo(t_execution *input)
 	}
 }
 
-void	ft_env(char **envp)
+void	ft_env()
 {
-	int i = 0;
-	while (envp[i])
+	t_envp *tmp = new_envp;
+	while(tmp)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		printf("%s=%s\n", tmp->key,tmp->value);
+		tmp = tmp->next;
 	}
 }
 
@@ -70,11 +80,9 @@ t_envp	*AddToList(char *line)
 	if (!node)
 		return NULL;
 	node->key = ft_strndup(line,LenKey);
-	printf("key ==== %s\n",node->key);
 	if (line[LenKey] == '=' && line[LenKey + 1] != '\0')
 	{
 		node->value = ft_strndup(line + LenKey + 1, ft_strlen(line) - LenKey + 1);
-		printf("value ===== %s\n",node->value);
 	}
 	else
 		node->value = ft_strdup("");
@@ -95,22 +103,34 @@ void ft_export(t_execution *list)
 		i++;
 	}
 }
+
 int if_builtin(char *cmd)
 {
     if (!ft_strncmp(cmd, "export", 6))
         return 1;
+
     if (!ft_strncmp(cmd, "unset", 5))
         return 1;
+
     if (!ft_strncmp(cmd, "pwd", 3))
         return 1;
+
     if (!ft_strncmp(cmd, "env", 3))
         return 1;
+
     if (!ft_strncmp(cmd, "exit", 4))
+	{
         return 1;
+	}
+	if (!ft_strncmp(cmd,"cd",2))
+		return 1;
+
+	if (!ft_strncmp(cmd,"echo",4))
+		return 1;
     return 0;
 }
 
-int	is_builtin(char *cmd, char **envp,t_execution *list)
+int	is_builtin(char *cmd, t_execution *list)
 {
 	if (!ft_strncmp(cmd, "export", 6))
 		ft_export(list);
@@ -119,7 +139,11 @@ int	is_builtin(char *cmd, char **envp,t_execution *list)
 	if (!ft_strncmp(cmd, "pwd", 3))
 		ft_pwd();
 	if (!ft_strncmp(cmd, "env", 3))
-		ft_env(envp);	
+		ft_env();	
+	if (!ft_strncmp(cmd,"echo",4))
+		ft_echo(list);
+	if (!ft_strncmp(cmd,"cd",2))
+		ft_chdir(list);
 	return (0);
 }
 void ft_unset(t_execution *list)
@@ -181,6 +205,7 @@ char	**listToArray()
 {
 	int size;
 	char *tmp;
+	char *tmp2;
 	int i = 0;
 	char **envpExecve;
 	size = ft_lstsize_envp(new_envp);
@@ -188,10 +213,12 @@ char	**listToArray()
 	t_envp *head = new_envp;
 	while(head)
 	{
-		tmp = ft_strjoin(head->key,head->value);
+		tmp2 = ft_strjoin(head->key,"=");
+		tmp = ft_strjoin(tmp2,head->value);
 		envpExecve[i] = ft_strndup(tmp,ft_strlen(tmp));
 		i++;
 		free(tmp);
+		free(tmp2);
 		head = head->next;
 	}
 	envpExecve[i] = NULL;
@@ -233,7 +260,7 @@ t_envp	*new_element2(char *line)
     char *value = NULL;
 	int lenKey  = CountLenKey(line);
 	key = ft_strndup(line,lenKey);
-	value = ft_strndup(line + lenKey,ft_strlen(line) - lenKey);
+	value = ft_strndup(line + lenKey + 1,ft_strlen(line) - lenKey);
 	new = malloc(sizeof(t_envp));
 	if (!new)
 		return (NULL);
@@ -260,7 +287,6 @@ t_envp	*ft_lstlast2(t_envp *lst)
 void	ft_lstadd_back2(t_envp **lst, t_envp *new)
 {
 	t_envp	*last;
-
 	if (!new || !lst)
 		return ;
 	if (*lst == NULL)

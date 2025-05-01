@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/01 13:19:17 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/01 13:54:55 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void print(t_execution *list, t_token *list2)
 
             while (iterate)
             { 
-                printf("[%s] [%d]\n", iterate->file_name, iterate->infile);
+                printf("[%s] [%d] [%d] [%d]\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
                 iterate = iterate->next;
             }
         }

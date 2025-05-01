@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/01 13:18:31 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/01 13:53:55 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,20 @@ void parse_file(t_token *token, t_execution *ex, int flag)
 		element = create_element_file(token->token);
 		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
 		element->infile = 1;
+		ft_lstadd_back_v3(&ex->file, element);
+	}
+	else 	if (flag == RED_OUT)
+	{
+		element = create_element_file(token->token);
+		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element->outfile = 1;
+		ft_lstadd_back_v3(&ex->file, element);
+	}
+	else 	if (flag == APPEND)
+	{
+		element = create_element_file(token->token);
+		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element->append = 1;
 		ft_lstadd_back_v3(&ex->file, element);
 	}
 }

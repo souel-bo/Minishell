@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/30 15:23:05 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:32:00 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,27 @@ typedef struct s_token
 {
 	char			*token;
 	t_type			type;
+	int index;
 	struct s_token	*next;
 }					t_token;
+
+typedef struct s_list
+{
+	char *file_name;
+	int infile;
+	int outfile;
+	int append;
+	int heredoc;
+	char *delimiter;
+	struct s_list *next;
+} t_file;
 
 typedef struct s_execution
 {
 	char **args;
 	int infile;
 	int outfile;
+	t_file *file;
 	struct s_execution *next;
 } t_execution;
 
@@ -65,8 +78,8 @@ extern t_envp *new_envp;
 
 # include "libft.h"
 # include "tokenizer.h"
+#include "expantion.h"
 int if_builtin(char *cmd);
-
 void	ft_pwd();
 void ft_unset(t_execution *list);
 void ft_export(t_execution *list);
@@ -82,14 +95,14 @@ int CountLenKey(char *line);
 int count_pipe_line(t_execution *list);
 int	ft_lstsize_envp(t_envp *lst);
 int	ft_lstsize(t_execution *lst);
-void execute_pipes(char **path,t_execution *list,int size);
+void execute_pipes(t_execution *list,int size,int *status);
 char	**get_path();
 char	**ft_split(char const *s, char c);
 void	execute_simple_cmnd(char **path, t_execution *list);
 void ft_free(char **ptr);
 int ft_isprint(int c);
 char	**get_path();
-void ft_execution(t_execution *list);
+void ft_execution(t_execution *list,int *status);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
 #endif

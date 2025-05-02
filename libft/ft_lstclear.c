@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/23 20:26:04 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/02 21:25:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,35 @@ void	ft_lstclear_v2(t_execution **lst)
 {
 	t_execution	*current;
 	t_execution	*next_node;
-	int i = 0;
+	int i;
+
 	if (!lst || !*lst)
 		return ;
+
 	current = *lst;
 	while (current != NULL)
 	{
 		next_node = current->next;
+		t_file *file_tmp;
+		while (current->file) {
+			file_tmp = current->file->next;
+			free(current->file->file_name);
+			free(current->file);
+			current->file = file_tmp;
+		}
 		i = 0;
-		while (current->args[i])
-		{
+		while (current->args && current->args[i]) {
 			free(current->args[i]);
 			i++;
 		}
-		if ((*lst)->infile != -2)
-        	close((*lst)->infile);
-			
-    	if ((*lst)->outfile != -2)
-		{
-        	close((*lst)->outfile);
-		}
 		free(current->args);
+		if (current->infile != -2)
+			close(current->infile);
+		if (current->outfile != -2)
+			close(current->outfile);
+		free(current);
 		current = next_node;
 	}
-	free(*lst);
+	*lst = NULL;
 }
+

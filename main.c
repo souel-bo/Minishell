@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/30 15:22:12 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:35:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,17 @@ void print(t_execution *list, t_token *list2)
                 printf("%s ", list->args[i]);
                 i++;
             }   
+            printf("\n");
+        if (list->file)
+        {
+            t_file *iterate = list->file;
 
-        printf("\n");
-        printf("%d\n%d\n", list->infile, list->outfile);
+            while (iterate)
+            { 
+                printf("[%s] [%d] [%d] [%d]\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
+                iterate = iterate->next;
+            }
+        }
         list = list->next;
     }
 }
@@ -83,44 +91,44 @@ void ft_freeEnvp(t_envp *envp)
     }
 }
 
-int main(int argc, char **argv, char **envirement)
+int	main(int argc, char **argv, char **envp)
 {
-       (void)argc;
-       (void)argv;
-        (void)envirement;
-       char *input;
-       t_token *tokens = NULL;
-       t_execution *pre = NULL;
-    //    t_envp *new_envp;    & of list to array fash nbgheh
-       new_envp = NULL;
-       new_envp = ft_create_envp(envirement);
-       if (!new_envp)
-        return 0;
-       while (1)
-       {
-            input = readline("minishell $>: ");
-			add_history(input);
-            if (!input)
-                exit(1);
-            if (input)
-            {
-              if (check_space(input))
-              {
-                free(input);
-                input = readline("minishell $>: ");
-                if (!input)
-                    exit(1);
-                else
-                    continue;
-              }
-              tokens = tokenizer(input, tokens);
-              pre = pre_execution(tokens);
-            //   print(pre, tokens);
-              ft_execution(pre);
-              ft_lstclear(&tokens, free);
-              ft_lstclear_v2(&pre);
-              free(input);
-            }
-        }
-        ft_freeEnvp(new_envp);
+	(void)argc;
+	(void)argv;
+    (void)envp;
+	char	*input;
+	t_token	*tokens = NULL;
+	t_execution	*pre = NULL;
+	int	status = 0;
+    new_envp = NULL;
+    new_envp = ft_create_envp(envp);
+	while (1)
+	{
+		input = readline("minishell $>: ");
+		if (!input)
+			exit(1);
+		if (check_space(input))
+		{
+			free(input);
+			continue;
+		}
+		add_history(input);
+		if (check_quotes(input, &status))
+		{
+			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+		    printf("%d\n", status);
+            free(input);
+			continue;
+		}
+		tokens = tokenizer(input, tokens);
+		tokens = expantion(tokens);
+		pre = pre_execution(tokens);
+		// print(pre, tokens);
+		// printf("%d\n", status);
+		ft_execution(pre,&status);
+		ft_lstclear(&tokens, free);
+		ft_lstclear_v2(&pre);
+		free(input);
+	}
 }
+

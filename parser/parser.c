@@ -3,50 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/04/30 21:01:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/02 09:34:15 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
 
-int	check_quotes(char *input)
+int	check_quotes(char *input, int *status)
 {
 	int	i;
-	int	single_quotes;
-	int	double_quotes;
+	int	in_single;
+	int	in_double;
 
 	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
+	in_single = 0;
+	in_double = 0;
 	while (input[i])
 	{
-		if (input[i] == '\"')
+		if (input[i] == '\'' && in_double == 0)
 		{
-			double_quotes++;
-			i++;
-			while (input[i] && input[i] != '\"')
-				i++;
-			if (input[i] == '\"')
-				double_quotes++;
+			if (in_single == 0)
+				in_single = 1;
+			else
+				in_single = 0;
 		}
-		else if (input[i] == '\'')
+		else if (input[i] == '\"' && in_single == 0)
 		{
-			single_quotes++;
-			i++;
-			while (input[i] && input[i] != '\'')
-				i++;
-			if (input[i] == '\'')
-				single_quotes++;
+			if (in_double == 0)
+				in_double = 1;
+			else
+				in_double = 0;
 		}
 		i++;
 	}
-	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
+	if (in_single || in_double)
+	{
+		*status = 130;
 		return (1);
+	}
 	return (0);
 }
+
+
 
 int	parser(char *input)
 {
@@ -133,6 +134,7 @@ t_execution	*create_element(t_token *tokens)
 		return (NULL);
 	element->infile = -2;
 	element->outfile = -2;
+	element->file = NULL;
 	element->next = NULL;
 	return (element);
 }
@@ -160,48 +162,110 @@ int	open_file(char *file, int flag)
 	}
 	return (fd);
 }
-t_token    *copy_elements(t_execution *exec, t_token *iterate)
-{
-    int    i;
-    int    fd;
 
-    i = 0;
-    fd = -2;
+t_file	*create_element_file(char *filename)
+{
+
+	t_file	*element;
+	(void)filename;
+	element = malloc(sizeof(t_file));
+	element->infile = 0;
+	element->outfile = 0;
+	element->append = 0;
+	element->heredoc = 0;
+	element->delimiter = NULL;
+	element->next = NULL;
+	return (element);
+}
+
+t_file	*ft_lstlast_v3(t_file *lst)
+{
+	t_file	*last_content;
+
+	if (!lst)
+		return (NULL);
+	last_content = lst;
+	while (last_content != NULL && last_content->next != NULL)
+	{
+		last_content = last_content->next;
+	}
+	return (last_content);
+}
+
+void	ft_lstadd_back_v3(t_file **lst, t_file *new)
+{
+	t_file	*last;
+
+	if (!new || !lst)
+		return ;
+	if (*lst == NULL)
+		*lst = new;
+	else
+	{
+		last = ft_lstlast_v3(*lst);
+		last->next = new;
+	}
+}
+
+void parse_file(t_token *token, t_execution *ex, int flag)
+{
+	t_file *element = NULL ;
+	if (flag == RED_IN)
+	{
+		element = create_element_file(token->token);
+		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element->infile = 1;
+		ft_lstadd_back_v3(&ex->file, element);
+	}
+	else 	if (flag == RED_OUT)
+	{
+		element = create_element_file(token->token);
+		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element->outfile = 1;
+		ft_lstadd_back_v3(&ex->file, element);
+	}
+	else 	if (flag == APPEND)
+	{
+		element = create_element_file(token->token);
+		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element->append = 1;
+		ft_lstadd_back_v3(&ex->file, element);
+	}
+}
+
+t_token *copy_elements(t_execution *exec, t_token *iterate)
+{
+    int i = 0;
+    int flag = 0;
+
     while (iterate)
     {
         if (iterate->type == PIPE)
-            break ;
-        else if (iterate->type == RED_IN)
+            break;
+        else if (iterate->type == RED_IN 
+              || iterate->type == RED_OUT 
+              || iterate->type == HERE_DOC 
+              || iterate->type == APPEND)
         {
+            flag = iterate->type;
             iterate = iterate->next;
-            exec->infile = open_file(iterate->token, -1);
+            if (!iterate)
+                break;
+            parse_file(iterate, exec, flag);
             iterate = iterate->next;
-            continue ;
+            continue;
         }
-        else if (iterate->type == RED_OUT)
+        if (iterate && iterate->token)
         {
-            iterate = iterate->next;
-            if (exec->outfile != -2)
-                close(exec->outfile);
-            if (exec->outfile != -1)
-                exec->outfile = open_file(iterate->token, 0);
-            iterate = iterate->next;
-            continue ;
+            exec->args[i] = ft_strndup(iterate->token, ft_strlen(iterate->token));
+            i++;
         }
-        else if (iterate->type == APPEND)
-        {
-            iterate = iterate->next;
-            exec->outfile = open_file(iterate->token, 1);
-            iterate = iterate->next;
-            continue ;
-        }
-        exec->args[i] = ft_strndup(iterate->token, ft_strlen(iterate->token));
-        i++;
         iterate = iterate->next;
     }
     exec->args[i] = NULL;
     return (iterate);
 }
+
 
 t_execution	*ft_lstlast_v2(t_execution *lst)
 {

@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.h                                        :+:      :+:    :+:   */
+/*   expantion.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 05:56:13 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/02 09:39:57 by souel-bo         ###   ########.fr       */
+/*   Created: 2025/04/27 19:00:37 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/04/27 19:00:49 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENIZER_H
-#define TOKENIZER_H
+#ifndef EXPANTION_H
+#define EXPANTION_H
 
 #include "minishell.h"
-#include <fcntl.h>
-t_token *tokenizer(char *input, t_token *tokens);
-int check_quotes(char *input, int *status);
-int check_parenthis(char *input);
-t_token *lexer(t_token *list);
-int parser(char *input);
-int count_words(t_token *tokens);
-void	ft_lstclear_v2(t_execution **lst);
+
+t_token *expantion(t_token *tokens);
 #endif

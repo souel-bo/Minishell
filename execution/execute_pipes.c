@@ -14,11 +14,15 @@ int count_pipe_line(t_execution *list)
     return (count);
 }
 
-void execute_pipes(char **path, t_execution *list,int size)
+void execute_pipes(t_execution *list,int size,int *status)
 {
     int i = 0;
+    char **path;
     int pipes[2][2];
     pid_t *pid = malloc(sizeof(pid_t) * size);
+    path = get_path();
+    if (!path)
+        return (ft_free(path), ft_free(list->args));    
     while(i < size)
     {
         char **envp = listToArray();
@@ -30,8 +34,9 @@ void execute_pipes(char **path, t_execution *list,int size)
             i++;
         }
         else
-        {    
-            pipe(pipes[i % 2]);
+        {       
+            if (i < size - 1)
+                pipe(pipes[i % 2]);
             pid[i] = fork();
             if (pid[i] == 0)
             {
@@ -56,8 +61,10 @@ void execute_pipes(char **path, t_execution *list,int size)
     i = 0;
     while(i < size)
     {
-        waitpid(pid[i], NULL, 0);
+        waitpid(pid[i], status, 0);
+        printf("%d\n",*status >> 8);
         i++;
     }
+    ft_free(path);
     free(pid);
 }

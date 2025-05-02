@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strndup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:29:33 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/27 12:49:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:59:27 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strdup(char *s)
 	str = malloc(ft_strlen(s) + 1);
 	if (!str)
 		return (NULL);
-	while (s[i])
+	while (s[i] && s[i] != ' ')
 	{
 		str[i] = s[i];
 		i++;

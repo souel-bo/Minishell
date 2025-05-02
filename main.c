@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/02 06:25:54 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/02 09:05:22 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int main(int argc, char **argv, char **envirement)
                 free(input);
                 input = readline("minishell $>: ");
                 if (!input)
-                    exit(1);
+                    exit(0);
                 else
                     continue;
               }

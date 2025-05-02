@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/01 13:53:55 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/02 05:28:19 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,9 +166,8 @@ t_file	*create_element_file(char *filename)
 {
 
 	t_file	*element;
-
+	(void)filename;
 	element = malloc(sizeof(t_file));
-	element->file_name = malloc(ft_strlen(filename) + 1);
 	element->infile = 0;
 	element->outfile = 0;
 	element->append = 0;

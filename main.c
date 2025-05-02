@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/02 05:35:02 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/02 06:25:54 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int main(int argc, char **argv, char **envirement)
        char *input;
        t_token *tokens = NULL;
        t_execution *pre = NULL;
+       int status = 0;
     // //    t_envp *new_envp;    & of list to array fash nbgheh
     //    new_envp = NULL;
     //    new_envp = ft_create_envp(envirement);
@@ -121,10 +122,11 @@ int main(int argc, char **argv, char **envirement)
                 else
                     continue;
               }
-              tokens = tokenizer(input, tokens);
+              tokens = tokenizer(input, tokens, &status);
               tokens = expantion(tokens);
               pre = pre_execution(tokens);
               print(pre, tokens);
+              printf("%d\n", status);
             //   ft_execution(pre);
               ft_lstclear(&tokens, free);
               ft_lstclear_v2(&pre);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/30 13:04:07 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/02 06:27:58 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_space_or_operator(char c)
 	return (c == ' ' || c == '\t' || c == '|' || c == '<' || c == '>');
 }
 
-t_token	*tokenizer(char *input, t_token *tokens)
+t_token	*tokenizer(char *input, t_token *tokens, int *status)
 {
 	int		i = 0;
 	int		j;
@@ -29,6 +29,7 @@ t_token	*tokenizer(char *input, t_token *tokens)
 	if (check_quotes(input))
 	{
 		ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+		*status = 130;
 		return (NULL);
 	}
 	if (check_parenthis(input))
@@ -96,6 +97,7 @@ t_token	*tokenizer(char *input, t_token *tokens)
 			ft_lstadd_back(&tokens, element);
 		}
 	}
+	*status = 0;
 	test = tokens;
 	while (test)
 	{

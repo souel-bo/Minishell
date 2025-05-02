@@ -6,7 +6,7 @@
 /*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/02 05:28:19 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/02 06:26:59 by sfyn             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	check_quotes(char *input)
 			if (input[i] == '\'')
 				single_quotes++;
 		}
-		i++;
+		else
+			i++;
 	}
 	if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
 		return (1);

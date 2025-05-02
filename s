@@ -1,0 +1,12 @@
+execution
+expantion
+includes
+libft
+main.c
+main.o
+Makefile
+minishell
+parser
+s
+supp.supp
+tokenizer

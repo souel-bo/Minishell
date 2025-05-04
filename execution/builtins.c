@@ -2,18 +2,15 @@
 #include "../includes/tokenizer.h"
 #include "../includes/libft.h"
 
-// 
 
 int CountLenKey(char *line)
 {
-    int count = 0;
-    while(*line != '=' && *line)
-    {
-        count++;
-        line++;
-    }
-    return(count);
+	int count = 0;
+	while (line[count] && line[count] != '=' && !(line[count] == '+' && line[count + 1] == '='))
+		count++;
+	return (count);
 }
+
 void	ft_chdir(t_execution *input)
 {
 	if (!input->args[1])
@@ -40,6 +37,8 @@ void	ft_echo(t_execution *input)
 			i++;
 		}
 	}
+	else
+		printf("\n");
 	while (input->args[i])
 	{
 		ft_putstr_fd(input->args[i], 1);
@@ -51,13 +50,13 @@ void	ft_echo(t_execution *input)
 	}
 }
 
-void	ft_env(char **envp)
+void	ft_env()
 {
-	int i = 0;
-	while (envp[i])
+	t_envp *tmp = new_envp;
+	while (tmp)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		printf("%s=%s\n", tmp->key,tmp->value);
+		tmp = tmp->next;
 	}
 }
 
@@ -70,16 +69,45 @@ t_envp	*AddToList(char *line)
 	if (!node)
 		return NULL;
 	node->key = ft_strndup(line,LenKey);
-	printf("key ==== %s\n",node->key);
 	if (line[LenKey] == '=' && line[LenKey + 1] != '\0')
 	{
 		node->value = ft_strndup(line + LenKey + 1, ft_strlen(line) - LenKey + 1);
-		printf("value ===== %s\n",node->value);
 	}
 	else
 		node->value = ft_strdup("");
 	node->next = NULL;
 	return(node);
+}
+
+int	already_in(char *arg)
+{
+	t_envp	*tmp = new_envp;
+	char	*key;
+	char	*new_value;
+	int		lenKey;
+	int		append = 0;
+	lenKey = CountLenKey(arg);
+	if (arg[lenKey] == '+' && arg[lenKey + 1] == '=')
+		append = 1;
+	key = ft_strndup(arg, lenKey);
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, lenKey) == 0 && tmp->key[lenKey] == '\0')
+		{
+			if (append)
+				new_value = ft_strjoin(tmp->value, arg + lenKey + 2); 
+			else
+				new_value = ft_strdup(arg + lenKey + 1); 
+
+			free(tmp->value);
+			tmp->value = new_value;
+			free(key);
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	free(key);
+	return (0);
 }
 
 void ft_export(t_execution *list)
@@ -89,28 +117,40 @@ void ft_export(t_execution *list)
 	t_envp *node;
 	while(list->args[i])
 	{
-		node = new_element2(list->args[i]);
-		if (ft_strlen(node->value) > 0)
-			ft_lstadd_back2(&new_envp,node);
-		i++;
+		if (already_in(list->args[i]) == 1)
+			i++;
+		else
+		{
+			node = new_element2(list->args[i]);
+			if (ft_strlen(node->value) > 0)
+				ft_lstadd_back2(&new_envp,node);
+			// ta nzid export;
+			i++;
+		}
 	}
 }
 int if_builtin(char *cmd)
 {
     if (!ft_strncmp(cmd, "export", 6))
         return 1;
-    if (!ft_strncmp(cmd, "unset", 5))
+    else if (!ft_strncmp(cmd, "unset", 5))
         return 1;
-    if (!ft_strncmp(cmd, "pwd", 3))
+    else if (!ft_strncmp(cmd, "pwd", 3))
         return 1;
-    if (!ft_strncmp(cmd, "env", 3))
+    else if (!ft_strncmp(cmd, "env", 3))
         return 1;
-    if (!ft_strncmp(cmd, "exit", 4))
+    else if (!ft_strncmp(cmd, "exit", 4))
         return 1;
+
+	else if (!ft_strncmp(cmd,"cd",2))
+		return 1;
+
+	else if (!ft_strncmp(cmd,"echo",4))
+		return 1;
     return 0;
 }
 
-int	is_builtin(char *cmd, char **envp,t_execution *list)
+int	is_builtin(char *cmd,t_execution *list)
 {
 	if (!ft_strncmp(cmd, "export", 6))
 		ft_export(list);
@@ -119,7 +159,11 @@ int	is_builtin(char *cmd, char **envp,t_execution *list)
 	if (!ft_strncmp(cmd, "pwd", 3))
 		ft_pwd();
 	if (!ft_strncmp(cmd, "env", 3))
-		ft_env(envp);	
+		ft_env();
+	if (!ft_strncmp(cmd,"echo",4))
+		ft_echo(list);
+	if (!ft_strncmp(cmd,"cd",2))
+		ft_chdir(list);
 	return (0);
 }
 void ft_unset(t_execution *list)
@@ -233,7 +277,7 @@ t_envp	*new_element2(char *line)
     char *value = NULL;
 	int lenKey  = CountLenKey(line);
 	key = ft_strndup(line,lenKey);
-	value = ft_strndup(line + lenKey,ft_strlen(line) - lenKey);
+	value = ft_strndup(line + lenKey + 1,ft_strlen(line) - lenKey);
 	new = malloc(sizeof(t_envp));
 	if (!new)
 		return (NULL);

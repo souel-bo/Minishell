@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sfyn <sfyn@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/01 12:48:29 by sfyn             ###   ########.fr       */
+/*   Updated: 2025/05/02 20:32:00 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ typedef struct s_list
 	char *file_name;
 	int infile;
 	int outfile;
+	int append;
 	int heredoc;
 	char *delimiter;
-	int append;
 	struct s_list *next;
 } t_file;
 
@@ -73,20 +73,20 @@ typedef struct s_envp
 	char *value;
 	struct s_envp *next;
 } t_envp;
+
 extern t_envp *new_envp;
 
 # include "libft.h"
 # include "tokenizer.h"
 #include "expantion.h"
 int if_builtin(char *cmd);
-
 void	ft_pwd();
 void ft_unset(t_execution *list);
 void ft_export(t_execution *list);
-int	is_builtin(char *cmd, char **envp,t_execution *list);
+int	is_builtin(char *cmd, t_execution *list);
 void ft_unset(t_execution *list);
 char **listToArray();
-void	ft_env(char **envp);
+void	ft_env();
 void ft_unset(t_execution *list);
 t_envp *ft_create_envp(char **envp);
 void	ft_lstadd_back2(t_envp **lst, t_envp *new);
@@ -95,15 +95,14 @@ int CountLenKey(char *line);
 int count_pipe_line(t_execution *list);
 int	ft_lstsize_envp(t_envp *lst);
 int	ft_lstsize(t_execution *lst);
-void	helper_pipeline(char **path, char **cmd, char **envp);
-void execute_pipes(char **path,t_execution *list,int size);
+void execute_pipes(t_execution *list,int size,int *status);
 char	**get_path();
 char	**ft_split(char const *s, char c);
 void	execute_simple_cmnd(char **path, t_execution *list);
 void ft_free(char **ptr);
 int ft_isprint(int c);
 char	**get_path();
-void ft_execution(t_execution *list);
+void ft_execution(t_execution *list,int *status);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
 #endif

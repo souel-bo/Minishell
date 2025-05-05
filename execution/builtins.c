@@ -2,15 +2,42 @@
 #include "../includes/tokenizer.h"
 #include "../includes/libft.h"
 
-void searchAndPrint(char *var)
+char *searchAndsave(char *var)
 {
 	t_envp *tmp = new_envp;
 	while(tmp)
 	{
 		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
-			printf("%s\n",tmp->value);
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
+	return NULL;
+}
+int	search_in_env(char *var)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return 0;
+}
+int	change_in_env(char *var,char *buf)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = buf;
+			return 1;
+		}
+		tmp = tmp->next;
+	}
+	return 0;
 }
 
 int CountLenKey(char *line)
@@ -23,13 +50,23 @@ int CountLenKey(char *line)
 
 void	ft_chdir(t_execution *input)
 {
+	int check;
 	if (!input->args[1])
 	{
-		chdir(getenv("HOME"));
+		if (search_in_env("HOME") == 1)
+		{
+			change_in_env("OLD_PWD",getcwd(NULL,0));
+			check = chdir(getenv("HOME"));
+			change_in_env("PWD",getcwd(NULL,0));
+		}
+		else
+			printf("%s\n","cd: HOME not set");
 	}
 	else
 	{
+		change_in_env("OLD_PWD",getcwd(NULL,0));
 		chdir(input->args[1]);
+		change_in_env("PWD",getcwd(NULL,0));
 	}
 }
 
@@ -133,8 +170,7 @@ void ft_export(t_execution *list)
 		{
 			node = new_element2(list->args[i]);
 			if (ft_strlen(node->value) > 0)
-				ft_lstadd_back2(&new_envp,node);
-			// ta nzid export;
+				ft_lstadd_back2(&new_envp,node);	
 			i++;
 		}
 	}
@@ -214,6 +250,8 @@ void	ft_exit(t_execution *input)
 {
 	int status;
 	status = 0;
+	if (isatty(STDIN_FILENO))
+		printf("%s\n","exit");
 	if (input->args[1])
 	{
 		status = ft_atoi(input->args[1]);
@@ -226,10 +264,7 @@ void	ft_pwd()
 	char *buf;
 	buf = getcwd(NULL, 0);
 	if (!buf)
-	{
-		searchAndPrint("OLD_PWD");
-		return ;
-	}
+		printf("%s\n","pwd problem");
 	printf("%s\n", buf);
 	free(buf);
 }

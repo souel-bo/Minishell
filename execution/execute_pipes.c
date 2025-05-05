@@ -21,7 +21,6 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
     pid_t *pid = malloc(sizeof(pid_t) * size);
     while(i < size)
     {
-        char **envp = listToArray();
         if (size == 1 && if_builtin(list->args[0]) != 0)
         {
             int stdout_copy = dup(1);
@@ -55,7 +54,6 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
                 close(pipes[i % 2][1]);
             i++;
             list = list->next;
-            ft_free(envp);
         }
     }
     i = 0;

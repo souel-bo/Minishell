@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/02 20:35:58 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:46:15 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ int check_space(char *input)
         return 1;
     return 0;
 }
-void ft_freeEnvp(t_envp *envp)
+void ft_freeEnvp()
 {
     t_envp *temp;
-    while (envp)
+    while (new_envp)
     {
-        temp = envp;
-        envp = envp->next;
+        temp = new_envp;
+        new_envp = new_envp->next;
         free(temp->key);
         free(temp->value);
         free(temp);
@@ -95,7 +95,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-    (void)envp;
 	char	*input;
 	t_token	*tokens = NULL;
 	t_execution	*pre = NULL;
@@ -104,8 +103,8 @@ int	main(int argc, char **argv, char **envp)
     new_envp = ft_create_envp(envp);
 	while (1)
 	{
-		input = readline("minishell $>: ");
-		if (!input)
+        input = readline("\033[38;5;208mminishell $>: \033[0m");
+        if (!input)
 			exit(1);
 		if (check_space(input))
 		{
@@ -123,12 +122,13 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		// print(pre, tokens);
+		//print(pre, tokens);
 		// printf("%d\n", status);
 		ft_execution(pre,&status);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);
 	}
+    ft_freeEnvp();
 }
 

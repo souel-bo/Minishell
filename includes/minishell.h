@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/02 20:32:00 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/03 21:37:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ extern t_envp *new_envp;
 # include "libft.h"
 # include "tokenizer.h"
 #include "expantion.h"
+void	ft_exit(t_execution *input);
+void ft_redirection(t_file *file);
 int if_builtin(char *cmd);
 void	ft_pwd();
 void ft_unset(t_execution *list);
 void ft_export(t_execution *list);
-int	is_builtin(char *cmd, t_execution *list);
+void	is_builtin(char *cmd, t_execution *list);
 void ft_unset(t_execution *list);
 char **listToArray();
 void	ft_env();
@@ -95,7 +97,7 @@ int CountLenKey(char *line);
 int count_pipe_line(t_execution *list);
 int	ft_lstsize_envp(t_envp *lst);
 int	ft_lstsize(t_execution *lst);
-void execute_pipes(t_execution *list,int size,int *status);
+void execute_pipes(char **path,t_execution *list,int size,int *status);
 char	**get_path();
 char	**ft_split(char const *s, char c);
 void	execute_simple_cmnd(char **path, t_execution *list);

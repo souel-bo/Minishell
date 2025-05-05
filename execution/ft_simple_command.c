@@ -41,9 +41,19 @@ void	execute_simple_cmnd(char **path, t_execution *list)
 	char **envp;
 	int i = 0;
 	envp = listToArray();
+	
 	while (path[i])
 	{
-		if (access(list->args[0], X_OK) == 0)
+		if (if_builtin(list->args[0]) != 0)
+	    {
+			if(list->file)
+			{
+				ft_redirection(list->file);
+			}
+		    is_builtin(list->args[0], list);
+			exit(0);
+        }
+		else if (access(list->args[0], X_OK) == 0)
 				return (ft_free(path),execve(list->args[0], list->args, envp),
 				ft_free(list->args), exit(1));
 		temp = ft_strjoin(path[i], "/");
@@ -56,8 +66,10 @@ void	execute_simple_cmnd(char **path, t_execution *list)
 		if (access(full_cmd, X_OK) == 0)
 		{
 			ft_free(path);
-			if(list->file)
-				ft_redirection(list->file);
+			if (list->infile != -2)
+				dup2(list->infile, 0);
+			if (list->outfile != -2)
+				dup2(list->outfile, 1);
 			if (execve(full_cmd, list->args, envp))
 				write(2, "execve failed\n", 14);
 			return (free(full_cmd), ft_free(list->args));

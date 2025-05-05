@@ -4,6 +4,11 @@
         "tokenizer.h": "c",
         "minishell.h": "c",
         "global.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "format": "c",
+        "initializer_list": "c",
+        "span": "c"
     }
 }

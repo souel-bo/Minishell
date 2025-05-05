@@ -2,6 +2,16 @@
 #include "../includes/tokenizer.h"
 #include "../includes/libft.h"
 
+void searchAndPrint(char *var)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+			printf("%s\n",tmp->value);
+		tmp = tmp->next;
+	}
+}
 
 int CountLenKey(char *line)
 {
@@ -147,10 +157,12 @@ int if_builtin(char *cmd)
 
 	else if (!ft_strncmp(cmd,"echo",4))
 		return 1;
+	else if(!ft_strncmp(cmd,"exit",4))
+		return 1;
     return 0;
 }
 
-int	is_builtin(char *cmd,t_execution *list)
+void	is_builtin(char *cmd,t_execution *list)
 {
 	if (!ft_strncmp(cmd, "export", 6))
 		ft_export(list);
@@ -164,14 +176,15 @@ int	is_builtin(char *cmd,t_execution *list)
 		ft_echo(list);
 	if (!ft_strncmp(cmd,"cd",2))
 		ft_chdir(list);
-	return (0);
+	if (!ft_strncmp(cmd, "exit", 4))
+		ft_exit(list);
 }
+
 void ft_unset(t_execution *list)
 {
     t_envp *prev = NULL;
     t_envp *current;
-    int i = 1;
-
+    int (i) = 1;
     while (list->args[i]) 
     {
         current = new_envp;
@@ -214,8 +227,8 @@ void	ft_pwd()
 	buf = getcwd(NULL, 0);
 	if (!buf)
 	{
-		ft_putstr_fd("malloc failed\n", 2);
-		exit(1);
+		searchAndPrint("OLD_PWD");
+		return ;
 	}
 	printf("%s\n", buf);
 	free(buf);
@@ -232,8 +245,8 @@ char	**listToArray()
 	t_envp *head = new_envp;
 	while(head)
 	{
-		tmp = ft_strjoin(head->key,head->value);
-		envpExecve[i] = ft_strndup(tmp,ft_strlen(tmp));
+		tmp = ft_strjoin(head->key,"=");
+		envpExecve[i] = ft_strjoin(tmp,head->value);
 		i++;
 		free(tmp);
 		head = head->next;

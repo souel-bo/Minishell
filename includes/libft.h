@@ -14,6 +14,7 @@
 #define LIBFT_H
 
 #include "minishell.h"
+int	ft_isalnum(int c);
 char	*ft_strdup(char *s);
 int ft_atoi(char *str);
 t_token	*new_element(char *ptr);

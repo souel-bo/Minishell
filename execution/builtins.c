@@ -157,6 +157,21 @@ int	already_in(char *arg)
 	free(key);
 	return (0);
 }
+int	check_sen(char *list)
+{
+	int i = 0;
+	int j = 0;
+	while(list[i])
+	{
+		if (ft_isalnum(list[i]))
+			j++;
+		i++;
+	}
+	if (j == i)
+		return 1;
+	else 
+		return 0;
+}
 
 void ft_export(t_execution *list)
 {
@@ -166,10 +181,16 @@ void ft_export(t_execution *list)
 	t_envp *export = new_envp;
 	while(list->args[i])
 	{
-		if (already_in(list->args[i]) == 1)
+		if (check_sen(list->args[i]) == 0)
+		{
+			printf("bash: export: `%s': not a valid identifier\n",list->args[i]);
+			i++;
+		}
+		else if (already_in(list->args[i]) == 1)
 			i++;
 		else
 		{
+
 			node = new_element2(list->args[i]);
 			ft_lstadd_back2(&new_envp,node);	
 			i++;
@@ -257,17 +278,40 @@ void ft_unset(t_execution *list)
         i++;
     }
 }
-
+int checkIfNum(char *number)
+{
+	int j = 0;
+	int i = 0;
+	while(number[i])
+	{
+		if (number[j] >= 48 && number[j] >= 57)
+			j++;
+		i++;
+	}
+	if (j == i)
+		return 1;
+	else
+		return 0;
+}
 void	ft_exit(t_execution *input)
 {
+	int size = ft_lstsize(input);
 	int status;
 	status = 0;
-	if (isatty(STDIN_FILENO))
+	if (size == 1)
 		printf("%s\n","exit");
-	if (input->args[1])
+	if (checkIfNum(input->args[1]))
 	{
-		status = ft_atoi(input->args[1]);
+		printf("bash: exit: %s: numeric argument required\n",input->args[1]);
+		exit(2);
 	}
+	else if (input->args[2])
+	{
+		printf("bash: exit: too many arguments\n");
+		exit(1);
+	}
+	else if (input->args[1])
+		status = ft_atoi(input->args[1]);
 	exit(status);
 }
 

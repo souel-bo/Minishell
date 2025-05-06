@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/03 17:53:00 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:35:14 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,30 +103,70 @@ int	find_dollar(char *s)
 	return (0);
 }
 
+int is_special(char c)
+{
+	return ((c == '$' || c == '"'));
+}
+
 t_token	*expand_value(t_token *token, t_envp *env)
 {
 	t_token	*iterate;
 	int		i;
 	int		j;
 	char	*temp;
-
+	char *s;
 	iterate = token;
 	(void)env;
 	i = 0;
 	j = 0;
+	int k = 0;
 	// int k = 0;
 	while (iterate)
 	{
-		temp = malloc(ft_strlen(iterate->token) + 1);
-		// char *s = malloc(ft_strlen(iterate->token) + 1);
-		i = 0;
-		j = 0;
-		while (iterate->token[i] )
+		if (find_dollar(iterate->token))
 		{
-
+			i = 0;
+			j = 0;
+			temp = malloc(ft_strlen(iterate->token) + 1);
+			while (iterate->token[i])
+			{
+				if (iterate->token[i] == '\'')
+				{
+					temp[j++] = iterate->token[i++];
+					while (iterate->token[i] && iterate->token[i] != '\'')
+					temp[j++] = iterate->token[i++];
+					if (iterate->token[i] == '\'')
+					temp[j++] = iterate->token[i++];
+				}
+				else if (iterate->token[i] == '"')
+				{
+					temp[j++] = iterate->token[i++];
+					while (iterate->token[i] && iterate->token[i] != '"')
+					{
+						if (iterate->token[i] == '$')
+						{
+							i++;
+							s = malloc(ft_strlen(&iterate->token[i]) + 1);
+							k = 0;
+							while (iterate->token[i] && (ft_isalpha(iterate->token[i]) || iterate->token[i] == '_') && !is_special(iterate->token[i]))
+								s[k++] = iterate->token[i++];
+							s[k] = '\0';
+							printf("%s\n", s);
+							free(s); 
+						}
+						else
+							temp[j++] = iterate->token[i++];
+					}
+					if (iterate->token[i] == '"')
+						temp[j++] = iterate->token[i++];
+				}
+				else
+					temp[j++] = iterate->token[i++];
+			}
+			temp[j] = '\0';
+			// printf("%s\n", temp);
+			free(temp);
 		}
-		free(temp);
-		// free(s);
 		iterate = iterate->next;
 	}
 	return (token);

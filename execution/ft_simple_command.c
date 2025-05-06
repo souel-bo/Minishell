@@ -44,6 +44,7 @@ void	execute_simple_cmnd(char **path, t_execution *list)
 	
 	while (path[i])
 	{
+		ft_redirection(list->file);
 		if (if_builtin(list->args[0]) != 0)
 	    {
 			if(list->file)

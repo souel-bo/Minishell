@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/03 21:46:15 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:26:41 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		//print(pre, tokens);
+		// print(pre, tokens);
 		// printf("%d\n", status);
 		ft_execution(pre,&status);
 		ft_lstclear(&tokens, free);

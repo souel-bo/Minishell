@@ -21,7 +21,17 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
     pid_t *pid = malloc(sizeof(pid_t) * size);
     while(i < size)
     {
-        if (size == 1 && if_builtin(list->args[0]) != 0)
+        if (list->args[i] == NULL && list->file != NULL)
+        {
+            int stdout_copy = dup(1);
+            int stdin_copy = dup(0);
+            ft_redirection(list->file);  
+            dup2(stdout_copy,1);
+            dup2(stdin_copy,0);      
+            list = list->next;
+            i++;
+        }
+        else if (size == 1 && if_builtin(list->args[0]) != 0)
         {
             int stdout_copy = dup(1);
             int stdin_copy = dup(0);

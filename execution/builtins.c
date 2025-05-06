@@ -102,7 +102,8 @@ void	ft_env()
 	t_envp *tmp = new_envp;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key,tmp->value);
+		if (tmp->key && tmp->value != NULL)
+			printf("%s=%s\n", tmp->key,tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -162,6 +163,7 @@ void ft_export(t_execution *list)
 	int i;
 	i = 1;
 	t_envp *node;
+	t_envp *export = new_envp;
 	while(list->args[i])
 	{
 		if (already_in(list->args[i]) == 1)
@@ -169,9 +171,19 @@ void ft_export(t_execution *list)
 		else
 		{
 			node = new_element2(list->args[i]);
-			if (ft_strlen(node->value) > 0)
-				ft_lstadd_back2(&new_envp,node);	
+			ft_lstadd_back2(&new_envp,node);	
 			i++;
+		}
+	}
+	if (!list->args[1])
+	{
+		while(export)
+		{
+			if (export->key && export->value)
+				printf("declare -x %s=\"%s\"\n", export->key, export->value);
+			else if (export->key)
+				printf("declare -x %s\n", export->key);
+			export = export->next;
 		}
 	}
 }
@@ -264,8 +276,9 @@ void	ft_pwd()
 	char *buf;
 	buf = getcwd(NULL, 0);
 	if (!buf)
-		printf("%s\n","pwd problem");
-	printf("%s\n", buf);
+		printf("%s\n",searchAndsave("PWD"));
+	else
+		printf("%s\n", buf);
 	free(buf);
 }
 
@@ -316,23 +329,33 @@ t_envp *ft_create_envp(char **envp)
     return (head);
 }
 
-t_envp	*new_element2(char *line)
+t_envp *new_element2(char *line)
 {
-	t_envp *new;
+    t_envp *new;
     if (!line)
         return NULL;
-    char *key = NULL;
+
+    int lenKey = CountLenKey(line);
+    char *key = ft_strndup(line, lenKey);
     char *value = NULL;
-	int lenKey  = CountLenKey(line);
-	key = ft_strndup(line,lenKey);
-	value = ft_strndup(line + lenKey + 1,ft_strlen(line) - lenKey);
-	new = malloc(sizeof(t_envp));
-	if (!new)
-		return (NULL);
-	new->key = key;
+    if (line[lenKey] == '=')
+    {
+        if (line[lenKey + 1] != '\0')
+            value = ft_strdup(line + lenKey + 1);
+        else
+            value = ft_strdup("");
+    }
+    new = malloc(sizeof(t_envp));
+    if (!new)
+    {
+        free(key);
+        free(value);
+        return NULL;
+    }
+    new->key = key;
     new->value = value;
-	new->next = NULL;
-	return (new);
+    new->next = NULL;
+    return new;
 }
 
 t_envp	*ft_lstlast2(t_envp *lst)

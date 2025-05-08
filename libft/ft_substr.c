@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/29 00:07:57 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/07 16:01:26 by souel-bo         ###   ########.fr       */
+/*   Created: 2025/05/07 16:37:17 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/05/07 16:37:28 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	size_t	i;
-	size_t	j;
+	char	*sub_str;
 
-	if (!s1 || !s2)
+	if (!s)
 		return (NULL);
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
+	if ((size_t)start >= ft_strlen(s))
+	{
+		sub_str = ft_strdup("");
+		return (sub_str);
+	}
+	if (len > ft_strlen(s) - (size_t)start)
+		len = ft_strlen(s) - (size_t)start;
+	sub_str = (char *)malloc
+		((sizeof(char)) * (len + 1));
+	if (!sub_str)
 		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	j = 0;
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
+	ft_strlcpy(sub_str, s + (size_t)start, len + 1);
+	sub_str[len] = '\0';
+	return (sub_str);
 }

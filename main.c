@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/06 12:34:13 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:32:15 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,6 @@ void print(t_execution *list, t_token *list2, t_envp *env)
     }
 }
 
-int check_space(char *input)
-{
-    int i = 0;
-    while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-          i++;
-    if (input[i] == '\0')
-        return 1;
-    return 0;
-}
 void ft_freeEnvp(t_envp *envp)
 {
     t_envp *temp;
@@ -115,11 +106,6 @@ int	main(int argc, char **argv, char **envp)
 		input = readline("minishell $>: ");
 		if (!input)
 			exit(1);
-		if (check_space(input))
-		{
-			free(input);
-			continue;
-		}
 		add_history(input);
 		if (check_quotes(input, &status))
 		{
@@ -129,9 +115,9 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		tokens = tokenizer(input, tokens);
-		tokens = expantion(tokens, new_envp);
+		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		// print(pre, tokens, new_envp);
+		print(pre, tokens, new_envp);
 		// printf("%d\n", status);
 		// ft_execution(pre,&status);
 		ft_lstclear(&tokens, free);

@@ -13,7 +13,7 @@ int	ft_isdigit(int c)
 }
 int	ft_isalnum(int c)
 {
-	if (ft_isdigit((unsigned char)c) || ft_isalpha((unsigned char)c))
+	if (ft_isdigit((unsigned char)c) || ft_isalpha((unsigned char)c) || c == '_')
 		return (1);
 	return (0);
 }

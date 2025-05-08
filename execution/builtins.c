@@ -13,6 +13,7 @@ char *searchAndsave(char *var)
 	}
 	return NULL;
 }
+
 int	search_in_env(char *var)
 {
 	t_envp *tmp = new_envp;
@@ -40,6 +41,8 @@ int	change_in_env(char *var,char *buf)
 	return 0;
 }
 
+
+
 int CountLenKey(char *line)
 {
 	int count = 0;
@@ -55,8 +58,8 @@ void	ft_chdir(t_execution *input)
 	{
 		if (search_in_env("HOME") == 1)
 		{
-			change_in_env("OLD_PWD",getcwd(NULL,0));
-			check = chdir(getenv("HOME"));
+			change_in_env("OLDPWD",getcwd(NULL,0));
+			check = chdir(searchAndsave("HOME"));
 			change_in_env("PWD",getcwd(NULL,0));
 		}
 		else
@@ -64,7 +67,7 @@ void	ft_chdir(t_execution *input)
 	}
 	else
 	{
-		change_in_env("OLD_PWD",getcwd(NULL,0));
+		change_in_env("OLDPWD",getcwd(NULL,0));
 		chdir(input->args[1]);
 		change_in_env("PWD",getcwd(NULL,0));
 	}
@@ -159,20 +162,21 @@ int	already_in(char *arg)
 }
 int	check_sen(char *list)
 {
-	int i = 0;
 	int j = 0;
-	while(list[i])
-	{
-		if (ft_isalnum(list[i]))
-			j++;
-		i++;
-	}
-	if (j == i)
-		return 1;
-	else 
+	if ((list[0] != '_') && (!ft_isalpha(list[0])))
 		return 0;
+	while(list[j] && list[j] != '=')
+	{
+		if (list[j] == '+' && list[j + 1] == '=')
+		{
+			j++;
+		}
+		if ((ft_isalnum(list[j]) == 0) && list[j] != '=')
+			return 0;
+		j++;
+	}
+	return 1;
 }
-
 void ft_export(t_execution *list)
 {
 	int i;
@@ -190,7 +194,6 @@ void ft_export(t_execution *list)
 			i++;
 		else
 		{
-
 			node = new_element2(list->args[i]);
 			ft_lstadd_back2(&new_envp,node);	
 			i++;
@@ -231,7 +234,7 @@ int if_builtin(char *cmd)
     return 0;
 }
 
-void	is_builtin(char *cmd,t_execution *list)
+void	is_builtin(char *cmd,t_execution *list,int size)
 {
 	if (!ft_strncmp(cmd, "export", 6))
 		ft_export(list);
@@ -246,7 +249,7 @@ void	is_builtin(char *cmd,t_execution *list)
 	if (!ft_strncmp(cmd,"cd",2))
 		ft_chdir(list);
 	if (!ft_strncmp(cmd, "exit", 4))
-		ft_exit(list);
+		ft_exit(list,size);
 }
 
 void ft_unset(t_execution *list)
@@ -282,6 +285,8 @@ int checkIfNum(char *number)
 {
 	int j = 0;
 	int i = 0;
+	if (!number)
+		exit(0);
 	while(number[i])
 	{
 		if (number[j] >= 48 && number[j] >= 57)
@@ -293,9 +298,8 @@ int checkIfNum(char *number)
 	else
 		return 0;
 }
-void	ft_exit(t_execution *input)
+void	ft_exit(t_execution *input,int size)
 {
-	int size = ft_lstsize(input);
 	int status;
 	status = 0;
 	if (size == 1)
@@ -375,12 +379,12 @@ t_envp *ft_create_envp(char **envp)
 
 t_envp *new_element2(char *line)
 {
-    t_envp *new;
+    char *key;
+	t_envp *new;
     if (!line)
         return NULL;
-
     int lenKey = CountLenKey(line);
-    char *key = ft_strndup(line, lenKey);
+	key = ft_strndup(line, lenKey);
     char *value = NULL;
     if (line[lenKey] == '=')
     {
@@ -388,7 +392,14 @@ t_envp *new_element2(char *line)
             value = ft_strdup(line + lenKey + 1);
         else
             value = ft_strdup("");
-    }
+	}
+	if (line[lenKey] == '+')
+	{
+		if (line[lenKey + 2] != '\0')
+            value = ft_strdup(line + lenKey + 2);
+        else
+            value = ft_strdup("");	
+	}
     new = malloc(sizeof(t_envp));
     if (!new)
     {

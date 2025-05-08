@@ -34,7 +34,7 @@ void ft_redirection(t_file *file)
 		file = file->next;
 	}
 }
-void	execute_simple_cmnd(char **path, t_execution *list)
+void	execute_simple_cmnd(char **path, t_execution *list,int size)
 {
 	char	*temp;
 	char	*full_cmd;
@@ -51,7 +51,7 @@ void	execute_simple_cmnd(char **path, t_execution *list)
 			{
 				ft_redirection(list->file);
 			}
-		    is_builtin(list->args[0], list);
+		    is_builtin(list->args[0], list,size);
 			exit(0);
         }
 		else if (access(list->args[0], X_OK) == 0)
@@ -90,7 +90,7 @@ int ft_isprint(int c)
 char	**get_path()
 {
     char *PATH;
-    PATH = getenv("PATH");
+    PATH = searchAndsave("PATH");
     return (ft_split(PATH, ':'));
 }
 

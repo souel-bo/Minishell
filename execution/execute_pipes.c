@@ -14,7 +14,7 @@ int count_pipe_line(t_execution *list)
     return (count);
 }
 
-void execute_pipes(char **path, t_execution *list,int size,int *status)
+void execute_pipes(char **path, t_execution *list,int size)
 {
     int i = 0;
     int pipes[2][2];
@@ -37,7 +37,7 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
             int stdin_copy = dup(0);
             if (list->file)
                 ft_redirection(list->file);
-            is_builtin(list->args[0], list);
+            is_builtin(list->args[0], list,size);
             dup2(stdout_copy,1);
             dup2(stdin_copy,0);
             break;
@@ -56,7 +56,7 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
                     dup2(pipes[i % 2][1], 1);
                     close(pipes[i % 2][0]);
                 }
-                execute_simple_cmnd(path,list);
+                execute_simple_cmnd(path,list,size);
             }
             if (i > 0)
                 close(pipes[(i + 1) % 2][0]);
@@ -69,7 +69,8 @@ void execute_pipes(char **path, t_execution *list,int size,int *status)
     i = 0;
     while(i < size)
     {
-        waitpid(pid[i], status, 0);
+        waitpid(pid[i], &g_status()->status, 0);
+        printf("%d\n",g_status()->status >> 8);
         i++;
     }
     free(pid);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/06 14:26:41 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:12:51 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void ft_freeEnvp()
         free(temp);
     }
 }
+t_status *g_status()
+{
+    static t_status status = {0};
+    return &status;
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -98,7 +103,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_token	*tokens = NULL;
 	t_execution	*pre = NULL;
-	int	status = 0;
     new_envp = NULL;
     new_envp = ft_create_envp(envp);
 	while (1)
@@ -112,10 +116,9 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		add_history(input);
-		if (check_quotes(input, &status))
+		if (check_quotes(input))
 		{
 			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
-		    printf("%d\n", status);
             free(input);
 			continue;
 		}
@@ -124,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 		pre = pre_execution(tokens);
 		// print(pre, tokens);
 		// printf("%d\n", status);
-		ft_execution(pre,&status);
+		ft_execution(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

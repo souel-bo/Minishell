@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/02 09:34:15 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:28:03 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
 
-int	check_quotes(char *input, int *status)
+int	check_quotes(char *input)
 {
 	int	i;
 	int	in_single;
@@ -41,7 +41,7 @@ int	check_quotes(char *input, int *status)
 	}
 	if (in_single || in_double)
 	{
-		*status = 130;
+		g_status()->status = 130;
 		return (1);
 	}
 	return (0);

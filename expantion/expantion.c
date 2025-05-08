@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expantion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:32:07 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:17:26 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ t_token	*expand_value(t_token *token)
 						|| iterate->token[i + 1] == '$'
 						|| (!ft_isalpha(iterate->token[i + 1])
 							&& iterate->token[i + 1] != '?' && iterate->token[i
-							+ 1] != '_'))
+							+ 1] != '_' && iterate->token[i + 1] != '\''))
 						temp[j++] = iterate->token[i++];
 					else
 					{

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 20:55:54 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 21:35:23 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,8 +265,6 @@ t_token	*expand_value(t_token *token)
 								join_value(temp, s, &j);
 								free(s);
 							}
-							else
-								j = i;
 						}
 					}
 				}
@@ -299,6 +297,7 @@ t_token *join_token(t_token *token)
 			continue;
 		}
 		new = new_element(iterate->token);
+		new->type = iterate->type;
 		ft_lstadd_back(&list, new);
 		iterate = iterate->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 13:06:21 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:55:54 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ t_token	*expand_value(t_token *token)
 	{
 		if (find_dollar(iterate->token))
 		{
+			iterate->expanded = 1;
 			i = 0;
 			j = 0;
 			temp = malloc(4096);
@@ -264,6 +265,8 @@ t_token	*expand_value(t_token *token)
 								join_value(temp, s, &j);
 								free(s);
 							}
+							else
+								j = i;
 						}
 					}
 				}
@@ -280,11 +283,35 @@ t_token	*expand_value(t_token *token)
 	return (token);
 }
 
+
+t_token *join_token(t_token *token)
+{
+	t_token *iterate;
+	t_token *new = NULL ;
+	t_token *list = NULL;
+
+	iterate = token;
+	while (iterate)
+	{
+		if (iterate->expanded && iterate->token[0] == '\0')
+		{
+			iterate = iterate->next;
+			continue;
+		}
+		new = new_element(iterate->token);
+		ft_lstadd_back(&list, new);
+		iterate = iterate->next;
+	}
+	return (list);
+}
+
+
 t_token	*expantion(t_token *token)
 {
 	// (void)env;
 	token = expand_value(token);
 	token = expand_wildcard(token);
+	token = join_token(token);
 	token = handle_quote(token);
 	return (token);
 }

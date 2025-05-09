@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 13:21:58 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:56:06 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ void print(t_execution *list, t_token *list2)
     
     while (list2)
     {
-        printf("{%s} %s\n", type_to_string(list2->type), list2->token);
+        if (list2->token[0] == '\0')
+            printf("a7a\n");
+        else
+            printf("{%s} %s\n", type_to_string(list2->type), list2->token);
         list2 = list2->next;
     }
     while (list)
@@ -125,7 +128,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		print(pre, tokens);
+		// print(pre, tokens);
 		// printf("%d\n", status);
 		ft_execution(pre);
 		ft_lstclear(&tokens, free);

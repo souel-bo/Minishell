@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:26:48 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/03/28 01:42:20 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 20:33:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_token	*new_element(char *ptr)
 	if (!new)
 		return (NULL);
 	new->token = ptr;
+	new->expanded = 0;
 	new->next = NULL;
 	return (new);
 }

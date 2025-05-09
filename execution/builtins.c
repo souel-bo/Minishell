@@ -286,7 +286,7 @@ int checkIfNum(char *number)
 	int j = 0;
 	int i = 0;
 	if (!number)
-		exit(0);
+		exit(g_status()->status >> 8);
 	while(number[i])
 	{
 		if (number[j] >= 48 && number[j] >= 57)
@@ -312,11 +312,14 @@ void	ft_exit(t_execution *input,int size)
 	else if (input->args[2])
 	{
 		printf("bash: exit: too many arguments\n");
-		exit(1);
+		g_status()->status = 1;
 	}
 	else if (input->args[1])
+	{
 		status = ft_atoi(input->args[1]);
-	exit(status);
+		exit (status);
+	}
+	exit(g_status()->status >> 8);
 }
 
 void	ft_pwd()

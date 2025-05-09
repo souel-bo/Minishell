@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/08 14:26:42 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:06:21 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,13 +169,19 @@ t_token	*expand_value(t_token *token)
 						{
 							if (iterate->token[i + 1] == '"'
 								|| !iterate->token[i + 1] || iterate->token[i
-								+ 1] == '$' || (!ft_isalpha(iterate->token[i
+								+ 1] == '$' || (!ft_is_alpha(iterate->token[i
 										+ 1]) && iterate->token[i + 1] != '?'
 									&& iterate->token[i + 1] != '_'))
 								temp[j++] = iterate->token[i++];
 							else
 							{
 								i++;
+								if (iterate->token[i] >= '0'
+									&& iterate->token[i] <= '9')
+								{
+									i++;
+									continue ;
+								}
 								s = malloc(ft_strlen(&iterate->token[i]) + 1);
 								if (!s)
 									return (NULL);
@@ -187,7 +193,7 @@ t_token	*expand_value(t_token *token)
 								else
 								{
 									while (iterate->token[i]
-										&& (ft_isalpha(iterate->token[i])
+										&& (ft_is_alpha(iterate->token[i])
 											|| iterate->token[i] == '_')
 										&& !is_special(iterate->token[i]))
 										s[k++] = iterate->token[i++];
@@ -217,37 +223,47 @@ t_token	*expand_value(t_token *token)
 				}
 				else if (iterate->token[i] == '$')
 				{
-					if ( !iterate->token[i + 1]
-						|| iterate->token[i + 1] == '$'
-						|| (!ft_isalpha(iterate->token[i + 1])
+					if (!iterate->token[i + 1] || iterate->token[i + 1] == '$'
+						|| (!ft_is_alpha(iterate->token[i + 1])
 							&& iterate->token[i + 1] != '?' && iterate->token[i
-							+ 1] != '_' && iterate->token[i + 1] != '\'' && iterate->token[i + 1] != '"'))
+							+ 1] != '_' && iterate->token[i + 1] != '\''
+							&& iterate->token[i + 1] != '"'
+							&& !ft_isdigit(iterate->token[i])))
 						temp[j++] = iterate->token[i++];
 					else
 					{
 						i++;
-						s = malloc(ft_strlen(&iterate->token[i]) + 1);
-						if (!s)
-							return (NULL);
-						k = 0;
-						if (iterate->token[i] == '?')
+						if (iterate->token[i] >= '0'
+							&& iterate->token[i] <= '9')
 						{
-							temp[j++] = iterate->token[i++];
+							i++;
+							continue ;
 						}
 						else
 						{
-							while (iterate->token[i]
-								&& (ft_isalpha(iterate->token[i])
-									|| iterate->token[i] == '_')
-								&& !is_special(iterate->token[i]))
-								s[k++] = iterate->token[i++];
-						}
-						s[k] = '\0';
-						s = expand_env(s);
-						if (s)
-						{
-							join_value(temp, s, &j);
-							free(s);
+							s = malloc(ft_strlen(&iterate->token[i]) + 1);
+							if (!s)
+								return (NULL);
+							k = 0;
+							if (iterate->token[i] == '?')
+							{
+								temp[j++] = iterate->token[i++];
+							}
+							else
+							{
+								while (iterate->token[i]
+									&& (ft_is_alpha(iterate->token[i])
+										|| iterate->token[i] == '_')
+									&& !is_special(iterate->token[i]))
+									s[k++] = iterate->token[i++];
+							}
+							s[k] = '\0';
+							s = expand_env(s);
+							if (s)
+							{
+								join_value(temp, s, &j);
+								free(s);
+							}
 						}
 					}
 				}

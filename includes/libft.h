@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/07 16:38:55 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:06:35 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ft_isalpha(int c);
+int	ft_is_alpha(int c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+int	ft_isdigit(int c);
+int	ft_isalpha(int c);
+int	ft_isdigit(int c);
+int	ft_isalnum(int c);
 #endif

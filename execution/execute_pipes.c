@@ -14,24 +14,33 @@ int count_pipe_line(t_execution *list)
     return (count);
 }
 
-void execute_pipes(t_execution *list,int size,int *status)
+void execute_pipes(char **path, t_execution *list,int size)
 {
     int i = 0;
-    char **path;
     int pipes[2][2];
     pid_t *pid = malloc(sizeof(pid_t) * size);
-    path = get_path();
-    if (!path)
-        return (ft_free(path), ft_free(list->args));    
     while(i < size)
     {
-        char **envp = listToArray();
-        if (if_builtin(list->args[0]) != 0)
-	    {
-            if (list->outfile != -2)
-		        dup2(list->outfile, 1);
-		    is_builtin(list->args[0], list);
+        if (list->args[i] == NULL && list->file != NULL)
+        {
+            int stdout_copy = dup(1);
+            int stdin_copy = dup(0);
+            ft_redirection(list->file);  
+            dup2(stdout_copy,1);
+            dup2(stdin_copy,0);      
+            list = list->next;
             i++;
+        }
+        else if (size == 1 && if_builtin(list->args[0]) != 0)
+        {
+            int stdout_copy = dup(1);
+            int stdin_copy = dup(0);
+            if (list->file)
+                ft_redirection(list->file);
+            is_builtin(list->args[0], list,size);
+            dup2(stdout_copy,1);
+            dup2(stdin_copy,0);
+            break;
         }
         else
         {       
@@ -47,7 +56,7 @@ void execute_pipes(t_execution *list,int size,int *status)
                     dup2(pipes[i % 2][1], 1);
                     close(pipes[i % 2][0]);
                 }
-                execute_simple_cmnd(path,list);
+                execute_simple_cmnd(path,list,size);
             }
             if (i > 0)
                 close(pipes[(i + 1) % 2][0]);
@@ -55,16 +64,14 @@ void execute_pipes(t_execution *list,int size,int *status)
                 close(pipes[i % 2][1]);
             i++;
             list = list->next;
-            ft_free(envp);
         }
     }
     i = 0;
     while(i < size)
     {
-        waitpid(pid[i], status, 0);
-        printf("%d\n",*status >> 8);
+        waitpid(pid[i], &g_status()->status, 0);
+        printf("%d\n",g_status()->status >> 8);
         i++;
     }
-    ft_free(path);
     free(pid);
 }

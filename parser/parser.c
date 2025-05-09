@@ -6,13 +6,13 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/03 07:50:46 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:10:54 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
 
-int	check_quotes(char *input, int *status)
+int	check_quotes(char *input)
 {
 	int	i;
 	int	in_single;
@@ -41,7 +41,7 @@ int	check_quotes(char *input, int *status)
 	}
 	if (in_single || in_double)
 	{
-		*status = 2;
+		g_status()->status = 130;
 		return (1);
 	}
 	return (0);

@@ -2,6 +2,46 @@
 #include "../includes/tokenizer.h"
 #include "../includes/libft.h"
 
+char *searchAndsave(char *var)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+			return (ft_strdup(tmp->value));
+		tmp = tmp->next;
+	}
+	return NULL;
+}
+
+int	search_in_env(char *var)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return 0;
+}
+int	change_in_env(char *var,char *buf)
+{
+	t_envp *tmp = new_envp;
+	while(tmp)
+	{
+		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
+		{
+			free(tmp->value);
+			tmp->value = buf;
+			return 1;
+		}
+		tmp = tmp->next;
+	}
+	return 0;
+}
+
+
 
 int CountLenKey(char *line)
 {
@@ -13,13 +53,23 @@ int CountLenKey(char *line)
 
 void	ft_chdir(t_execution *input)
 {
+	int check;
 	if (!input->args[1])
 	{
-		chdir(getenv("HOME"));
+		if (search_in_env("HOME") == 1)
+		{
+			change_in_env("OLDPWD",getcwd(NULL,0));
+			check = chdir(searchAndsave("HOME"));
+			change_in_env("PWD",getcwd(NULL,0));
+		}
+		else
+			printf("%s\n","cd: HOME not set");
 	}
 	else
 	{
+		change_in_env("OLDPWD",getcwd(NULL,0));
 		chdir(input->args[1]);
+		change_in_env("PWD",getcwd(NULL,0));
 	}
 }
 
@@ -55,7 +105,8 @@ void	ft_env()
 	t_envp *tmp = new_envp;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key,tmp->value);
+		if (tmp->key && tmp->value != NULL)
+			printf("%s=%s\n", tmp->key,tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -109,23 +160,54 @@ int	already_in(char *arg)
 	free(key);
 	return (0);
 }
-
+int	check_sen(char *list)
+{
+	int j = 0;
+	if ((list[0] != '_') && (!ft_isalpha(list[0])))
+		return 0;
+	while(list[j] && list[j] != '=')
+	{
+		if (list[j] == '+' && list[j + 1] == '=')
+		{
+			j++;
+		}
+		if ((ft_isalnum(list[j]) == 0) && list[j] != '=')
+			return 0;
+		j++;
+	}
+	return 1;
+}
 void ft_export(t_execution *list)
 {
 	int i;
 	i = 1;
 	t_envp *node;
+	t_envp *export = new_envp;
 	while(list->args[i])
 	{
-		if (already_in(list->args[i]) == 1)
+		if (check_sen(list->args[i]) == 0)
+		{
+			printf("bash: export: `%s': not a valid identifier\n",list->args[i]);
+			i++;
+		}
+		else if (already_in(list->args[i]) == 1)
 			i++;
 		else
 		{
 			node = new_element2(list->args[i]);
-			if (ft_strlen(node->value) > 0)
-				ft_lstadd_back2(&new_envp,node);
-			// ta nzid export;
+			ft_lstadd_back2(&new_envp,node);	
 			i++;
+		}
+	}
+	if (!list->args[1])
+	{
+		while(export)
+		{
+			if (export->key && export->value)
+				printf("declare -x %s=\"%s\"\n", export->key, export->value);
+			else if (export->key)
+				printf("declare -x %s\n", export->key);
+			export = export->next;
 		}
 	}
 }
@@ -147,10 +229,12 @@ int if_builtin(char *cmd)
 
 	else if (!ft_strncmp(cmd,"echo",4))
 		return 1;
+	else if(!ft_strncmp(cmd,"exit",4))
+		return 1;
     return 0;
 }
 
-int	is_builtin(char *cmd,t_execution *list)
+void	is_builtin(char *cmd,t_execution *list,int size)
 {
 	if (!ft_strncmp(cmd, "export", 6))
 		ft_export(list);
@@ -164,14 +248,15 @@ int	is_builtin(char *cmd,t_execution *list)
 		ft_echo(list);
 	if (!ft_strncmp(cmd,"cd",2))
 		ft_chdir(list);
-	return (0);
+	if (!ft_strncmp(cmd, "exit", 4))
+		ft_exit(list,size);
 }
+
 void ft_unset(t_execution *list)
 {
     t_envp *prev = NULL;
     t_envp *current;
-    int i = 1;
-
+    int (i) = 1;
     while (list->args[i]) 
     {
         current = new_envp;
@@ -196,15 +281,41 @@ void ft_unset(t_execution *list)
         i++;
     }
 }
-
-void	ft_exit(t_execution *input)
+int checkIfNum(char *number)
+{
+	int j = 0;
+	int i = 0;
+	if (!number)
+		exit(0);
+	while(number[i])
+	{
+		if (number[j] >= 48 && number[j] >= 57)
+			j++;
+		i++;
+	}
+	if (j == i)
+		return 1;
+	else
+		return 0;
+}
+void	ft_exit(t_execution *input,int size)
 {
 	int status;
 	status = 0;
-	if (input->args[1])
+	if (size == 1)
+		printf("%s\n","exit");
+	if (checkIfNum(input->args[1]))
 	{
-		status = ft_atoi(input->args[1]);
+		printf("bash: exit: %s: numeric argument required\n",input->args[1]);
+		exit(2);
 	}
+	else if (input->args[2])
+	{
+		printf("bash: exit: too many arguments\n");
+		exit(1);
+	}
+	else if (input->args[1])
+		status = ft_atoi(input->args[1]);
 	exit(status);
 }
 
@@ -213,11 +324,9 @@ void	ft_pwd()
 	char *buf;
 	buf = getcwd(NULL, 0);
 	if (!buf)
-	{
-		ft_putstr_fd("malloc failed\n", 2);
-		exit(1);
-	}
-	printf("%s\n", buf);
+		printf("%s\n",searchAndsave("PWD"));
+	else
+		printf("%s\n", buf);
 	free(buf);
 }
 
@@ -232,8 +341,8 @@ char	**listToArray()
 	t_envp *head = new_envp;
 	while(head)
 	{
-		tmp = ft_strjoin(head->key,head->value);
-		envpExecve[i] = ft_strndup(tmp,ft_strlen(tmp));
+		tmp = ft_strjoin(head->key,"=");
+		envpExecve[i] = ft_strjoin(tmp,head->value);
 		i++;
 		free(tmp);
 		head = head->next;
@@ -268,23 +377,40 @@ t_envp *ft_create_envp(char **envp)
     return (head);
 }
 
-t_envp	*new_element2(char *line)
+t_envp *new_element2(char *line)
 {
+    char *key;
 	t_envp *new;
     if (!line)
         return NULL;
-    char *key = NULL;
+    int lenKey = CountLenKey(line);
+	key = ft_strndup(line, lenKey);
     char *value = NULL;
-	int lenKey  = CountLenKey(line);
-	key = ft_strndup(line,lenKey);
-	value = ft_strndup(line + lenKey + 1,ft_strlen(line) - lenKey);
-	new = malloc(sizeof(t_envp));
-	if (!new)
-		return (NULL);
-	new->key = key;
+    if (line[lenKey] == '=')
+    {
+        if (line[lenKey + 1] != '\0')
+            value = ft_strdup(line + lenKey + 1);
+        else
+            value = ft_strdup("");
+	}
+	if (line[lenKey] == '+')
+	{
+		if (line[lenKey + 2] != '\0')
+            value = ft_strdup(line + lenKey + 2);
+        else
+            value = ft_strdup("");	
+	}
+    new = malloc(sizeof(t_envp));
+    if (!new)
+    {
+        free(key);
+        free(value);
+        return NULL;
+    }
+    new->key = key;
     new->value = value;
-	new->next = NULL;
-	return (new);
+    new->next = NULL;
+    return new;
 }
 
 t_envp	*ft_lstlast2(t_envp *lst)

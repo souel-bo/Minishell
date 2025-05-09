@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/08 13:32:15 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/09 13:21:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,15 @@ const char *type_to_string(t_type type)
     return "WORD";
 }
 
-void print(t_execution *list, t_token *list2, t_envp *env)
+void print(t_execution *list, t_token *list2)
 {
     int i;
-    (void)env;
+    
     while (list2)
     {
         printf("{%s} %s\n", type_to_string(list2->type), list2->token);
         list2 = list2->next;
     }
-    // if (env)
-    // {
-    //     while (env)
-    //     {
-    //         printf("%s %s\n", env->key,env->value);
-    //         env = env->next;
-    //     }
-    // }
     while (list)
     {
             i = 0;
@@ -77,52 +69,68 @@ void print(t_execution *list, t_token *list2, t_envp *env)
     }
 }
 
-void ft_freeEnvp(t_envp *envp)
+int check_space(char *input)
+{
+    int i = 0;
+    while (input[i] && (input[i] == ' ' || input[i] == '\t'))
+          i++;
+    if (input[i] == '\0')
+        return 1;
+    return 0;
+}
+void ft_freeEnvp()
 {
     t_envp *temp;
-    while (envp)
+    while (new_envp)
     {
-        temp = envp;
-        envp = envp->next;
+        temp = new_envp;
+        new_envp = new_envp->next;
         free(temp->key);
         free(temp->value);
         free(temp);
     }
+}
+t_status *g_status()
+{
+    static t_status status = {0};
+    return &status;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-    (void)envp;
 	char	*input;
 	t_token	*tokens = NULL;
 	t_execution	*pre = NULL;
-	int	status = 0;
     new_envp = NULL;
     new_envp = ft_create_envp(envp);
 	while (1)
 	{
-		input = readline("minishell $>: ");
-		if (!input)
+        input = readline("minishell $>: ");
+        if (!input)
 			exit(1);
+		if (check_space(input))
+		{
+			free(input);
+			continue;
+		}
 		add_history(input);
-		if (check_quotes(input, &status))
+		if (check_quotes(input))
 		{
 			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
-		    printf("%d\n", status);
             free(input);
 			continue;
 		}
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		print(pre, tokens, new_envp);
+		print(pre, tokens);
 		// printf("%d\n", status);
-		// ft_execution(pre,&status);
+		ft_execution(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);
 	}
+    ft_freeEnvp();
 }
-

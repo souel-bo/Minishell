@@ -70,7 +70,7 @@ void execute_pipes(char **path, t_execution *list,int size)
     while(i < size)
     {
         waitpid(pid[i], &g_status()->status, 0);
-        printf("%d\n", g_status()->status >> 8);
+        // printf("%d\n",g_status()->status >> 8);
         i++;
     }
     free(pid);

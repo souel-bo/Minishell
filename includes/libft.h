@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/27 12:50:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:55:37 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define LIBFT_H
 
 #include "minishell.h"
-int	ft_isalnum(int c);
+int	ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(char *s);
 int ft_atoi(char *str);
 t_token	*new_element(char *ptr);
@@ -25,11 +25,16 @@ void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token	*ft_lstlast(t_token *lst);
 void	ft_lstclear(t_token **lst, void (*del)(void *));
 void	ft_lstdelone(t_token *lst, void (*del)(void*));
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char  *s1, char  *s2);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
+int	ft_is_alpha(int c);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+int	ft_isdigit(int c);
+int	ft_isalpha(int c);
+int	ft_isdigit(int c);
+int	ft_isalnum(int c);
 #endif

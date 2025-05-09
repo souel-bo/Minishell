@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/08 18:26:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:24:59 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void ft_freeEnvp()
         free(temp);
     }
 }
-
 t_status *g_status()
 {
     static t_status status = {0};
@@ -108,7 +107,7 @@ int	main(int argc, char **argv, char **envp)
     new_envp = ft_create_envp(envp);
 	while (1)
 	{
-        input = readline("\033[38;5;208mminishell $>: \033[0m");
+        input = readline("minishell $>: ");
         if (!input)
 			exit(1);
 		if (check_space(input))
@@ -126,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		// print(pre, tokens);
+		//print(pre, tokens);
 		// printf("%d\n", status);
 		ft_execution(pre);
 		ft_lstclear(&tokens, free);

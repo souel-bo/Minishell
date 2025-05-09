@@ -213,42 +213,42 @@ void ft_export(t_execution *list)
 }
 int if_builtin(char *cmd)
 {
-    if (!ft_strncmp(cmd, "export", 6))
+    if (!ft_strcmp(cmd, "export") )
         return 1;
-    else if (!ft_strncmp(cmd, "unset", 5))
+    else if (!ft_strcmp(cmd, "unset"))
         return 1;
-    else if (!ft_strncmp(cmd, "pwd", 3))
+    else if (!ft_strcmp(cmd, "pwd"))
         return 1;
-    else if (!ft_strncmp(cmd, "env", 3))
+    else if (!ft_strcmp(cmd, "env"))
         return 1;
-    else if (!ft_strncmp(cmd, "exit", 4))
+    else if (!ft_strcmp(cmd, "exit"))
         return 1;
 
-	else if (!ft_strncmp(cmd,"cd",2))
+	else if (!ft_strcmp(cmd,"cd"))
 		return 1;
 
-	else if (!ft_strncmp(cmd,"echo",4))
+	else if (!ft_strcmp(cmd,"echo"))
 		return 1;
-	else if(!ft_strncmp(cmd,"exit",4))
+	else if(!ft_strcmp(cmd,"exit"))
 		return 1;
     return 0;
 }
 
 void	is_builtin(char *cmd,t_execution *list,int size)
 {
-	if (!ft_strncmp(cmd, "export", 6))
+	if (!ft_strcmp(cmd, "export"))
 		ft_export(list);
-	if (!ft_strncmp(cmd, "unset", 5))
+	if (!ft_strcmp(cmd, "unset"))
 		ft_unset(list);
-	if (!ft_strncmp(cmd, "pwd", 3))
+	if (!ft_strcmp(cmd, "pwd"))
 		ft_pwd();
-	if (!ft_strncmp(cmd, "env", 3))
+	if (!ft_strcmp(cmd, "env"))
 		ft_env();
-	if (!ft_strncmp(cmd,"echo",4))
+	if (!ft_strcmp(cmd,"echo"))
 		ft_echo(list);
-	if (!ft_strncmp(cmd,"cd",2))
+	if (!ft_strcmp(cmd,"cd"))
 		ft_chdir(list);
-	if (!ft_strncmp(cmd, "exit", 4))
+	if (!ft_strcmp(cmd, "exit"))
 		ft_exit(list,size);
 }
 

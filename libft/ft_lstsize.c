@@ -4,6 +4,7 @@
 int	ft_lstsize(t_execution *lst)
 {
 	int	counter;
+
 	counter = 0;
 	while (lst != NULL)
 	{

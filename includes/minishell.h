@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/08 17:23:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:12:29 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 typedef enum s_type
 {
@@ -85,7 +86,6 @@ extern t_envp *new_envp;
 # include "libft.h"
 # include "tokenizer.h"
 #include "expantion.h"
-char	*ft_itoa(int n);
 t_status *g_status();
 int	ft_isdigit(int c);
 int	ft_isalpha(int c);

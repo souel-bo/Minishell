@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expantion.h                                        :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/27 19:00:37 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/07 12:20:25 by souel-bo         ###   ########.fr       */
+/*   Created: 2025/05/03 12:54:57 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/05/09 13:06:28 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPANTION_H
-#define EXPANTION_H
+#include "../includes/libft.h"
 
-#include "minishell.h"
-
-t_token *expantion(t_token *tokens);
-#endif
+int	ft_is_alpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}

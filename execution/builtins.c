@@ -53,13 +53,12 @@ int CountLenKey(char *line)
 
 void	ft_chdir(t_execution *input)
 {
-	int check;
 	if (!input->args[1])
 	{
 		if (search_in_env("HOME") == 1)
 		{
 			change_in_env("OLDPWD",getcwd(NULL,0));
-			check = chdir(searchAndsave("HOME"));
+			chdir(searchAndsave("HOME"));
 			change_in_env("PWD",getcwd(NULL,0));
 		}
 		else

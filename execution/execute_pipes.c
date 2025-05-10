@@ -36,10 +36,20 @@ void execute_pipes(char **path, t_execution *list,int size)
             int stdout_copy = dup(1);
             int stdin_copy = dup(0);
             if (list->file)
-                ft_redirection(list->file);
-            is_builtin(list->args[0], list,size);
-            dup2(stdout_copy,1);
-            dup2(stdin_copy,0);
+            {
+                if (ft_redirection(list->file) == 0)
+                {
+                    is_builtin(list->args[0], list,size);
+                    dup2(stdout_copy,1);
+                    dup2(stdin_copy,0);
+                }
+            }
+            else
+            {
+                is_builtin(list->args[0], list,size);
+                dup2(stdout_copy,1);
+                dup2(stdin_copy,0);
+            }
             break;
         }
         else

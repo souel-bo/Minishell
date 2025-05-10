@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/10 13:24:14 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/10 20:52:39 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,13 @@ extern t_envp *new_envp;
 #include "tokenizer.h"
 #include "expantion.h"
 
+void ft_execution(t_execution *list,int size);
+void check_command_type(t_execution *list);
+int is_valid(t_execution *list,char **path);
+void scan_cmd(t_execution *list);
+int execute_cmd(t_execution *list,char *cmd);
+void print_error(char *name,char *error);
+int is_dir(char *path);
 t_status *g_status();
 int ft_isdigit(int c);
 int ft_isalpha(int c);
@@ -117,7 +124,6 @@ void execute_simple_cmnd(char **path, t_execution *list, int size);
 void ft_free(char **ptr);
 int ft_isprint(int c);
 char **get_path();
-void ft_execution(t_execution *list);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
 #endif

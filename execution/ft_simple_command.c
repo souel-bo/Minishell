@@ -16,6 +16,7 @@ int ft_redirection(t_file *file)
 		if (file->infile)
 		{
 			fd = ft_open(file->file_name, O_RDONLY);
+			if (fd == -1)
 			{
 				write(2, file->file_name, ft_strlen(file->file_name));
 				write(2, ": ", 2);

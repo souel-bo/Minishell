@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 21:36:02 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/10 18:54:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,30 @@ void print(t_execution *list, t_token *list2)
             printf("{%s} %s\n", type_to_string(list2->type), list2->token);
         list2 = list2->next;
     }
-    while (list)
+    if (list)
     {
-            i = 0;
-            while (list->args[i])
-            {
-                printf("%s ", list->args[i]);
-                i++;
-            }   
-            printf("\n");
-        if (list->file)
+        
+        while (list)
         {
-            t_file *iterate = list->file;
-
-            while (iterate)
-            { 
-                printf("[%s] [%d] [%d] [%d]\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
-                iterate = iterate->next;
+                i = 0;
+                while (list->args[i])
+                {
+                    printf("%s ", list->args[i]);
+                    i++;
+                }   
+                printf("\n");
+            if (list->file)
+            {
+                t_file *iterate = list->file;
+    
+                while (iterate)
+                { 
+                    printf("[%s] [%d] [%d] [%d]\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
+                    iterate = iterate->next;
+                }
             }
+            list = list->next;
         }
-        list = list->next;
     }
 }
 
@@ -128,9 +132,9 @@ int	main(int argc, char **argv, char **envp)
 		tokens = tokenizer(input, tokens);
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		// print(pre, tokens);
-		// printf("%d\n", status);
-		ft_execution(pre);
+		print(pre, tokens);
+		// // printf("%d\n", status);
+		// ft_execution(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

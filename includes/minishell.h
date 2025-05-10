@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 15:12:29 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/10 13:24:14 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <errno.h>
-#include "libft.h"
-#include "tokenizer.h"
-#include "expantion.h"
 
 typedef enum s_type
 {
@@ -85,6 +82,9 @@ typedef struct s_envp
 } t_envp;
 
 extern t_envp *new_envp;
+#include "libft.h"
+#include "tokenizer.h"
+#include "expantion.h"
 
 t_status *g_status();
 int ft_isdigit(int c);

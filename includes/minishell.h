@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/10 20:52:39 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/11 18:48:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,12 @@ typedef struct s_execution
 	t_file *file;
 	struct s_execution *next;
 } t_execution;
+typedef struct s_hr
+{
+	int i;
+	char **path;
+	int pipes[2][2];
+} t_hr;
 
 typedef struct s_status
 {

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/11 16:16:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/11 19:50:06 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ t_token	*expand_value(t_token *token)
 			iterate->expanded = 1;
 			i = 0;
 			j = 0;
-			temp = malloc(4096);
+			temp = malloc(409600);
 			if (!temp)
 				return (NULL);
 			while (iterate->token[i])
@@ -315,7 +315,7 @@ t_token	*expantion(t_token *token)
 	// (void)env;
 	token = expand_value(token);
 	token = expand_wildcard(token);
-	token = join_token(token);
 	token = handle_quote(token);
+	token = join_token(token);
 	return (token);
 }

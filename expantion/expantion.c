@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 21:35:23 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/11 16:16:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,21 +285,26 @@ t_token	*expand_value(t_token *token)
 t_token *join_token(t_token *token)
 {
 	t_token *iterate;
+	t_token *next;
 	t_token *new = NULL ;
 	t_token *list = NULL;
 
 	iterate = token;
 	while (iterate)
 	{
-		if (iterate->expanded && iterate->token[0] == '\0')
+		if (iterate->expanded && (iterate->token[0] == '\0'))
 		{
-			iterate = iterate->next;
+			next = iterate->next;
+			ft_lstdelone(iterate, free);
+			iterate = next;
 			continue;
 		}
 		new = new_element(iterate->token);
 		new->type = iterate->type;
 		ft_lstadd_back(&list, new);
-		iterate = iterate->next;
+		next = iterate->next;
+		free(iterate);
+		iterate = next;
 	}
 	return (list);
 }

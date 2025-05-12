@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 14:19:49 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:03:14 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ extern t_envp *new_envp;
 #include "libft.h"
 #include "tokenizer.h"
 #include "expantion.h"
-
 void ft_execution(t_execution *list,int size);
-void check_command_type(t_execution *list);
+void ft_freeEnvp();
+void execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper, int size);
+void check_command_type(t_execution *list,char **envp);
 int is_valid(t_execution *list,char **path);
 void scan_cmd(t_execution *list);
 int execute_cmd(t_execution *list,char *cmd);

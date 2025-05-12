@@ -23,6 +23,7 @@ int execute_cmd(t_execution *list, char *cmd)
         exit(1);
     else
         execve(cmd, list->args, listToArray());
+    free(cmd);
     exit(1);
 }
 
@@ -54,16 +55,20 @@ int is_valid(t_execution *list, char **path)
         free(tmp);
         if (access(full_cmd, X_OK) == 0)
             return (execute_cmd(list, full_cmd));
+        free(full_cmd);
         i++;
     }
     ft_free(paths);
     return (1);
 }
-void check_command_type(t_execution *list)
+void check_command_type(t_execution *list,char **envp)
 {
+    (void)envp;
+    // new_envp = ft_create_envp(envp);
     int size;
     size = ft_lstsize(list);
     ft_execution(list, size);
+    // ft_freeEnvp();
 }
 void cmdWpath(t_execution *list, char **path,int size)
 {
@@ -86,12 +91,19 @@ void cmdWpath(t_execution *list, char **path,int size)
         exit(127);
     }
 }
-void execute_pipeCmd(t_execution *list, t_hr hr,int size)
+void execute_Cmd(t_execution *list, t_hr hr,int size)
 {
     if (search_in_env("PATH"))
         cmdWpath(list, hr.path,size);
     else
         scan_cmd(list);
+}
+void execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
+{
+    if (size == 1)
+        execute_Cmd(list,hr,size);
+    else
+        execute_pipeline(pipes, list, hr, size);
 }
 void close_previous(int pipes[2][2], int i)
 {
@@ -128,7 +140,7 @@ void execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper, int size)
 {
     (void)size;
     setup_pipes(pipes, helper.i, size);
-    execute_pipeCmd(list, helper,size);
+    execute_Cmd(list, helper,size);
     exit(1);
 }
 void cleanup(pid_t *pid, t_hr hr)
@@ -136,18 +148,6 @@ void cleanup(pid_t *pid, t_hr hr)
     wait_all(pid, hr);
     // ft_free(hr.path);
     free(pid);
-}
-void execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
-{
-    if (size == 1)
-    {
-        if (search_in_env("PATH") == 1)
-            cmdWpath(list, hr.path,size);
-        else
-            scan_cmd(list);
-    }
-    else
-        execute_pipeline(pipes, list, hr, size);
 }
 void no_args(t_execution *list)
 {
@@ -161,26 +161,23 @@ void check_builtin(t_execution *list, int size)
 {
     int stdout_copy = dup(1);
     int stdin_copy = dup(0);
-    if (size == 1)
+    if (list->file)
     {
-        if (list->file)
-        {
-            if (ft_redirection(list->file) == 0)
-            {
-                is_builtin(list->args[0], list,size);
-                dup2(stdout_copy,1);
-                dup2(stdin_copy,0);
-            }
-        }
-        else
+        if (ft_redirection(list->file) == 0)
         {
             is_builtin(list->args[0], list,size);
             dup2(stdout_copy,1);
             dup2(stdin_copy,0);
         }
-        close (stdout_copy);
-        close (stdin_copy);
     }
+    else
+    {
+        is_builtin(list->args[0], list,size);
+        dup2(stdout_copy,1);
+        dup2(stdin_copy,0);
+    }
+    close (stdout_copy);
+    close (stdin_copy);
 }
 void ft_execution(t_execution *list, int size)
 {
@@ -207,5 +204,5 @@ void ft_execution(t_execution *list, int size)
         list = list->next;
     }
     cleanup(pid, hr);
-    printf("%d\n",g_status()->status >> 8);
+    // printf("%d\n",g_status()->status >> 8);
 }

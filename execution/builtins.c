@@ -41,8 +41,6 @@ int	change_in_env(char *var,char *buf)
 	return 0;
 }
 
-
-
 int CountLenKey(char *line)
 {
 	int count = 0;
@@ -71,33 +69,79 @@ void	ft_chdir(t_execution *input)
 		change_in_env("PWD",getcwd(NULL,0));
 	}
 }
-
-void	ft_echo(t_execution *input)
+int checkNs(char *str)
 {
-	int i;
-	i = 1;
-	int flag = 1;
-	
-	if (input->args[1])
+	int i = 2;
+	if (strncmp(str,"-n",2) == 0)
 	{
-		if (strncmp(input->args[1], "-n", 2) == 0)
+		while(str[i])
 		{
-			flag = 0;
+			if (str[i] != 110)
+				return 0;
+			// printf("%c\n",str[i]);
 			i++;
 		}
+		return 1;
 	}
 	else
-		printf("\n");
-	while (input->args[i])
-	{
-		ft_putstr_fd(input->args[i], 1);
-		if (flag == 1 && input->args[i + 1] == NULL)
-			ft_putchar_fd('\n', 1);
-		if (input->args[i + 1])
-			ft_putchar_fd(' ', 1);
-		i++;
-	}
+		return (0);
 }
+void ft_echo(t_execution *input)
+{
+    int i = 1;
+    int flag = 1;
+
+    while (input->args[i] && strncmp(input->args[i], "-n", 2) == 0)
+    {
+        int j = 2;
+        while (input->args[i][j] == 'n')
+            j++;
+        if (input->args[i][j] != '\0')
+            break;
+        flag = 0;
+        i++;
+    }
+    while (input->args[i])
+    {
+        ft_putstr_fd(input->args[i], 1);
+        if (input->args[i + 1])
+            ft_putchar_fd(' ', 1);
+        i++;
+    }
+    if (flag)
+        ft_putchar_fd('\n', 1);
+}
+// void	ft_echo(t_execution *input)
+// {
+// 	int i;
+// 	i = 1;
+// 	int flag = 1;
+	
+// 	if (input->args[i])
+// 	{
+// 		while (input->args[i] && strcmp(input->args[i], "-n") == 0)
+// 		{
+// 			int j = 2;
+//         	while (input->args[i][j] == 'n') 
+//             	j++;
+//         	if (input->args[i][j] != '\0') 
+// 				break;
+// 			i++;
+// 			flag = 0;
+// 		}
+// 	}
+// 	while (input->args[i])
+// 	{
+// 		ft_putstr_fd(input->args[i], 1);
+// 		if (flag == 1 && input->args[i + 1] == NULL)
+// 			ft_putchar_fd('\n', 1);
+// 		if (input->args[i + 1])
+// 			ft_putchar_fd(' ', 1);
+// 		i++;
+// 	}
+// 	if (flag)
+// 		ft_putchar_fd('\n',1);
+// }
 
 void	ft_env()
 {
@@ -330,6 +374,7 @@ void	ft_pwd()
 	else
 		printf("%s\n", buf);
 	free(buf);
+	g_status()->status = 0;
 }
 
 char	**listToArray()

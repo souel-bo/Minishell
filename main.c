@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 15:14:21 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:59:27 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 		pre = pre_execution(tokens);
 		//print(pre, tokens);
 		// printf("%d\n", status);
-		check_command_type(pre);
+		check_command_type(pre,envp);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

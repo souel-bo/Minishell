@@ -6,26 +6,34 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/04/30 13:31:00 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:13:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
 
-int	check_if_operator(t_token *token)
+void	check_in(t_token *token)
 {
-	if (!ft_strncmp(token->token, "|", ft_strlen(token->token)))
-	return (1);
-	else if (!ft_strncmp(token->token, ">>", ft_strlen(token->token)))
-	return (1);
-	else if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
-	return (1);
+	if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
+	{
+		token->type = RED_IN;
+		if (token->next)
+		{
+			token = token->next;
+			token->type = FILE_NAME;
+		}
+	}
 	else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
-	return (1);
-	else if (!ft_strncmp(token->token, ">", ft_strlen(token->token)))
-	return (1);
-	return (0);
+	{
+		token->type = HERE_DOC;
+		if (token->next)
+		{
+			token = token->next;
+			token->type = DELIMITER;
+		}
+	}
 }
+
 void	check_operator(t_token *token)
 {
 	if (!ft_strncmp(token->token, "|", ft_strlen(token->token)))
@@ -48,30 +56,8 @@ void	check_operator(t_token *token)
 			token->type = FILE_NAME;
 		}
 	}
-	else if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
-	{
-		token->type = RED_IN;
-		if (token->next)
-		{
-			token = token->next;
-			token->type = FILE_NAME;
-		}
-	}
-	else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
-	{
-		token->type = HERE_DOC;
-		if (token->next)
-		{ 
-			token = token->next;
-			token->type = DELIMITER;
-		}
-	}
-}
-int	check_opperator(char *token)
-{
-	if (!ft_strncmp(token, "|", ft_strlen(token)))
-		return (1);
-	return (0);
+	else
+		check_in(token);
 }
 
 void	check_argument(t_token *iteration)
@@ -83,10 +69,10 @@ void	check_argument(t_token *iteration)
 			iteration->type = ARGUMENT;
 			iteration = iteration->next;
 		}
-		else 
+		else
 		{
 			check_operator(iteration);
-			break;
+			break ;
 		}
 	}
 }
@@ -110,7 +96,6 @@ int	check_if_builtin(t_token *token)
 	return (0);
 }
 
-
 t_token	*lexer(t_token *list)
 {
 	t_token	*iterate;
@@ -118,11 +103,11 @@ t_token	*lexer(t_token *list)
 	iterate = list;
 	while (iterate != NULL)
 	{
-if (check_if_builtin(iterate))
-{
-	iterate->type = BUILTIN;
-	check_argument(iterate->next);
-}
+		if (check_if_builtin(iterate))
+		{
+			iterate->type = BUILTIN;
+			check_argument(iterate->next);
+		}
 		else if (check_if_operator(iterate))
 		{
 			check_operator(iterate);
@@ -133,5 +118,5 @@ if (check_if_builtin(iterate))
 		}
 		iterate = iterate->next;
 	}
-	return list;
+	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/11 19:50:06 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:04:50 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,9 @@ t_token	*expand_value(t_token *token)
 	t_token	*iterate;
 	char	*s;
 	char	*temp;
+	char *l;
 
-	int i, j, k;
+	int i, j, k, n;
 	iterate = token;
 	while (iterate)
 	{
@@ -189,7 +190,12 @@ t_token	*expand_value(t_token *token)
 								k = 0;
 								if (iterate->token[i] == '?')
 								{
-									temp[j++] = iterate->token[i++];
+									i++;
+									l = ft_itoa(g_status()->status);
+									n = 0;
+									while (l[n])
+										temp[j++] = l[n++];
+									free(l);
 								}
 								else
 								{
@@ -248,7 +254,12 @@ t_token	*expand_value(t_token *token)
 							k = 0;
 							if (iterate->token[i] == '?')
 							{
-								temp[j++] = iterate->token[i++];
+								i++;
+								l = ft_itoa(g_status()->status);
+								n = 0;
+								while (l[n])
+									temp[j++] = l[n++];
+								free(l);
 							}
 							else
 							{

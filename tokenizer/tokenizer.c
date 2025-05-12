@@ -6,16 +6,11 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/11 16:12:42 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 09:09:19 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
-
-int	is_space_or_operator(char c)
-{
-	return (c == ' ' || c == '\t' || c == '|' || c == '<' || c == '>');
-}
 
 void	handle_quotes(char *input, int *i, int *j)
 {
@@ -78,7 +73,7 @@ void	norm(char *input, t_token **element, t_token **tokens, int *i)
 	j = 0;
 	if (!is_space_or_operator(input[*i]))
 	{
-		handle_quotes(input, &*i, &j);
+		handle_quotes(input, i, &j);
 		*element = new_element(ft_strndup(&input[j], *i - j));
 		ft_lstadd_back(tokens, *element);
 	}
@@ -90,7 +85,7 @@ void	norm(char *input, t_token **element, t_token **tokens, int *i)
 	}
 	else if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>'
 		|| input[*i] == '&')
-		handle_operators(input, element, tokens, &*i);
+		handle_operators(input, element, tokens, i);
 }
 
 t_token	*tokenizer(char *input, t_token *tokens)

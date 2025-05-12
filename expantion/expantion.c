@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 09:04:50 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:24:43 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,7 @@ t_token	*expantion(t_token *token)
 	// (void)env;
 	token = expand_value(token);
 	token = expand_wildcard(token);
-	token = handle_quote(token);
 	token = join_token(token);
+	token = handle_quote(token);
 	return (token);
 }

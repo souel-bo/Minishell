@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 09:09:19 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:52:30 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	norm(char *input, t_token **element, t_token **tokens, int *i)
 	}
 	else if (input[*i] == '(')
 	{
-		handle_parenthis(input, &*i, &j);
+		handle_parenthis(input, i, &j);
 		*element = new_element(ft_strndup(&input[j], *i - j));
 		ft_lstadd_back(tokens, *element);
 	}

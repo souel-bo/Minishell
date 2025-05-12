@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 20:33:43 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:42:32 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_list
 	int outfile;
 	int append;
 	int heredoc;
-	char *delimiter;
 	struct s_list *next;
 } t_file;
 

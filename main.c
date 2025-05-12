@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 09:03:29 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:54:42 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,6 @@ int	main(int argc, char **argv, char **envp)
         input = readline("minishell $>: ");
         if (!input)
 			exit(1);
-		if (check_space(input))
-		{
-			free(input);
-			continue;
-		}
 		add_history(input);
 		if (check_quotes(input))
 		{

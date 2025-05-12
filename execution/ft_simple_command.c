@@ -122,6 +122,10 @@ char **get_path()
 	char *path;
 	path = searchAndsave("PATH");
 	if (path)
-		return (ft_split(path, ':'));
+	{
+		char **path_2D = ft_split(path, ':'); 
+		free(path);
+		return (path_2D);
+	}
 	return (NULL);
 }

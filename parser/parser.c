@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/09 13:10:54 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:06:47 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ t_file	*create_element_file(char *filename)
 	element->outfile = 0;
 	element->append = 0;
 	element->heredoc = 0;
-	element->delimiter = NULL;
+	// element->delimiter = NULL;
 	element->next = NULL;
 	return (element);
 }

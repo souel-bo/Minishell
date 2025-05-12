@@ -36,7 +36,7 @@ void scan_cmd(t_execution *list)
     else if (access(list->args[0], X_OK | F_OK) == 0)
         execute_cmd(list, list->args[0]);
     else
-        g_status()->status = 1;
+        perror(list->args[0]);
     exit(1);
 }
 
@@ -45,15 +45,18 @@ int is_valid(t_execution *list, char **path)
     int i = 0;
     char *tmp;
     char *full_cmd;
-    while (path[i])
+    (void)path;
+    char **paths = get_path();
+    while (paths[i])
     {
-        tmp = ft_strjoin(path[i], "/");
+        tmp = ft_strjoin(paths[i], "/");
         full_cmd = ft_strjoin(tmp, list->args[0]);
         free(tmp);
         if (access(full_cmd, X_OK) == 0)
             return (execute_cmd(list, full_cmd));
         i++;
     }
+    ft_free(paths);
     return (1);
 }
 void check_command_type(t_execution *list)
@@ -62,13 +65,17 @@ void check_command_type(t_execution *list)
     size = ft_lstsize(list);
     ft_execution(list, size);
 }
-void cmdWpath(t_execution *list, char **path)
+void cmdWpath(t_execution *list, char **path,int size)
 {
-    if (ft_strchr(list->args[0], '/'))
-        scan_cmd(list);
+    (void)path;
+
+    if (if_builtin(list->args[0]) != 0)
+        is_builtin(list->args[0],list,size);
+    else if (ft_strchr(list->args[0], '/'))
+            scan_cmd(list);
     else if (is_dir(list->args[0]))
     {
-        print_error(list->args[0], ": Is a directory");
+        print_error(list->args[0], ": command not found");
         g_status()->status = 126;
         exit(126);
     }
@@ -79,10 +86,10 @@ void cmdWpath(t_execution *list, char **path)
         exit(127);
     }
 }
-void execute_pipeCmd(t_execution *list, t_hr hr)
+void execute_pipeCmd(t_execution *list, t_hr hr,int size)
 {
-    if (hr.path)
-        cmdWpath(list, hr.path);
+    if (search_in_env("PATH"))
+        cmdWpath(list, hr.path,size);
     else
         scan_cmd(list);
 }
@@ -121,28 +128,26 @@ void execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper, int size)
 {
     (void)size;
     setup_pipes(pipes, helper.i, size);
-    execute_pipeCmd(list, helper);
+    execute_pipeCmd(list, helper,size);
     exit(1);
 }
 void cleanup(pid_t *pid, t_hr hr)
 {
     wait_all(pid, hr);
-    ft_free(hr.path);
+    // ft_free(hr.path);
     free(pid);
 }
 void execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
     if (size == 1)
     {
-        if (hr.path)
-            cmdWpath(list, hr.path);
+        if (search_in_env("PATH") == 1)
+            cmdWpath(list, hr.path,size);
         else
             scan_cmd(list);
     }
     else
-    {
         execute_pipeline(pipes, list, hr, size);
-    }
 }
 void no_args(t_execution *list)
 {
@@ -152,22 +157,47 @@ void no_args(t_execution *list)
     dup2(stdout_copy,1);
     dup2(stdin_copy,0);  
 }
+void check_builtin(t_execution *list, int size)
+{
+    int stdout_copy = dup(1);
+    int stdin_copy = dup(0);
+    if (size == 1)
+    {
+        if (list->file)
+        {
+            if (ft_redirection(list->file) == 0)
+            {
+                is_builtin(list->args[0], list,size);
+                dup2(stdout_copy,1);
+                dup2(stdin_copy,0);
+            }
+        }
+        else
+        {
+            is_builtin(list->args[0], list,size);
+            dup2(stdout_copy,1);
+            dup2(stdin_copy,0);
+        }
+        close (stdout_copy);
+        close (stdin_copy);
+    }
+}
 void ft_execution(t_execution *list, int size)
 {
     t_hr hr;
     hr.i = 0;
     int pipes[2][2];
-    hr.path = get_path();
     pid_t *pid = malloc(sizeof(pid_t) * size);
     while (hr.i < size)
     {
-    if (list->args[hr.i] == NULL && list->file != NULL)
-    {
-        no_args(list);
-        list = list->next;
-        hr.i++;
-    }
-        if (hr.i < size - 1)
+        if (list->args[hr.i] == NULL && list->file != NULL)
+            no_args(list);
+        else if (if_builtin(list->args[0]) != 0 && size == 1)
+        {
+            check_builtin(list,size);
+            break;
+        }
+        else if (hr.i < size - 1)
             pipe(pipes[hr.i % 2]);
         pid[hr.i] = fork();
         if (pid[hr.i] == 0)

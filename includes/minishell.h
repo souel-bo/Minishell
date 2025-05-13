@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/13 14:41:29 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/13 23:23:48 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,5 @@ char	**get_path();
 void ft_execution(t_execution *list);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
-int handle_heredoc(t_token *token);
+int handle_heredoc(t_token *token, t_token *tokens, t_execution *exec_list);
 #endif

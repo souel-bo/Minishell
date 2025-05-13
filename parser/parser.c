@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/12 18:04:22 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/13 23:23:36 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ t_file	*create_element_file(char *filename)
 	(void)filename;
 	element = malloc(sizeof(t_file));
 	element->infile = 0;
+	element->file_name = NULL;
 	element->outfile = 0;
 	element->append = 0;
 	element->heredoc = 0;
@@ -206,7 +207,7 @@ void	ft_lstadd_back_v3(t_file **lst, t_file *new)
 	}
 }
 
-void parse_file(t_token *token, t_execution *ex, int flag)
+void parse_file(t_token *token, t_execution *ex, int flag, t_token *tokens, t_execution *exec_list)
 {
 	t_file *element = NULL ;
 	if (flag == RED_IN)
@@ -233,12 +234,12 @@ void parse_file(t_token *token, t_execution *ex, int flag)
 	else if (flag == HERE_DOC)
 	{
 		element = create_element_file(NULL);
-		element->heredoc = handle_heredoc(token);
+		element->heredoc = handle_heredoc(token, tokens, exec_list);
 		ft_lstadd_back_v3(&ex->file, element);
 	}
 }
 
-t_token *copy_elements(t_execution *exec, t_token *iterate)
+t_token *copy_elements(t_execution *exec, t_token *iterate, t_token *tokens, t_execution *exec_list)
 {
     int i = 0;
     int flag = 0;
@@ -256,7 +257,7 @@ t_token *copy_elements(t_execution *exec, t_token *iterate)
             iterate = iterate->next;
             if (!iterate)
                 break;
-            parse_file(iterate, exec, flag);
+            parse_file(iterate, exec, flag, tokens, exec_list);
             iterate = iterate->next;
             continue;
         }
@@ -313,7 +314,7 @@ t_execution	*pre_execution(t_token *tokens)
 		if (iterate->type == PIPE)
 			iterate = iterate->next;
 		temp = create_element(iterate);
-		iterate = copy_elements(temp, iterate);
+		iterate = copy_elements(temp, iterate, tokens, exec_list);
 		ft_lstadd_back_v2(&exec_list, temp);
 		i++;
 	}

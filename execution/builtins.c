@@ -1,29 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
+/*   Updated: 2025/05/13 22:05:47 by yaaitmou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/libft.h"
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
-#include "../includes/libft.h"
 
-void	ft_env()
+void	ft_env(void)
 {
-	t_envp *tmp = new_envp;
+	t_envp	*tmp;
+
+	tmp = new_envp;
 	while (tmp)
 	{
 		if (tmp->key && tmp->value != NULL)
-			printf("%s=%s\n", tmp->key,tmp->value);
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }
 
-void ft_export(t_execution *list)
+void	ft_export(t_execution *list)
 {
-	int i;
+	int		i;
+	t_envp	*node;
+	t_envp	*export;
+
 	i = 1;
-	t_envp *node;
-	t_envp *export = new_envp;
-	while(list->args[i])
+	export = new_envp;
+	while (list->args[i])
 	{
 		if (check_sen(list->args[i]) == 0)
 		{
-			printf("bash: export: `%s': not a valid identifier\n",list->args[i]);
+			print_error("bash: export:" ,list->args[i]);
+			write(2,": not a valid identifier\n",25);
+			g_status()->status = 1;
 			i++;
 		}
 		else if (already_in(list->args[i]) == 1)
@@ -31,13 +49,13 @@ void ft_export(t_execution *list)
 		else
 		{
 			node = new_element2(list->args[i]);
-			ft_lstadd_back2(&new_envp,node);	
+			ft_lstadd_back2(&new_envp, node);
 			i++;
 		}
 	}
 	if (!list->args[1])
 	{
-		while(export)
+		while (export)
 		{
 			if (export->key && export->value)
 				printf("declare -x %s=\"%s\"\n", export->key, export->value);
@@ -48,66 +66,74 @@ void ft_export(t_execution *list)
 	}
 }
 
-void ft_unset(t_execution *list)
+void	ft_unset(t_execution *list)
 {
-    t_envp *prev = NULL;
-    t_envp *current;
-    int (i) = 1;
-    while (list->args[i]) 
-    {
-        current = new_envp;
-        prev = NULL;
-        while (current) 
-        {
-            if (!ft_strncmp(list->args[i], current->key , ft_strlen(list->args[i])) &&
-                current->key[ft_strlen(list->args[i])] == '\0') 
-            {
-                if (prev == NULL) 
-                    new_envp = current->next;
-                else 
-                    prev->next = current->next;
-                free(current->key);
-                free(current->value);
-                free(current);
-                break;
-            }
-            prev = current;
-            current = current->next;
-        }
-        i++;
-    }
+	t_envp	*prev;
+	t_envp	*current;
+
+	prev = NULL;
+	int(i) = 1;
+	while (list->args[i])
+	{
+		current = new_envp;
+		prev = NULL;
+		while (current)
+		{
+			if (!ft_strncmp(list->args[i], current->key,
+					ft_strlen(list->args[i]))
+				&& current->key[ft_strlen(list->args[i])] == '\0')
+			{
+				if (prev == NULL)
+					new_envp = current->next;
+				else
+					prev->next = current->next;
+				free(current->key);
+				free(current->value);
+				free(current);
+				break ;
+			}
+			prev = current;
+			current = current->next;
+		}
+		i++;
+	}
 }
 
-void	ft_exit(t_execution *input,int size)
+void	ft_exit(t_execution *input, int size)
 {
-	int status;
+	int	status;
+
 	status = 0;
 	if (size == 1)
-		printf("%s\n","exit");
-	if (checkIfNum(input->args[1]))
+		write(2,"exit",4);
+	if (checkifnum(input->args[1]))
 	{
-		printf("bash: exit: %s: numeric argument required\n",input->args[1]);
+		print_error("bash: exit: ", input->args[1]);
+		write(2,": numeric argument required\n",28);
+		g_status()->status = 2;
 		exit(2);
 	}
 	else if (input->args[2])
 	{
-		printf("bash: exit: too many arguments\n");
+		write(2,"bash: exit: too many arguments\n",31);
 		g_status()->status = 1;
+		exit(1);
 	}
 	else if (input->args[1])
 	{
 		status = ft_atoi(input->args[1]);
-		exit (status);
+		exit(status);
 	}
 	exit(g_status()->status >> 8);
 }
 
-void	ft_pwd()
+void	ft_pwd(void)
 {
-	char *buf;
+	char	*buf;
+
 	buf = getcwd(NULL, 0);
 	if (!buf)
-		printf("%s\n",searchAndsave("PWD"));
+		printf("%s\n", searchAndsave("PWD"));
 	else
 		printf("%s\n", buf);
 	free(buf);

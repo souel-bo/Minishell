@@ -1,16 +1,31 @@
-#include "../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_simple_command.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:39:06 by yaaitmou          #+#    #+#             */
+/*   Updated: 2025/05/13 15:27:36 by yaaitmou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/libft.h"
+#include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-int ft_open(char *file_name, int flag)
+int	ft_open(char *file_name, int flag)
 {
-	int fd;
+	int	fd;
+
 	fd = open(file_name, flag, 0644);
 	return (fd);
 }
-int ft_redirection(t_file *file)
+
+int	ft_redirection(t_file *file)
 {
-	int fd;
+	int	fd;
+
 	while (file)
 	{
 		if (file->infile)
@@ -62,68 +77,20 @@ int ft_redirection(t_file *file)
 	}
 	return (0);
 }
-// void execute_simple_cmnd(char **path, t_execution *list, int size)
-// {
-	// char *temp;
-	// char *full_cmd;
-	// (void)path;
-	// char **envp;
-	// int i = 0;
-	// (void)size;
-	// envp = listToArray();
 
-	// while (path[i])
-	// {
-	// 	if (ft_redirection(list->file) == 1)
-	// 		exit(1);
-	// 	if (if_builtin(list->args[0]) != 0)
-	// 	{
-	// 		if (list->file)
-	// 		{
-	// 			if (ft_redirection(list->file) == 0)
-	// 				is_builtin(list->args[0], list, size);
-	// 		}
-	// 		else
-	// 		{
-	// 			is_builtin(list->args[0], list, size);
-	// 			exit(0);
-	// 		}
-	// 	}
-	// 	else if (ft_strchr(list->args[0],'/'))
-	// 	{
-	// 		return (ft_free(path), execve(list->args[0], list->args, envp),
-	// 				ft_free(list->args), exit(1));
-	// 	}
-	// 	if (access(full_cmd, X_OK) == 0)
-	// 	{
-	// 		ft_free(path);
-	// 		if (list->infile != -2)
-	// 			dup2(list->infile, 0);
-	// 		if (list->outfile != -2)
-	// 			dup2(list->outfile, 1);
-	// 		if (execve(full_cmd, list->args, envp))
-	// 			return (free(full_cmd), exit(1));
-	// 	}
-	// 	free(full_cmd);
-	// 	i++;
-	// }
-	//execve(list->args[0],list->args,envp);
-	// write(2, list->args[0], ft_strlen(list->args[0]));
-	// write(2, " : command not found\n", 22);
-	// return (ft_free(path), ft_free(list->args), exit(127));
-// }
-
-int ft_isprint(int c)
+int	ft_isprint(int c)
 {
 	return (c >= 32 && c <= 126);
 }
-char **get_path()
+char	**get_path(void)
 {
-	char *path;
+	char	*path;
+	char	**path_2D;
+
 	path = searchAndsave("PATH");
 	if (path)
 	{
-		char **path_2D = ft_split(path, ':'); 
+		path_2D = ft_split(path, ':');
 		free(path);
 		return (path_2D);
 	}

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 16:03:14 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:48:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,12 @@ typedef struct s_envp
 extern t_envp *new_envp;
 #include "libft.h"
 #include "tokenizer.h"
+#include "header.h"
 #include "expantion.h"
 t_envp	*ft_lstlast2(t_envp *lst);
 void	ft_chdir(t_execution *input);
 void ft_echo(t_execution *input);
-int checkIfNum(char *number);
+int	checkifnum(char *number);
 int	already_in(char *arg);
 int	check_sen(char *list);
 void execute_Cmd(t_execution *list, t_hr hr,int size);
@@ -107,7 +108,7 @@ void execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size);
 void ft_execution(t_execution *list,int size);
 void ft_freeEnvp();
 void execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper, int size);
-void check_command_type(t_execution *list,char **envp);
+void check_command_type(t_execution *list);
 int is_valid(t_execution *list,char **path);
 void scan_cmd(t_execution *list);
 int execute_cmd(t_execution *list,char *cmd);

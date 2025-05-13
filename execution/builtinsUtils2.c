@@ -1,27 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtinsUtils2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
+/*   Updated: 2025/05/13 15:31:03 by yaaitmou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/libft.h"
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
-#include "../includes/libft.h"
 
 int	already_in(char *arg)
 {
-	t_envp	*tmp = new_envp;
+	t_envp	*tmp;
 	char	*key;
 	char	*new_value;
-	int		lenKey;
-	int		append = 0;
-	lenKey = CountLenKey(arg);
-	if (arg[lenKey] == '+' && arg[lenKey + 1] == '=')
+	int		len_key;
+	int		append;
+
+	tmp = new_envp;
+	append = 0;
+	len_key = CountLenKey(arg);
+	if (arg[len_key] == '+' && arg[len_key + 1] == '=')
 		append = 1;
-	key = ft_strndup(arg, lenKey);
+	key = ft_strndup(arg, len_key);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, lenKey) == 0 && tmp->key[lenKey] == '\0')
+		if (ft_strncmp(tmp->key, key, len_key) == 0 
+			&& tmp->key[len_key] == '\0') 
 		{
 			if (append)
-				new_value = ft_strjoin(tmp->value, arg + lenKey + 2); 
+				new_value = ft_strjoin(tmp->value, arg + len_key + 2);
 			else
-				new_value = ft_strdup(arg + lenKey + 1); 
-
+				new_value = ft_strdup(arg + len_key + 1);
 			free(tmp->value);
 			tmp->value = new_value;
 			free(key);
@@ -32,25 +47,23 @@ int	already_in(char *arg)
 	free(key);
 	return (0);
 }
-int if_builtin(char *cmd)
+int	if_builtin(char *cmd)
 {
-    if (!ft_strcmp(cmd, "export") )
-        return 1;
-    else if (!ft_strcmp(cmd, "unset"))
-        return 1;
-    else if (!ft_strcmp(cmd, "pwd"))
-        return 1;
-    else if (!ft_strcmp(cmd, "env"))
-        return 1;
-    else if (!ft_strcmp(cmd, "exit"))
-        return 1;
-
-	else if (!ft_strcmp(cmd,"cd"))
-		return 1;
-
-	else if (!ft_strcmp(cmd,"echo"))
-		return 1;
-	else if(!ft_strcmp(cmd,"exit"))
-		return 1;
-    return 0;
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "env"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	else if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	else if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	return (0);
 }

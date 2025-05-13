@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 14:54:42 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:43:05 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void print(t_execution *list, t_token *list2)
         if (list2->token[0] == '\0')
             printf("a7a\n");
         else
-            printf("{%s} %s\n", type_to_string(list2->type), list2->token);
+            printf("{%s} %s [%d]\n", type_to_string(list2->type), list2->token, list2->index);
         list2 = list2->next;
     }
     if (list)
@@ -67,7 +67,7 @@ void print(t_execution *list, t_token *list2)
     
                 while (iterate)
                 { 
-                    printf("[%s] [%d] [%d] [%d]\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
+                    printf("[%s] [%d] [%d] [%d] {%d}\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append, iterate->heredoc);
                     iterate = iterate->next;
                 }
             }

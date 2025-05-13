@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 15:24:43 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:37:10 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -292,6 +292,19 @@ t_token	*expand_value(t_token *token)
 	return (token);
 }
 
+int check_quote(char *delimiter)
+{
+	int i = 0;
+	while (delimiter[i])
+	{
+		if (delimiter[i] == '"' || delimiter[i] == '\'')
+			return 1;
+		else
+			i++;
+	}
+	return 0;
+}
+
 
 t_token *join_token(t_token *token)
 {
@@ -312,6 +325,13 @@ t_token *join_token(t_token *token)
 		}
 		new = new_element(iterate->token);
 		new->type = iterate->type;
+		if (new->type == DELIMITER)
+		{
+			if (check_quote(new->token))
+				new->index = 1;
+			else
+				new->index = 0;
+		}
 		ft_lstadd_back(&list, new);
 		next = iterate->next;
 		free(iterate);

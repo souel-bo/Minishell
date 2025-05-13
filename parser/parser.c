@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/12 14:38:11 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:04:22 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,12 +230,12 @@ void parse_file(t_token *token, t_execution *ex, int flag)
 		element->append = 1;
 		ft_lstadd_back_v3(&ex->file, element);
 	}
-	// else if (flag == HERE_DOC)
-	// {
-	// 	element = create_element_file(NULL);
-		
-	// }
-	
+	else if (flag == HERE_DOC)
+	{
+		element = create_element_file(NULL);
+		element->heredoc = handle_heredoc(token);
+		ft_lstadd_back_v3(&ex->file, element);
+	}
 }
 
 t_token *copy_elements(t_execution *exec, t_token *iterate)

@@ -90,6 +90,20 @@ extern t_envp *new_envp;
 #include "libft.h"
 #include "tokenizer.h"
 #include "expantion.h"
+t_envp	*ft_lstlast2(t_envp *lst);
+void	ft_chdir(t_execution *input);
+void ft_echo(t_execution *input);
+int checkIfNum(char *number);
+int	already_in(char *arg);
+int	check_sen(char *list);
+void execute_Cmd(t_execution *list, t_hr hr,int size);
+int execute_cmd(t_execution *list, char *cmd);
+void setup_pipes(int pipes[2][2], int i, int size);
+void wait_all(pid_t *pids, t_hr hr);
+void cleanup(pid_t *pid, t_hr hr);
+void close_previous(int pipes[2][2], int i);
+void check_builtin(t_execution *list, int size);
+void execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size);
 void ft_execution(t_execution *list,int size);
 void ft_freeEnvp();
 void execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper, int size);

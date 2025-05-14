@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/13 23:23:36 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:54:24 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,13 @@ t_execution	*create_element(t_token *tokens)
 		return (NULL);
 	element->args = malloc(sizeof(char *) * (count_words(tokens) + 1));
 	if (!element->args)
-		return (NULL);
+		if (!element->args)
+{
+	free(element);
+	return (NULL);
+}
+	for (int i = 0; i <= count_words(tokens); i++)  // <= to set the last one to NULL
+		element->args[i] = NULL;
 	element->infile = -2;
 	element->outfile = -2;
 	element->file = NULL;
@@ -234,7 +240,7 @@ void parse_file(t_token *token, t_execution *ex, int flag, t_token *tokens, t_ex
 	else if (flag == HERE_DOC)
 	{
 		element = create_element_file(NULL);
-		element->heredoc = handle_heredoc(token, tokens, exec_list);
+		element->heredoc = handle_heredoc(token, tokens, exec_list, ex, element);
 		ft_lstadd_back_v3(&ex->file, element);
 	}
 }

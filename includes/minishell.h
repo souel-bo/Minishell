@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 18:55:32 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:16:59 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ typedef struct s_envp
 	struct s_envp *next;
 } t_envp;
 
+typedef struct s_norm
+{
+	t_token *token;
+	t_execution *ex;
+	t_token *tokens;
+	t_execution *exec_list;
+} t_norm;
+
 extern t_envp *new_envp;
 
 # include "libft.h"
@@ -120,7 +128,7 @@ char	**get_path();
 void ft_execution(t_execution *list);
 const char *type_to_string(t_type type);
 t_execution *pre_execution(t_token *tokens);
-int handle_heredoc(t_token *token, t_token *tokens, t_execution *exec_list, t_execution *ex, t_file *element);
+int handle_heredoc(t_norm *norm, t_file *element);
 void ft_freeEnvp();
 void print(t_execution *list, t_token *list2);
 #endif

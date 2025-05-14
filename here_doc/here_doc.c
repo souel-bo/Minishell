@@ -6,20 +6,20 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:10:46 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 18:56:16 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:18:43 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	handle_heredoc(t_token *token, t_token *tokens, t_execution *exec_list,
-		t_execution *ex, t_file *element)
+int	handle_heredoc(t_norm *norm, t_file *element)
 {
 	int		fd;
 	pid_t	pid;
 	char	*here_doc;
-	int		i = 0;
+	int		i;
 
+	i = 0;
 	fd = open("/tmp/minishell", O_RDWR | O_TRUNC | O_CREAT, 0777);
 	if (fd == -1)
 		return (-1);
@@ -31,30 +31,31 @@ int	handle_heredoc(t_token *token, t_token *tokens, t_execution *exec_list,
 			here_doc = readline("heredoc-> ");
 			if (!here_doc)
 			{
-				ft_lstclear(&tokens, free);
-				if (exec_list)
+				ft_lstclear(&norm->tokens, free);
+				if (norm->exec_list)
 				{
-					ft_lstclear_v2(&exec_list);
+					ft_lstclear_v2(&norm->exec_list);
 				}
-				free(ex->file);
-                free(element);
-				if (ex->args)
+				free(norm->ex->file);
+				free(element);
+				if (norm->ex->args)
 				{
-				    i = 0;
-					while (ex->args && ex->args[i])
+					i = 0;
+					while (norm->ex->args && norm->ex->args[i])
 					{
-						free(ex->args[i]);
+						free(norm->ex->args[i]);
 						i++;
 					}
-                    free(ex->args);
+					free(norm->ex->args);
 				}
-				free(ex);
+				free(norm->ex);
 				ft_freeEnvp();
-                close(fd);
+				close(fd);
 				exit(1);
 			}
-			if (ft_strlen(here_doc) == ft_strlen(token->token)
-				&& !ft_strncmp(here_doc, token->token, ft_strlen(token->token)))
+			if (ft_strlen(here_doc) == ft_strlen(norm->token->token)
+				&& !ft_strncmp(here_doc, norm->token->token,
+					ft_strlen(norm->token->token)))
 			{
 				free(here_doc);
 				break ;
@@ -63,14 +64,14 @@ int	handle_heredoc(t_token *token, t_token *tokens, t_execution *exec_list,
 			ft_putchar_fd('\n', fd);
 			free(here_doc);
 		}
-		ft_lstclear(&tokens, free);
-		if (exec_list)
+		ft_lstclear(&norm->tokens, free);
+		if (norm->exec_list)
 		{
-			printf("%s\n", exec_list->args[0]);
-			ft_lstclear_v2(&exec_list);
+			printf("%s\n", norm->exec_list->args[0]);
+			ft_lstclear_v2(&norm->exec_list);
 		}
-		free(ex->file);
-		free(ex);
+		free(norm->ex->file);
+		free(norm->ex);
 		ft_freeEnvp();
 		close(fd);
 		exit(0);

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/14 18:54:24 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:16:28 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ int	check_quotes(char *input)
 	}
 	return (0);
 }
-
-
 
 int	parser(char *input)
 {
@@ -132,11 +130,12 @@ t_execution	*create_element(t_token *tokens)
 	element->args = malloc(sizeof(char *) * (count_words(tokens) + 1));
 	if (!element->args)
 		if (!element->args)
-{
-	free(element);
-	return (NULL);
-}
-	for (int i = 0; i <= count_words(tokens); i++)  // <= to set the last one to NULL
+		{
+			free(element);
+			return (NULL);
+		}
+	for (int i = 0; i <= count_words(tokens); i++)
+		// <= to set the last one to NULL
 		element->args[i] = NULL;
 	element->infile = -2;
 	element->outfile = -2;
@@ -147,9 +146,11 @@ t_execution	*create_element(t_token *tokens)
 
 int	open_file(char *file, int flag)
 {
-	int	fd = 0;
+	int	fd;
+
+	fd = 0;
 	if (flag == -1)
-	{		
+	{
 		fd = open(file, O_RDONLY);
 		if (fd == -1)
 			return (fd);
@@ -171,8 +172,8 @@ int	open_file(char *file, int flag)
 
 t_file	*create_element_file(char *filename)
 {
-
 	t_file	*element;
+
 	(void)filename;
 	element = malloc(sizeof(t_file));
 	element->infile = 0;
@@ -213,71 +214,82 @@ void	ft_lstadd_back_v3(t_file **lst, t_file *new)
 	}
 }
 
-void parse_file(t_token *token, t_execution *ex, int flag, t_token *tokens, t_execution *exec_list)
+void	parse_file(t_norm *norm, int flag)
 {
-	t_file *element = NULL ;
+	t_file	*element;
+
+	element = NULL;
 	if (flag == RED_IN)
 	{
-		element = create_element_file(token->token);
-		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element = create_element_file(norm->token->token);
+		element->file_name = ft_strndup(norm->token->token,
+				ft_strlen(norm->token->token));
 		element->infile = 1;
-		ft_lstadd_back_v3(&ex->file, element);
+		ft_lstadd_back_v3(&norm->ex->file, element);
 	}
-	else 	if (flag == RED_OUT)
+	else if (flag == RED_OUT)
 	{
-		element = create_element_file(token->token);
-		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element = create_element_file(norm->token->token);
+		element->file_name = ft_strndup(norm->token->token,
+				ft_strlen(norm->token->token));
 		element->outfile = 1;
-		ft_lstadd_back_v3(&ex->file, element);
+		ft_lstadd_back_v3(&norm->ex->file, element);
 	}
-	else 	if (flag == APPEND)
+	else if (flag == APPEND)
 	{
-		element = create_element_file(token->token);
-		element->file_name = ft_strndup(token->token, ft_strlen(token->token));
+		element = create_element_file(norm->token->token);
+		element->file_name = ft_strndup(norm->token->token,
+				ft_strlen(norm->token->token));
 		element->append = 1;
-		ft_lstadd_back_v3(&ex->file, element);
+		ft_lstadd_back_v3(&norm->ex->file, element);
 	}
 	else if (flag == HERE_DOC)
 	{
 		element = create_element_file(NULL);
-		element->heredoc = handle_heredoc(token, tokens, exec_list, ex, element);
-		ft_lstadd_back_v3(&ex->file, element);
+		element->heredoc = handle_heredoc(norm, element);
+		ft_lstadd_back_v3(&norm->ex->file, element);
 	}
 }
 
-t_token *copy_elements(t_execution *exec, t_token *iterate, t_token *tokens, t_execution *exec_list)
+t_token	*copy_elements(t_execution *exec, t_token *iterate, t_token *tokens,
+		t_execution *exec_list)
 {
-    int i = 0;
-    int flag = 0;
+	int		i;
+	int		flag;
+	t_norm	norm;
 
-    while (iterate)
-    {
-        if (iterate->type == PIPE)
-            break;
-        else if (iterate->type == RED_IN 
-              || iterate->type == RED_OUT 
-              || iterate->type == HERE_DOC 
-              || iterate->type == APPEND)
-        {
-            flag = iterate->type;
-            iterate = iterate->next;
-            if (!iterate)
-                break;
-            parse_file(iterate, exec, flag, tokens, exec_list);
-            iterate = iterate->next;
-            continue;
-        }
-        if (iterate && iterate->token)
-        {
-            exec->args[i] = ft_strndup(iterate->token, ft_strlen(iterate->token));
-            i++;
-        }
-        iterate = iterate->next;
-    }
-    exec->args[i] = NULL;
-    return (iterate);
+	i = 0;
+	flag = 0;
+	while (iterate)
+	{
+		if (iterate->type == PIPE)
+			break ;
+		else if (iterate->type == RED_IN || iterate->type == RED_OUT
+			|| iterate->type == HERE_DOC || iterate->type == APPEND)
+		{
+			flag = iterate->type;
+			iterate = iterate->next;
+			if (!iterate)
+				break ;
+			norm.ex = exec;
+			norm.exec_list = exec_list;
+			norm.tokens = tokens;
+			norm.token = iterate;
+			parse_file(&norm, flag);
+			iterate = iterate->next;
+			continue ;
+		}
+		if (iterate && iterate->token)
+		{
+			exec->args[i] = ft_strndup(iterate->token,
+					ft_strlen(iterate->token));
+			i++;
+		}
+		iterate = iterate->next;
+	}
+	exec->args[i] = NULL;
+	return (iterate);
 }
-
 
 t_execution	*ft_lstlast_v2(t_execution *lst)
 {

@@ -4,7 +4,7 @@
 
 char *searchAndsave(char *var)
 {
-	t_envp *tmp = new_envp;
+	t_envp *tmp = g_new_envp;
 	while(tmp)
 	{
 		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
@@ -16,7 +16,7 @@ char *searchAndsave(char *var)
 
 int	search_in_env(char *var)
 {
-	t_envp *tmp = new_envp;
+	t_envp *tmp = g_new_envp;
 	while(tmp)
 	{
 		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
@@ -27,7 +27,7 @@ int	search_in_env(char *var)
 }
 int	change_in_env(char *var,char *buf)
 {
-	t_envp *tmp = new_envp;
+	t_envp *tmp = g_new_envp;
 	while(tmp)
 	{
 		if(strncmp(var,tmp->key,ft_strlen(var)) == 0)
@@ -102,7 +102,7 @@ void	ft_echo(t_execution *input)
 
 void	ft_env()
 {
-	t_envp *tmp = new_envp;
+	t_envp *tmp = g_new_envp;
 	while (tmp)
 	{
 		if (tmp->key && tmp->value != NULL)
@@ -132,7 +132,7 @@ t_envp	*AddToList(char *line)
 
 int	already_in(char *arg)
 {
-	t_envp	*tmp = new_envp;
+	t_envp	*tmp = g_new_envp;
 	char	*key;
 	char	*new_value;
 	int		lenKey;
@@ -182,7 +182,7 @@ void ft_export(t_execution *list)
 	int i;
 	i = 1;
 	t_envp *node;
-	t_envp *export = new_envp;
+	t_envp *export = g_new_envp;
 	while(list->args[i])
 	{
 		if (check_sen(list->args[i]) == 0)
@@ -195,7 +195,7 @@ void ft_export(t_execution *list)
 		else
 		{
 			node = new_element2(list->args[i]);
-			ft_lstadd_back2(&new_envp,node);	
+			ft_lstadd_back2(&g_new_envp,node);	
 			i++;
 		}
 	}
@@ -259,7 +259,7 @@ void ft_unset(t_execution *list)
     int (i) = 1;
     while (list->args[i]) 
     {
-        current = new_envp;
+        current = g_new_envp;
         prev = NULL;
         while (current) 
         {
@@ -267,7 +267,7 @@ void ft_unset(t_execution *list)
                 current->key[ft_strlen(list->args[i])] == '\0') 
             {
                 if (prev == NULL) 
-                    new_envp = current->next;
+                    g_new_envp = current->next;
                 else 
                     prev->next = current->next;
                 free(current->key);
@@ -336,9 +336,9 @@ char	**listToArray()
 	char *tmp;
 	int i = 0;
 	char **envpExecve;
-	size = ft_lstsize_envp(new_envp);
+	size = ft_lstsize_envp(g_new_envp);
 	envpExecve = malloc(sizeof(char *) * (size + 1));
-	t_envp *head = new_envp;
+	t_envp *head = g_new_envp;
 	while(head)
 	{
 		tmp = ft_strjoin(head->key,"=");

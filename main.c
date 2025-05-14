@@ -6,12 +6,12 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 18:49:55 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:16:01 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
-t_envp *new_envp;
+t_envp *g_new_envp;
 
 
 const char *type_to_string(t_type type)
@@ -88,10 +88,10 @@ int check_space(char *input)
 void ft_freeEnvp()
 {
     t_envp *temp;
-    while (new_envp)
+    while (g_new_envp)
     {
-        temp = new_envp;
-        new_envp = new_envp->next;
+        temp = g_new_envp;
+        g_new_envp = g_new_envp->next;
         free(temp->key);
         free(temp->value);
         free(temp);
@@ -110,8 +110,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_token	*tokens = NULL;
 	t_execution	*pre = NULL;
-    new_envp = NULL;
-    new_envp = ft_create_envp(envp);
+    g_new_envp = NULL;
+    g_new_envp = ft_create_envp(envp);
 	while (1)
 	{
         input = readline("minishell $>: ");

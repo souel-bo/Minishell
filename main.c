@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/13 22:07:26 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 22:52:38 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,19 @@ void	print(t_execution *list, t_token *list2)
 	}
 }
 
+void	ft_freeEnvp(void)
+{
+	t_envp	*temp;
+	
+	while (new_envp)
+	{
+		temp = new_envp;
+		new_envp = new_envp->next;
+		free(temp->key);
+		free(temp->value);
+		free(temp);
+	}
+}
 int	check_space(char *input)
 {
 	int	i;
@@ -80,19 +93,6 @@ int	check_space(char *input)
 	if (input[i] == '\0')
 		return (1);
 	return (0);
-}
-void	ft_freeEnvp(void)
-{
-	t_envp	*temp;
-
-	while (new_envp)
-	{
-		temp = new_envp;
-		new_envp = new_envp->next;
-		free(temp->key);
-		free(temp->value);
-		free(temp);
-	}
 }
 int	ft_line_verifier(char *buf)
 {
@@ -226,7 +226,7 @@ char	*read_input(void)
 
 	if (isatty(fileno(stdin)))
 	{
-		return (readline("l9lawi :"));
+		return (readline("sidi shellshell :"));
 	}
 	else
 	{
@@ -257,8 +257,8 @@ int	main(int argc, char **argv, char **envp)
 	new_envp = ft_create_envp(envp);
 	while (1)
 	{
-		// input = read_input();
-		input = readline("minishell $>: ");
+		// input = readline("minishell $>: ");
+		input = read_input();
 		if (!input)
 			exit(g_status()->status);
 		if (check_space(input))

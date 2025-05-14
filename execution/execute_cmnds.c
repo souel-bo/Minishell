@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 21:07:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:17:04 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	cmdWpath(t_execution *list, char **path, int size)
 {
 	(void)path;
 	if (if_builtin(list->args[0]) != 0)
+	{
 		is_builtin(list->args[0], list, size);
+			exit(g_status()->status);
+	}
 	else if (ft_strchr(list->args[0], '/'))
 		scan_cmd(list);
 	else if (is_dir(list->args[0]))

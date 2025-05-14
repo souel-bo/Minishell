@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/09 14:55:37 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 20:17:02 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define LIBFT_H
 
 #include "minishell.h"
+char	*ft_itoa(int n);
 int	ft_strcmp(const char *s1, const char *s2);
 char	*ft_strdup(char *s);
 int ft_atoi(char *str);

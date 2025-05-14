@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 22:05:47 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:45:07 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,30 +101,24 @@ void	ft_unset(t_execution *list)
 
 void	ft_exit(t_execution *input, int size)
 {
-	int	status;
-
-	status = 0;
 	if (size == 1)
-		write(2,"exit",4);
-	if (checkifnum(input->args[1]))
+	{
+		g_status()->status = 0;		
+		write(2,"exit\n",5);
+	}
+	if (checkifnum(input->args[1]) == 0)
 	{
 		print_error("bash: exit: ", input->args[1]);
 		write(2,": numeric argument required\n",28);
 		g_status()->status = 2;
-		exit(2);
 	}
 	else if (input->args[2])
 	{
 		write(2,"bash: exit: too many arguments\n",31);
 		g_status()->status = 1;
-		exit(1);
 	}
 	else if (input->args[1])
-	{
-		status = ft_atoi(input->args[1]);
-		exit(status);
-	}
-	exit(g_status()->status >> 8);
+		g_status()->status = ft_atoi(input->args[1]);
 }
 
 void	ft_pwd(void)

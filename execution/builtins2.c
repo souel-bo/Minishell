@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 21:49:33 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:12:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,44 @@
 
 void	ft_chdir(t_execution *input)
 {
-	if (!input->args[1])
+	if (input->args[2])
+	{
+		print_error(input->args[0],": too many arguments");
+		g_status()->status = 1;
+	}
+	else if (!input->args[1])
 	{
 		if (search_in_env("HOME") == 1)
 		{
 			change_in_env("OLDPWD", getcwd(NULL, 0));
-			chdir(searchAndsave("HOME"));
+			if (chdir(searchAndsave("HOME")))
+			{
+				g_status()->status = 0;
+				return ;				
+			}
 			change_in_env("PWD", getcwd(NULL, 0));
+			g_status()->status = 0;
 		}
 		else
+		{
 			printf("%s\n", "cd: HOME not set");
+			g_status()->status = 1;
+		}
 	}
 	else
 	{
 		change_in_env("OLDPWD", getcwd(NULL, 0));
 		if (chdir(input->args[1]) == -1)
 		{	
+			g_status()->status = 1;
 			print_error("bash: cd: " ,input->args[1]);
 			write(2,":No such file or directory\n",25);
+			return ;
 		}
 		change_in_env("PWD", getcwd(NULL, 0));
+		g_status()->status = 0;
 	}
+	// g_status()->status = 0;
 }
 
 void	ft_echo(t_execution *input)

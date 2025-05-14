@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 15:29:52 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:22:43 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	check_builtin(t_execution *list, int size)
 	stdin_copy = dup(0);
 	if (list->file)
 	{
+		
 		if (ft_redirection(list->file) == 0)
 		{
 			is_builtin(list->args[0], list, size);
@@ -32,6 +33,7 @@ void	check_builtin(t_execution *list, int size)
 	}
 	else
 	{
+
 		is_builtin(list->args[0], list, size);
 		dup2(stdout_copy, 1);
 		dup2(stdin_copy, 0);
@@ -67,18 +69,17 @@ int	checkifnum(char *number)
 
 	j = 0;
 	i = 0;
-	if (!number)
-		exit(g_status()->status >> 8);
+	if ((number[j] == '-') || (number[j] == '+'))
+		j++;
 	while (number[i])
 	{
-		if (number[j] >= 48 && number[j] >= 57)
+		if (number[j] >= 48 && number[j] <= 57)
 			j++;
 		i++;
 	}
 	if (j == i)
 		return (1);
-	else
-		return (0);
+	return 0;
 }
 
 t_envp	*new_element2(char *line)
@@ -122,6 +123,8 @@ t_envp	*new_element2(char *line)
 
 void	is_builtin(char *cmd, t_execution *list, int size)
 {
+	if (list->file)
+		ft_redirection(list->file);
 	if (!ft_strcmp(cmd, "export"))
 		ft_export(list);
 	if (!ft_strcmp(cmd, "unset"))

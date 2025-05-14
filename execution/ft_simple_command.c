@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:06 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 15:27:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:13:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,49 +24,40 @@ int	ft_open(char *file_name, int flag)
 
 int	ft_redirection(t_file *file)
 {
-	int	fd;
+	int	fd = -2;
 
 	while (file)
 	{
-		if (file->infile)
-		{
-			fd = ft_open(file->file_name, O_RDONLY);
-			if (fd == -1)
-			{
-				write(2, file->file_name, ft_strlen(file->file_name));
-				write(2, ": ", 2);
-				write(2, strerror(errno), ft_strlen(strerror(errno)));
-				write(2, "\n", 1);
-				g_status()->status = 1;
-				return (1);
-			}
-			dup2(fd, 0);
-			close(fd);
-		}
 		if (file->outfile)
 		{
 			fd = ft_open(file->file_name, O_CREAT | O_TRUNC | O_WRONLY);
-			if (fd == -1)
+			if (fd < 0)
 			{
-				write(2, file->file_name, ft_strlen(file->file_name));
-				write(2, ": ", 2);
-				write(2, strerror(errno), ft_strlen(strerror(errno)));
-				write(2, "\n", 1);
+				perror(file->file_name);
 				g_status()->status = 1;
 				return (1);
 			}
 			dup2(fd, 1);
 			close(fd);
 		}
+		if (file->infile)
+		{
+			fd = ft_open(file->file_name, O_RDONLY);
+			if (fd < 0)
+			{
+				perror(file->file_name);
+				g_status()->status = 1;
+				return (1);
+			}
+			dup2(fd, 0);
+			close(fd);
+		}
 		if (file->append)
 		{
 			fd = ft_open(file->file_name, O_APPEND | O_CREAT | O_WRONLY);
-			if (fd == -1)
+			if (fd < 0)
 			{
-				write(2, file->file_name, ft_strlen(file->file_name));
-				write(2, ": ", 2);
-				write(2, strerror(errno), ft_strlen(strerror(errno)));
-				write(2, "\n", 1);
+				perror(file->file_name);
 				g_status()->status = 1;
 				return (1);
 			}
@@ -77,7 +68,6 @@ int	ft_redirection(t_file *file)
 	}
 	return (0);
 }
-
 int	ft_isprint(int c)
 {
 	return (c >= 32 && c <= 126);

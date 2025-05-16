@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 16:36:09 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:55:24 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ int	main(int argc, char **argv, char **envp)
 	t_execution	*pre = NULL;
     g_new_envp = NULL;
     g_new_envp = ft_create_envp(envp);
-        signal(SIGINT, handler);
-        signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+        signal(SIGINT, handler);
+        signal(SIGQUIT, SIG_IGN);
         g_status()->flag = 0;
         input = readline("minishell $>: ");
         if (!input)

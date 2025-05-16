@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 06:30:37 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:41:54 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <errno.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -35,7 +46,7 @@ char		*searchAndsave(char *var);
 int			search_in_env(char *var);
 int			change_in_env(char *var, char *buf);
 void		ft_exit(t_execution *input, int size);
-void		ft_redirection(t_file *file);
+int		ft_redirection(t_file *file);
 int			if_builtin(char *cmd);
 void		ft_pwd(void);
 void		ft_unset(t_execution *list);
@@ -59,10 +70,33 @@ void		execute_simple_cmnd(char **path, t_execution *list, int size);
 void		ft_free(char **ptr);
 int			ft_isprint(int c);
 char		**get_path(void);
-void		ft_execution(t_execution *list);
+void		ft_execution(t_execution *list, int size);
 const char	*type_to_string(t_type type);
 t_execution	*pre_execution(t_token *tokens);
 int			handle_heredoc(t_norm *norm, t_file *element);
 void		ft_freeEnvp(void);
 void		print(t_execution *list, t_token *list2);
+void	check_command_type(t_execution *list);
+void check_builtin(t_execution *list, int size);
+void setup_pipes(int pipes[2][2], int i, int size);
+void execute_Cmd(t_execution *list, t_hr hr,int size);
+void	close_previous(int pipes[2][2], int i);
+void	wait_all(pid_t *pids, t_hr hr);
+int	check_sen(char *list);
+void	print_error(char *name, char *error);
+void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size);
+t_envp	*ft_lstlast2(t_envp *lst);
+void	scan_cmd(t_execution *list);
+void handler(int sig);
+void sig_child();
+void	cleanup(pid_t *pid, t_hr hr);
+int	already_in(char *arg);
+int	checkifnum(char *number);
+void	ft_echo(t_execution *input);
+void	ft_chdir(t_execution *input);
+int	is_dir(char *path);
+int	is_valid(t_execution *list, char **path);
+void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,
+		int size);
+int	execute_cmd(t_execution *list, char *cmd);
 #endif

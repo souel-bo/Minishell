@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:10:46 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 06:43:49 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:46:43 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	handle_heredoc(t_norm *norm, t_file *element)
 			if (ft_strlen(here_doc) == ft_strlen(norm->token->token)
 			&& !ft_strncmp(here_doc, norm->token->token,
 				ft_strlen(norm->token->token)))
-		{
+			{
 			free(here_doc);
 			break ;
 		}

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 04:48:50 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:50:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	parse_file(t_norm *norm, int flag)
 		if (norm->ex->infile)
 			close(norm->ex->infile);
 		norm->ex->infile = handle_heredoc(norm, element);
+		printf("%d", norm->ex->infile);
 		ft_lstadd_back_v3(&norm->ex->file, element);
 	}
 }

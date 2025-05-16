@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 12:52:13 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:36:09 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,14 @@ void print(t_execution *list, t_token *list2)
     
     while (list2)
     {
-        if (list2->token[0] == '\0')
+        if (list2->token[0] == '\0' && !list2->expanded)
             printf("a7a\n");
         else
             printf("{%s} %s [%d]\n", type_to_string(list2->type), list2->token, list2->index);
         list2 = list2->next;
     }
     if (list)
-    {
-        
+    {   
         while (list)
         {
                 i = 0;
@@ -60,7 +59,8 @@ void print(t_execution *list, t_token *list2)
                     printf("%s ", list->args[i]);
                     i++;
                 }
-                printf("\n");
+                
+                printf("\n[%d]\n", list->infile);
             if (list->file)
             {
                 t_file *iterate = list->file;
@@ -106,11 +106,23 @@ t_status *g_status()
 void handler(int sig)
 {
     (void)sig;
-    printf("\n");
-    rl_on_new_line();
-    rl_replace_line("", 0);
-    rl_redisplay();
-    g_status()->status = 130;
+    if (g_status()->flag == 0)
+    {
+        printf("\n");                
+        rl_on_new_line();            
+        rl_replace_line("", 0);      
+        rl_redisplay();              
+        g_status()->status = 130;    
+    }
+    else
+        return;
+}
+
+
+void sig_child()
+{
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -122,10 +134,11 @@ int	main(int argc, char **argv, char **envp)
 	t_execution	*pre = NULL;
     g_new_envp = NULL;
     g_new_envp = ft_create_envp(envp);
-	while (1)
-	{
         signal(SIGINT, handler);
         signal(SIGQUIT, SIG_IGN);
+	while (1)
+	{
+        g_status()->flag = 0;
         input = readline("minishell $>: ");
         if (!input)
         {
@@ -133,6 +146,7 @@ int	main(int argc, char **argv, char **envp)
 			exit(1);
         }
 		add_history(input);
+        g_status()->flag = 1;
 		if (check_quotes(input))
 		{
 			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
@@ -149,6 +163,7 @@ int	main(int argc, char **argv, char **envp)
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
 		print(pre, tokens);
+        check_command_type(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

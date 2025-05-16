@@ -15,7 +15,9 @@ LIBFT_SRC = libft/ft_lstaddback.c libft/ft_lstdelone.c libft/ft_lstnew.c libft/f
             libft/ft_putchar_fd.c libft/ft_putstr_fd.c libft/ft_strncmp.c libft/ft_split.c libft/ft_lstsize.c libft/ft_atoi.c \
 			libft/ft_isalpha.c libft/ft_substr.c  libft/alphanum.c libft/ft_itoa.c
 
-EXECUTIN_SRC = execution/ft_simple_command.c execution/ft_execution.c execution/execute_pipes.c execution/builtins.c
+EXECUTIN_SRC = execution/ft_simple_command.c execution/ft_execution.c execution/execute_pipes.c execution/builtins.c execution/builtins2.c \
+			   execution/builtinsUtils.c execution/builtinsUtils2.c execution/controlEnvp.c execution/controlEnvp2.c execution/execute_cmnds.c \
+			   execution/execute_cmnds2.c 
 
 EXECUTION_OBJ = $(EXECUTIN_SRC:.c=.o)
 

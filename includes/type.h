@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 03:08:01 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:07:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_execution
 typedef struct s_status
 {
 	int					status;
+	int                 flag;
 }						t_status;
 
 typedef struct s_envp
@@ -77,6 +78,12 @@ typedef struct s_norm
 	t_token				*tokens;
 	t_execution			*exec_list;
 }						t_norm;
+
+typedef struct s_hr
+{
+	int i;
+	char **path;
+} t_hr;
 
 extern t_envp			*g_new_envp;
 

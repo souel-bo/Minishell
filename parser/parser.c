@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/15 20:18:59 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 06:43:35 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_quotes(char *input)
 	}
 	if (in_single || in_double)
 	{
-		g_status()->status = 130;
+		g_status()->status = 2;
 		return (1);
 	}
 	return (0);

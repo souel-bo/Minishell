@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 04:50:04 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 07:13:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,16 @@ t_status *g_status()
     return &status;
 }
 
+void handler(int sig)
+{
+    (void)sig;
+    printf("\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
+    g_status()->status = 130;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -115,6 +125,8 @@ int	main(int argc, char **argv, char **envp)
     g_new_envp = ft_create_envp(envp);
 	while (1)
 	{
+        signal(SIGINT, handler);
+        signal(SIGQUIT, SIG_IGN);
         input = readline("minishell $>: ");
         if (!input)
         {
@@ -125,6 +137,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_quotes(input))
 		{
 			ft_putstr_fd("minishell: syntax error: unclosed quotes\n", 2);
+            g_status()->status = 2;
             free(input);
 			continue;
 		}

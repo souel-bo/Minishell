@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:10:46 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 04:46:59 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 06:43:49 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	join_value(char *temp, const char *s, int *j);
 int		find_dollar(char *s);
 char	*expand_env(char *key);
 int		is_special(char c);
+
+void handler_here_doc(int i)
+{
+	(void)i;
+	exit(130);
+}
 
 int	handle_heredoc(t_norm *norm, t_file *element)
 {
@@ -40,6 +46,8 @@ int	handle_heredoc(t_norm *norm, t_file *element)
 	{
 		while (1)
 		{
+			signal(SIGINT, handler_here_doc);
+			signal(SIGQUIT, SIG_IGN);
 			here_doc = readline("heredoc-> ");
 			if (!here_doc)
 			{

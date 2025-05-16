@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 09:13:04 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:55:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	check_in(t_token *token)
 		if (token->next)
 		{
 			token = token->next;
-			token->type = FILE_NAME;
+			if (!check_if_operator(token))
+				token->type = FILE_NAME;
 		}
 	}
 	else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
@@ -29,7 +30,8 @@ void	check_in(t_token *token)
 		if (token->next)
 		{
 			token = token->next;
-			token->type = DELIMITER;
+			if (!check_if_operator(token))
+				token->type = DELIMITER;
 		}
 	}
 }
@@ -44,7 +46,8 @@ void	check_operator(t_token *token)
 		if (token->next)
 		{
 			token = token->next;
-			token->type = FILE_NAME;
+			if (!check_if_operator(token))
+				token->type = FILE_NAME;
 		}
 	}
 	else if (!ft_strncmp(token->token, ">", 1))
@@ -53,7 +56,8 @@ void	check_operator(t_token *token)
 		if (token->next)
 		{
 			token = token->next;
-			token->type = FILE_NAME;
+			if (!check_if_operator(token))
+				token->type = FILE_NAME;
 		}
 	}
 	else
@@ -65,15 +69,8 @@ void	check_argument(t_token *iteration)
 	while (iteration != NULL && !check_opperator(iteration->token))
 	{
 		if (!check_if_operator(iteration))
-		{
 			iteration->type = ARGUMENT;
-			iteration = iteration->next;
-		}
-		else
-		{
-			check_operator(iteration);
-			break ;
-		}
+		iteration = iteration->next;
 	}
 }
 
@@ -98,23 +95,32 @@ int	check_if_builtin(t_token *token)
 
 t_token	*lexer(t_token *list)
 {
-	t_token	*iterate;
+	t_token	*iterate = list;
+	int		new_cmd = 1;
 
-	iterate = list;
 	while (iterate != NULL)
 	{
-		if (check_if_builtin(iterate))
+		if (iterate->type != TEST)
+		{
+			iterate = iterate->next;
+			continue;
+		}
+		if (new_cmd && check_if_builtin(iterate))
 		{
 			iterate->type = BUILTIN;
 			check_argument(iterate->next);
+			new_cmd = 0;
 		}
 		else if (check_if_operator(iterate))
 		{
 			check_operator(iterate);
+			if (iterate->type == PIPE)
+				new_cmd = 1;
 		}
-		else if (iterate->type == TEST)
+		else
 		{
 			iterate->type = WORD;
+			new_cmd = 0;
 		}
 		iterate = iterate->next;
 	}

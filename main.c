@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 07:13:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:52:13 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ void print(t_execution *list, t_token *list2)
                 {
                     printf("%s ", list->args[i]);
                     i++;
-                }  
-            printf("heredoc%d\n", list->infile);
+                }
                 printf("\n");
             if (list->file)
             {
@@ -142,11 +141,14 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		tokens = tokenizer(input, tokens);
+        if (parser(tokens))
+        {
+            ft_lstclear(&tokens, free);
+            // free(input);
+        }
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
 		print(pre, tokens);
-		// // printf("%d\n", status);
-		// ft_execution(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

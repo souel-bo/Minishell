@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/16 06:43:35 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 12:53:29 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,45 @@ int	check_quotes(char *input)
 	return (0);
 }
 
-int	parser(char *input)
+int	parser(t_token *tokens)
 {
-	if (input[0] == '|' && input[1] != '|')
+	t_token	*iterate;
+
+	iterate = tokens;
+	while (iterate)
 	{
-		ft_putstr_fd("minishell: parse error near '|'\n", 2);
-		return (1);
+		if (iterate->type == PIPE)
+		{
+			if (!iterate->next || iterate->next->type == PIPE)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
+				g_status()->status = 2;
+				return (1);
+			}
+		}
+		else if (iterate->type == HERE_DOC)
+		{
+			if (!iterate->next || iterate->next->type != DELIMITER)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+				g_status()->status = 2;
+				return (1);
+			}
+		}
+		else if (iterate->type == RED_IN || iterate->type == RED_OUT || iterate->type == APPEND)
+		{
+			if (!iterate->next || iterate->next->type != FILE_NAME)
+			{
+				ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+				g_status()->status = 2;
+				return (1);
+			}
+		}
+		iterate = iterate->next;
 	}
-	printf("test\n");
 	return (0);
 }
+
 
 int	check_parenthis(char *input)
 {

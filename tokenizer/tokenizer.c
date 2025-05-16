@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/12 14:52:30 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 08:31:17 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	handle_operators(char *input, t_token **element, t_token **tokens,
 		int *i)
 {
 	if ((input[*i] == '<' && input[*i + 1] == '<') || (input[*i] == '>'
-			&& input[*i + 1] == '>') || (input[*i] == '|' && input[*i
-				+ 1] == '|') || (input[*i] == '&' && input[*i + 1] == '&'))
+			&& input[*i + 1] == '>'))
 	{
 		*element = new_element(ft_strndup(&input[*i], 2));
 		*i += 2;
@@ -83,8 +82,7 @@ void	norm(char *input, t_token **element, t_token **tokens, int *i)
 		*element = new_element(ft_strndup(&input[j], *i - j));
 		ft_lstadd_back(tokens, *element);
 	}
-	else if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>'
-		|| input[*i] == '&')
+	else if (input[*i] == '|' || input[*i] == '<' || input[*i] == '>')
 		handle_operators(input, element, tokens, i);
 }
 

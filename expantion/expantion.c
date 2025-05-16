@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 21:17:47 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 03:09:12 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,17 +147,17 @@ t_token	*expand_value(t_token *token)
 	char	*s;
 	char	*temp;
 	char *l;
-
 	int i, j, k, n;
+
 	iterate = token;
 	while (iterate)
 	{
-		if (find_dollar(iterate->token))
+		if (find_dollar(iterate->token) && iterate->type != DELIMITER)
 		{
 			iterate->expanded = 1;
 			i = 0;
 			j = 0;
-			temp = malloc(409600);
+			temp = malloc(ALLOC);
 			if (!temp)
 				return (NULL);
 			while (iterate->token[i])
@@ -328,9 +328,9 @@ t_token *join_token(t_token *token)
 		if (new->type == DELIMITER)
 		{
 			if (check_quote(new->token))
-				new->index = 1;
+				new->heredoc = 1;
 			else
-				new->index = 0;
+				new->heredoc = 0;
 		}
 		ft_lstadd_back(&list, new);
 		next = iterate->next;
@@ -343,7 +343,6 @@ t_token *join_token(t_token *token)
 
 t_token	*expantion(t_token *token)
 {
-	// (void)env;
 	token = expand_value(token);
 	token = expand_wildcard(token);
 	token = join_token(token);

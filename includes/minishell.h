@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 21:13:27 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 00:40:41 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include "libft.h"
-
+# define ALLOC 409600
 char		*ft_itoa(int n);
 t_status	*g_status(void);
 int			ft_isdigit(int c);

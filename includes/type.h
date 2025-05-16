@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 21:14:50 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 03:08:01 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_token
 	char				*token;
 	t_type				type;
 	int					index;
+	int heredoc;
 	int					expanded;
 	struct s_token		*next;
 }						t_token;

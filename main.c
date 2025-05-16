@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/14 21:16:01 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/15 21:38:53 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ int	main(int argc, char **argv, char **envp)
 	{
         input = readline("minishell $>: ");
         if (!input)
+        {
+            ft_freeEnvp();
 			exit(1);
+        }
 		add_history(input);
 		if (check_quotes(input))
 		{

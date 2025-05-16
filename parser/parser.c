@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/14 22:45:43 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:18:59 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,18 +123,17 @@ int	count_words(t_token *tokens)
 t_execution	*create_element(t_token *tokens)
 {
 	t_execution	*element;
-	int i;
+	int			i;
 
 	element = malloc(sizeof(t_execution));
 	if (!element)
 		return (NULL);
 	element->args = malloc(sizeof(char *) * (count_words(tokens) + 1));
 	if (!element->args)
-		if (!element->args)
-		{
-			free(element);
-			return (NULL);
-		}
+	{
+		free(element);
+		return (NULL);
+	}
 	i = 0;
 	while (i <= count_words(tokens))
 		element->args[i++] = NULL;

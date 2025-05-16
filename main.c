@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/15 21:38:53 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 04:50:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void print(t_execution *list, t_token *list2)
                 {
                     printf("%s ", list->args[i]);
                     i++;
-                }   
+                }  
+            printf("heredoc%d\n", list->infile);
                 printf("\n");
             if (list->file)
             {

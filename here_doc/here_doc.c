@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:10:46 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 03:37:12 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 04:46:59 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	handle_heredoc(t_norm *norm, t_file *element)
 				close(fd);
 				exit(0);
 			}
-			// Only expand variables if the token index is 0
 			if (ft_strlen(here_doc) == ft_strlen(norm->token->token)
 			&& !ft_strncmp(here_doc, norm->token->token,
 				ft_strlen(norm->token->token)))
@@ -78,7 +77,7 @@ int	handle_heredoc(t_norm *norm, t_file *element)
 				j = 0;
 				temp = malloc(ALLOC);
 				if (!temp)
-					exit(1); // or handle malloc error
+					exit(1);
 				while (here_doc[i])
 				{
 					if (here_doc[i] == '$')

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/14 21:22:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:43:41 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_builtin(t_execution *list, int size)
 	if (list->file)
 	{
 		
-		if (ft_redirection(list->file) == 0)
+		if (ft_redirection(list) == 0)
 		{
 			is_builtin(list->args[0], list, size);
 			dup2(stdout_copy, 1);
@@ -124,7 +124,7 @@ t_envp	*new_element2(char *line)
 void	is_builtin(char *cmd, t_execution *list, int size)
 {
 	if (list->file)
-		ft_redirection(list->file);
+		ft_redirection(list);
 	if (!ft_strcmp(cmd, "export"))
 		ft_export(list);
 	if (!ft_strcmp(cmd, "unset"))

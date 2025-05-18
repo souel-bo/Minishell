@@ -5,6 +5,7 @@
         "signal.h": "c",
         "tokenizer.h": "c",
         "libft.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "a": "c"
     }
 }

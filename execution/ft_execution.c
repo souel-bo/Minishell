@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execution.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 16:31:03 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/17 14:33:12 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	no_args(t_execution *list)
 
 	stdout_copy = dup(STDOUT_FILENO);
 	stdin_copy = dup(STDIN_FILENO);
-	ft_redirection(list->file);
+	ft_redirection(list);
 	dup2(stdout_copy, 1);
 	dup2(stdin_copy, 0);
 }

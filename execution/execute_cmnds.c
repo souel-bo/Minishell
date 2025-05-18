@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmnds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 16:30:52 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:19:06 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	execute_cmd(t_execution *list, char *cmd)
 {
-	if (ft_redirection(list->file) == 1)
+	if (ft_redirection(list) == 1)
 		exit(1);
 	else
 		execve(cmd, list->args, listToArray());
@@ -30,7 +30,8 @@ void	cmdWpath(t_execution *list, char **path, int size)
 	if (if_builtin(list->args[0]) != 0)
 	{
 		is_builtin(list->args[0], list, size);
-			exit(g_status()->status);
+		ft_freeEnvp();
+		exit(g_status()->status);
 	}
 	else if (ft_strchr(list->args[0], '/'))
 		scan_cmd(list);
@@ -40,10 +41,11 @@ void	cmdWpath(t_execution *list, char **path, int size)
 		g_status()->status = 127;
 		exit(127);
 	}
-	else if (is_valid(list, path) == 1)
+	else if (is_valid(list) == 1)
 	{
 		g_status()->status = 127;
 		print_error(list->args[0], ": command not found");
+		ft_freeEnvp();
 		exit(127);
 	}
 }
@@ -56,25 +58,28 @@ void	execute_Cmd(t_execution *list, t_hr hr, int size)
 		scan_cmd(list);
 }
 
-
-
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
+	if (list->args[0] == NULL)
+	{
+		ft_redirection(list);
+		return ;
+	}
 	if (size == 1)
 		execute_Cmd(list, hr, size);
 	else
 		execute_pipeline(pipes, list, hr, size);
 }
 
-int	is_valid(t_execution *list, char **path)
+int	is_valid(t_execution *list)
 {
 	int		i;
 	char	*tmp;
 	char	*full_cmd;
 	char	**paths;
-
 	i = 0;
-	(void)path;
+	if ( (list->args[0]== NULL) || (list->args[0][0] == '\0'))
+		return 1;
 	paths = get_path();
 	while (paths[i])
 	{

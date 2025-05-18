@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 16:41:54 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/17 16:12:48 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@
 # include <signal.h>
 # include "libft.h"
 # define ALLOC 409600
+
+int	ft_open(char *file_name, int flag);
 char		*ft_itoa(int n);
 t_status	*g_status(void);
 int			ft_isdigit(int c);
@@ -46,7 +48,7 @@ char		*searchAndsave(char *var);
 int			search_in_env(char *var);
 int			change_in_env(char *var, char *buf);
 void		ft_exit(t_execution *input, int size);
-int		ft_redirection(t_file *file);
+int		ft_redirection(t_execution *list);
 int			if_builtin(char *cmd);
 void		ft_pwd(void);
 void		ft_unset(t_execution *list);
@@ -78,7 +80,7 @@ void		ft_freeEnvp(void);
 void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);
 void check_builtin(t_execution *list, int size);
-void setup_pipes(int pipes[2][2], int i, int size);
+void setup_pipes(int pipes[2][2], int i, int size,t_execution *list);
 void execute_Cmd(t_execution *list, t_hr hr,int size);
 void	close_previous(int pipes[2][2], int i);
 void	wait_all(pid_t *pids, t_hr hr);
@@ -95,7 +97,7 @@ int	checkifnum(char *number);
 void	ft_echo(t_execution *input);
 void	ft_chdir(t_execution *input);
 int	is_dir(char *path);
-int	is_valid(t_execution *list, char **path);
+int	is_valid(t_execution *list);
 void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,
 		int size);
 int	execute_cmd(t_execution *list, char *cmd);

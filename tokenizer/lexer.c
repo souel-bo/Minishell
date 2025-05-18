@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 12:55:58 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:04:45 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	check_if_builtin(t_token *token)
 
 t_token	*lexer(t_token *list)
 {
-	t_token	*iterate = list;
 	int		new_cmd = 1;
+	t_token	*iterate = list;
 
 	while (iterate != NULL)
 	{

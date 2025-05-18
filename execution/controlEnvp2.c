@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controlEnvp2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:47 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 16:06:33 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:13:11 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ t_envp	*ft_create_envp(char **envp)
 		ft_lstadd_back2(&head, node);
 		i++;
 	}
-	
 	return (head);
 }
 void	ft_lstadd_back2(t_envp **lst, t_envp *new)

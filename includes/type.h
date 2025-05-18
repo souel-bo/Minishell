@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 16:07:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/17 15:17:21 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_list
 	int					infile;
 	int					outfile;
 	int					append;
-	int					heredoc;
+	char				*heredoc;
 	struct s_list		*next;
 }						t_file;
 

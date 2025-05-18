@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/17 15:19:06 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:06:18 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "../includes/tokenizer.h"
 
 int	execute_cmd(t_execution *list, char *cmd)
-{
-	if (ft_redirection(list) == 1)
+{	
+	if (ft_redirection(list->file) == 1)
 		exit(1);
 	else
 		execve(cmd, list->args, listToArray());
@@ -60,12 +60,12 @@ void	execute_Cmd(t_execution *list, t_hr hr, int size)
 
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
-	if (list->args[0] == NULL)
+	if (list->args[hr.i] == NULL && list->file != NULL)
 	{
-		ft_redirection(list);
-		return ;
+		no_args(list);
+		exit(0);
 	}
-	if (size == 1)
+	else if (size == 1)
 		execute_Cmd(list, hr, size);
 	else
 		execute_pipeline(pipes, list, hr, size);

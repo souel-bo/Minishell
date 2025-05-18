@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/17 16:16:46 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:44:16 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,
-		int size)
+void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,int size)
 {
-	(void)size;
 	setup_pipes(pipes, helper.i, size,list);
 	execute_Cmd(list, helper, size);
+	
 	exit(1);
 }
 
@@ -30,6 +29,7 @@ void	setup_pipes(int pipes[2][2], int i, int size,t_execution *list)
 	{
 		fd = ft_open("/tmp/minishell",O_RDWR);
 		dup2(fd,STDIN_FILENO);
+		close(fd);
 	}
 	else if (i > 0)
 		dup2(pipes[(i + 1) % 2][0], STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/17 16:12:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:16:48 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@
 # include <unistd.h>
 # include <signal.h>
 # include "libft.h"
+# include "header.h"
 # define ALLOC 409600
 
+void	no_args(t_execution *list);
 int	ft_open(char *file_name, int flag);
 char		*ft_itoa(int n);
 t_status	*g_status(void);
@@ -48,7 +50,7 @@ char		*searchAndsave(char *var);
 int			search_in_env(char *var);
 int			change_in_env(char *var, char *buf);
 void		ft_exit(t_execution *input, int size);
-int		ft_redirection(t_execution *list);
+int		ft_redirection(t_file *file);
 int			if_builtin(char *cmd);
 void		ft_pwd(void);
 void		ft_unset(t_execution *list);

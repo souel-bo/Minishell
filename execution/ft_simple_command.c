@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:06 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/17 16:14:09 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:08:51 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,45 +23,37 @@ int	ft_open(char *file_name, int flag)
 	{
 		perror(file_name);
 		g_status()->status = 1;
-		return (-2);
+		return (1);
 	}
-	return (fd);
+	dup2(fd, 1);
+	close(fd);
+	return 0;
 }
 
-int	ft_redirection(t_execution *file)
+int	ft_redirection(t_file *file)
 {
-	int	fd = -2;
-
-	while (file->file)
+	int	check = -1;
+	while (file)
 	{
-		if (file->file->outfile)
+		if (file->outfile)
 		{
-			fd = ft_open(file->file->file_name, O_CREAT | O_TRUNC | O_WRONLY);
-			if (fd != -2)
-			{
-				dup2(fd, 1);
-				close(fd);
-			}
+			check = ft_open(file->file_name, O_CREAT | O_TRUNC | O_WRONLY);
+			if (check != 0)
+				return 1;
 		}
-		if (file->file->infile)
+		if (file->infile)
 		{
-			fd = ft_open(file->file->file_name, O_RDONLY);
-			if (fd != -2)
-			{
-				dup2(fd, 0);
-				close(fd);
-			}
+			check = ft_open(file->file_name, O_RDONLY);
+			if (check != 0)
+				return 1;
 		}
-		if (file->file->append)
+		if (file->append)
 		{
-			fd = ft_open(file->file->file_name, O_APPEND | O_CREAT | O_WRONLY);
-			if (fd != -2)
-			{
-				dup2(fd, 1);
-				close(fd);
-			}
+			check = ft_open(file->file_name, O_CREAT | O_APPEND | O_WRONLY);
+			if (check != 0)
+				return 1;
 		}
-		file->file = file->file->next;
+		file = file->next;
 	}
 	return (0);
 }

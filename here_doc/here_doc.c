@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:10:46 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/17 14:56:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:47:54 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	handle_heredoc(t_norm *norm, t_file *element)
 		{
 			signal(SIGINT, handler_here_doc);
 			signal(SIGQUIT, SIG_IGN);
-			here_doc = readline("heredoc-> ");
+			// here_doc = readline("heredoc-> ");
+				here_doc = read_input();
 			if (!here_doc)
 			{
 				ft_putstr_fd("minishell: warning: here-document at line 1 delimited by end-of-file (wanted `",

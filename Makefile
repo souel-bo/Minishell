@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc -g3 #-fsanitize=address 
+CC = cc -ggdb #-fsanitize=address 
 
 # CFLAGS = -Wall -Wextra -Werror -ggdb
 

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/17 14:33:12 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:38:38 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,28 @@ void	print_error(char *name, char *error)
 	ft_putstr_fd(error, 2);
 	ft_putchar_fd('\n', 2);
 }
-
+// void execute_single(t_execution *list)
+// {
+// 	char **path = searchAndsave("PATH");
+// 	if (search_in_env("PATH"))
+// 		cmdWpath(list, path);
+// 	else
+// 		scan_cmd(list);
+// }
 void	check_command_type(t_execution *list)
 {
 	int	size;
-
 	size = ft_lstsize(list);
 	ft_execution(list, size);
 }
 
 void	no_args(t_execution *list)
 {
-	int	stdout_copy;
-	int	stdin_copy;
-
-	stdout_copy = dup(STDOUT_FILENO);
-	stdin_copy = dup(STDIN_FILENO);
-	ft_redirection(list);
-	dup2(stdout_copy, 1);
-	dup2(stdin_copy, 0);
+	pid_t pid;
+	pid = fork();
+	if (pid == 0)
+		exit(ft_redirection(list->file));
+	waitpid(pid,&g_status()->status,0);
 }
 
 void	ft_execution(t_execution *list, int size)
@@ -60,9 +63,7 @@ void	ft_execution(t_execution *list, int size)
 	pid = malloc(sizeof(pid_t) * size);
 	while (hr.i < size)
 	{
-		if (list->args[hr.i] == NULL && list->file != NULL)
-			no_args(list);
-		else if (if_builtin(list->args[0]) != 0 && size == 1)
+		if (if_builtin(list->args[0]) != 0 && size == 1)
 		{
 			check_builtin(list, size);
 			break ;

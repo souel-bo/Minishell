@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 17:38:31 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:05:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	read_here_doc(int fd, char *delimiter)
 			ft_putstr_fd(input, fd);
 			ft_putchar_fd('\n', fd);
 		}
+		g_status()->status = 0;
 		exit(g_status()->status);
 	}
 	else

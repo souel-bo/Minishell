@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controlEnvp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:41 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 14:38:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:20:46 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*searchAndsave(char *var)
 {
 	t_envp	*tmp;
 
-	tmp = new_envp;
+	tmp = g_new_envp;
 	while (tmp)
 	{
 		if (strncmp(var, tmp->key, ft_strlen(var)) == 0)
@@ -32,7 +32,7 @@ int	search_in_env(char *var)
 {
 	t_envp	*tmp;
 
-	tmp = new_envp;
+	tmp = g_new_envp;
 	while (tmp)
 	{
 		if (strncmp(var, tmp->key, ft_strlen(var)) == 0)
@@ -45,7 +45,7 @@ int	change_in_env(char *var, char *buf)
 {
 	t_envp	*tmp;
 
-	tmp = new_envp;
+	tmp = g_new_envp;
 	while (tmp)
 	{
 		if (strncmp(var, tmp->key, ft_strlen(var)) == 0)

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/14 21:22:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:07:49 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ t_envp	*new_element2(char *line)
 
 void	is_builtin(char *cmd, t_execution *list, int size)
 {
-	if (list->file)
-		ft_redirection(list->file);
 	if (!ft_strcmp(cmd, "export"))
 		ft_export(list);
 	if (!ft_strcmp(cmd, "unset"))

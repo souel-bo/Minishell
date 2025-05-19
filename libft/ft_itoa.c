@@ -1,44 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/11 13:25:40 by souel-bo          #+#    #+#             */
+/*   Updated: 2025/05/11 13:40:41 by souel-bo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/libft.h"
 
-static int	ft_count_len(int n)
+static int	lenght(long long n)
 {
-	size_t	len;
+	int	counter;
 
-	len = 0;
-	if (n <= 0)
-		len++;
-	while (n != 0)
+	counter = 0;
+	if (n == 0)
+		counter = 1;
+	if (n < 0)
+	{
+		counter = 1;
+		n = -n;
+	}
+	while (n > 0)
 	{
 		n /= 10;
-		len++;
+		counter++;
 	}
-	return (len);
+	return (counter);
 }
 
 char	*ft_itoa(int n)
 {
-	int			len;
-	long int	nb;
-	char		*str;
+	int			size_allocation;
+	char		*alloc;
+	int			i;
+	long long	j;
 
-	nb = n;
-	len = ft_count_len(n);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
+	j = (long long)n;
+	size_allocation = lenght(j);
+	alloc = (char *)malloc((sizeof(char) * (size_allocation + 1)));
+	if (!alloc)
 		return (NULL);
-	str[len--] = '\0';
-	if (nb < 0)
+	if (j < 0)
 	{
-		str[0] = '-';
-		nb *= -1;
+		alloc[0] = '-';
+		j = -j;
 	}
-	if (nb == 0)
-		str[0] = '0';
-	while (nb > 0)
+	if (j == 0)
+		alloc[0] = '0';
+	i = size_allocation - 1;
+	while (j != 0)
 	{
-		str[len] = (nb % 10) + '0';
-		nb /= 10;
-		len--;
+		alloc[i--] = j % 10 + '0';
+		j /= 10;
 	}
-	return (str);
+	alloc[size_allocation] = '\0';
+	return (alloc);
 }

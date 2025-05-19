@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/14 18:45:07 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:19:24 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_env(void)
 {
 	t_envp	*tmp;
 
-	tmp = new_envp;
+	tmp = g_new_envp;
 	while (tmp)
 	{
 		if (tmp->key && tmp->value != NULL)
@@ -34,7 +34,7 @@ void	ft_export(t_execution *list)
 	t_envp	*export;
 
 	i = 1;
-	export = new_envp;
+	export = g_new_envp;
 	while (list->args[i])
 	{
 		if (check_sen(list->args[i]) == 0)
@@ -49,7 +49,7 @@ void	ft_export(t_execution *list)
 		else
 		{
 			node = new_element2(list->args[i]);
-			ft_lstadd_back2(&new_envp, node);
+			ft_lstadd_back2(&g_new_envp, node);
 			i++;
 		}
 	}
@@ -75,7 +75,7 @@ void	ft_unset(t_execution *list)
 	int(i) = 1;
 	while (list->args[i])
 	{
-		current = new_envp;
+		current = g_new_envp;
 		prev = NULL;
 		while (current)
 		{
@@ -84,7 +84,7 @@ void	ft_unset(t_execution *list)
 				&& current->key[ft_strlen(list->args[i])] == '\0')
 			{
 				if (prev == NULL)
-					new_envp = current->next;
+					g_new_envp = current->next;
 				else
 					prev->next = current->next;
 				free(current->key);
@@ -106,7 +106,7 @@ void	ft_exit(t_execution *input, int size)
 		g_status()->status = 0;		
 		write(2,"exit\n",5);
 	}
-	if (checkifnum(input->args[1]) == 0)
+	if (input->args[1] && checkifnum(input->args[1]) == 0)
 	{
 		print_error("bash: exit: ", input->args[1]);
 		write(2,": numeric argument required\n",28);
@@ -119,6 +119,8 @@ void	ft_exit(t_execution *input, int size)
 	}
 	else if (input->args[1])
 		g_status()->status = ft_atoi(input->args[1]);
+	else
+		exit(g_status()->status);
 }
 
 void	ft_pwd(void)

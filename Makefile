@@ -1,12 +1,12 @@
 NAME = minishell
 
-CC = cc #-fsanitize=address -g3
+CC = cc -ggdb #-fsanitize=address 
 
-CFLAGS = -Wall -Wextra -Werror
+# CFLAGS = -Wall -Wextra -Werror -ggdb
 
 MINISHELL_SRC = main.c
 
-TOKENIZER = tokenizer/tokenizer.c parser/parser.c tokenizer/lexer.c
+TOKENIZER = tokenizer/tokenizer.c parser/parser.c parser/parser_utils.c parser/pre_execution.c tokenizer/lexer.c tokenizer/tokenizer_utils.c here_doc/here_doc.c
 
 EXPANTION = expantion/expantion.c
 
@@ -32,10 +32,10 @@ TOKENIZER_OBJ = $(TOKENIZER:.c=.o)
 all: $(NAME)
 
 $(NAME):	$(MINISHELL_OBJ)	$(LIBFT_OBJ)	$(TOKENIZER_OBJ)	$(EXECUTION_OBJ) $(EXPANTION_OBJ)
-	$(CC)	$(CFLAGS)	$^	-lreadline	-o	$(NAME)
+	$(CC)	$(CFLAGS)	$^	-lreadline 	-o	$(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c -I./includes $< -o $@
 
 clean:
 	rm -rf $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ) $(EXPANTION_OBJ)

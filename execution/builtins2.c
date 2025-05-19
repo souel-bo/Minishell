@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/14 18:12:56 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:33:05 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,5 @@ void	ft_echo(t_execution *input)
 	}
 	if (flag)
 		ft_putchar_fd('\n', 1);
+	g_status()->status = 0;
 }

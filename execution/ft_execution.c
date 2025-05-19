@@ -6,13 +6,13 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/14 16:31:31 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:57:24 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-#include "../includes/minishell.h"
-#include "../includes/tokenizer.h"
+#include "libft.h"
+#include "minishell.h"
+#include "tokenizer.h"
 
 int	is_dir(char *path)
 {
@@ -33,21 +33,17 @@ void	print_error(char *name, char *error)
 void	check_command_type(t_execution *list)
 {
 	int	size;
-
 	size = ft_lstsize(list);
 	ft_execution(list, size);
 }
 
 void	no_args(t_execution *list)
 {
-	int	stdout_copy;
-	int	stdin_copy;
-
-	stdout_copy = dup(STDOUT_FILENO);
-	stdin_copy = dup(STDIN_FILENO);
-	ft_redirection(list->file);
-	dup2(stdout_copy, 1);
-	dup2(stdin_copy, 0);
+	pid_t pid;
+	pid = fork();
+	if (pid == 0)
+		exit(ft_redirection(list->file));
+	waitpid(pid,&g_status()->status,0);
 }
 
 void	ft_execution(t_execution *list, int size)
@@ -60,9 +56,7 @@ void	ft_execution(t_execution *list, int size)
 	pid = malloc(sizeof(pid_t) * size);
 	while (hr.i < size)
 	{
-		if (list->args[hr.i] == NULL && list->file != NULL)
-			no_args(list);
-		else if (if_builtin(list->args[0]) != 0 && size == 1)
+		if (if_builtin(list->args[0]) != 0 && size == 1)
 		{
 			check_builtin(list, size);
 			break ;
@@ -71,16 +65,13 @@ void	ft_execution(t_execution *list, int size)
 			pipe(pipes[hr.i % 2]);
 		pid[hr.i] = fork();
 		if (pid[hr.i] == 0)
+		{
+			sig_child();
 			execute_commands(list, hr, pipes, size);
+		}
 		close_previous(pipes, hr.i);
 		hr.i++;
 		list = list->next;
 	}
 	cleanup(pid, hr);
 }
-/*
-yaaitmou@e1r7p2:~/Desktop/MINI$ echo 'touch "
-"' | ./minishell 
-minishell: syntax error: unclosed quotes
-minishell: syntax error: unclosed quotes
-*/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtinsUtils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 15:31:03 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:20:26 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	already_in(char *arg)
 	int		len_key;
 	int		append;
 
-	tmp = new_envp;
+	tmp = g_new_envp;
 	append = 0;
 	len_key = CountLenKey(arg);
 	if (arg[len_key] == '+' && arg[len_key + 1] == '=')

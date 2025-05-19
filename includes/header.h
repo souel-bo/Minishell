@@ -20,7 +20,13 @@ typedef struct s_gnl
 	char	*str;
 	char	*line;
 }			t_gnl;
-
+int	ft_line_verifier(char *buf);
+char	*my_ft_strjoin(char const *s1, char const *s2);
+char	*ft_read(int fd, char *buf);
+char	*ft_saver(char **str);
+char	*line_extracter(char *str);
+char	*get_next_line(int fd);
+char	*read_input(void);
 char		*get_next_line(int fd);
 int			ft_line_verifier(char *buf);
 char		*my_ft_strjoin(char const *s1, char const *s2);

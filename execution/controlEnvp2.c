@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:47 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/13 14:38:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/16 22:13:11 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ char	**listToArray(void)
 	t_envp	*head;
 
 	i = 0;
-	size = ft_lstsize_envp(new_envp);
+	size = ft_lstsize_envp(g_new_envp);
 	envpExecve = malloc(sizeof(char *) * (size + 1));
-	head = new_envp;
+	head = g_new_envp;
 	while (head)
 	{
 		tmp = ft_strjoin(head->key, "=");

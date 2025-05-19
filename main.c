@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/18 21:07:54 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:34:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,8 +282,8 @@ int	main(int argc, char **argv, char **envp)
         signal(SIGINT, handler);
         signal(SIGQUIT, SIG_IGN);
         g_status()->flag = 0;
-        // input = readline("minishell $>: ");
-        input = read_input();
+        input = readline("minishell $>: ");
+        // input = read_input();
         if (!input)
         {
             if (isatty(STDIN_FILENO))
@@ -306,6 +306,13 @@ int	main(int argc, char **argv, char **envp)
             ft_lstclear(&tokens, free);
             // free(input);
         }
+		tokens = handle_heredoc(tokens);
+		if (!tokens)
+		{
+			ft_lstclear(&tokens, free);
+            free(input);
+			continue;
+		}
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
 		// print(pre, tokens);

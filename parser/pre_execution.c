@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 22:07:17 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 11:44:41 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ void	parse_file(t_norm *norm, int flag)
 		init_and_add_file(norm, &element, RED_OUT);
 	else if (flag == APPEND)
 		init_and_add_file(norm, &element, APPEND);
-	else if (flag == HERE_DOC)
-	{
-		element = create_element_file(NULL);
-		if (norm->ex->infile)
-			close(norm->ex->infile);
-		norm->ex->infile = handle_heredoc(norm, element);
-		// printf("%d", norm->ex->infile);
-		ft_lstadd_back_v3(&norm->ex->file, element);
-	}
 }
 
 t_token	*handle_redirection(t_execution *exec, t_token *iterate,
@@ -78,8 +69,7 @@ t_token	*copy_elements(t_execution *exec, t_token *iterate, t_token *tokens,
 	{
 		if (iterate->type == PIPE)
 			break ;
-		if (iterate->type == RED_IN || iterate->type == RED_OUT
-			|| iterate->type == HERE_DOC || iterate->type == APPEND)
+		if (iterate->type == RED_IN || iterate->type == RED_OUT || iterate->type == APPEND)
 		{
 			iterate = handle_redirection(exec, iterate, tokens, exec_list);
 			continue ;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/17 15:17:21 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 12:52:22 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_status
 {
 	int					status;
 	int                 flag;
+	int 				interuppeted;
 }						t_status;
 
 typedef struct s_envp
@@ -68,6 +69,7 @@ typedef struct s_envp
 	char				*key;
 	char				*value;
 	int					status;
+	int        			flag;
 	struct s_envp		*next;
 }						t_envp;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/18 20:16:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 12:22:44 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <signal.h>
+# include "here_doc.h"
 # include "libft.h"
 # include "header.h"
 # define ALLOC 409600
@@ -77,7 +78,6 @@ char		**get_path(void);
 void		ft_execution(t_execution *list, int size);
 const char	*type_to_string(t_type type);
 t_execution	*pre_execution(t_token *tokens);
-int			handle_heredoc(t_norm *norm, t_file *element);
 void		ft_freeEnvp(void);
 void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);

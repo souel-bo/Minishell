@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 19:05:00 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:03:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ t_token	*handle_heredoc(t_token *tokens)
                 return NULL;
             free(iterate->token);
             iterate->token = ft_strndup(file_nm, ft_strlen(file_nm));
-            close(fd);
+            iterate->type = FILE_NAME;
+			close(fd);
 		}
         else {
             if (iterate && iterate->next)

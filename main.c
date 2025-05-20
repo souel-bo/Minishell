@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 17:34:04 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:57:57 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void print(t_execution *list, t_token *list2)
     
                 while (iterate)
                 { 
-                    // printf("[%s] [%d] [%d] [%d] {%d}\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append, iterate->heredoc);
+                    printf("[%s] [%d] [%d] [%d] \n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
                     iterate = iterate->next;
                 }
             }
@@ -315,8 +315,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		// print(pre, tokens);
-        check_command_type(pre);
+		print(pre, tokens);
+        // check_command_type(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/18 21:42:04 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 20:06:02 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ t_status *g_status()
 
 void handler(int sig)
 {
+	
     (void)sig;
     if (g_status()->flag == 0)
     {
@@ -306,6 +307,13 @@ int	main(int argc, char **argv, char **envp)
             ft_lstclear(&tokens, free);
             // free(input);
         }
+		tokens = handle_heredoc(tokens);
+		if (!tokens)
+		{
+			ft_lstclear(&tokens, free);
+            free(input);
+			continue;
+		}
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
 		// print(pre, tokens);

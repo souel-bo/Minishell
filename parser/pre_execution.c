@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 16:04:45 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:18:13 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ void	parse_file(t_norm *norm, int flag)
 		init_and_add_file(norm, &element, RED_OUT);
 	else if (flag == APPEND)
 		init_and_add_file(norm, &element, APPEND);
-	else if (flag == HERE_DOC)
-	{
-		element = create_element_file(NULL);
-		if (norm->ex->infile)
-			close(norm->ex->infile);
-		norm->ex->infile = handle_heredoc(norm, element);
-		// printf("%d", norm->ex->infile);
-		ft_lstadd_back_v3(&norm->ex->file, element);
-	}
 }
 
 t_token	*handle_redirection(t_execution *exec, t_token *iterate,

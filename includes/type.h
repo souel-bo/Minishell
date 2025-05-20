@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/17 15:17:21 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:14:28 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_execution
 
 typedef struct s_status
 {
+	int 				interuppeted;
 	int					status;
 	int                 flag;
 }						t_status;

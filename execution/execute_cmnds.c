@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/19 15:46:23 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:48:36 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,13 @@
 
 int	execute_cmd(t_execution *list, char *cmd)
 {	
-	int fd;
-	fprintf(stderr,"%s\n",cmd);
-	fprintf(stderr,"----->%d\n",list->infile);
-	if (list->infile > 0)
-	{
-		fprintf(stderr,"hana\n");
-		fd = ft_open("/tmp/minishell",O_RDWR);
-		fprintf(stderr,"%d\n",fd);
-		dup2(fd,0);
-		close(fd);
-	}
-	if (ft_redirection(list->file) == 1)
-	{
-		printf("hana\n");
-		exit(1);
-	}
 	if (list->args[0] == NULL && list->file != NULL)
 	{
 		no_args(list);
 		exit(0);
 	}
+	if (ft_redirection(list->file) == 1)
+		exit(1);
 	else
 		execve(cmd, list->args, listToArray());
 	free(cmd);
@@ -80,14 +66,17 @@ void	execute_Cmd(t_execution *list, t_hr hr, int size)
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	if (list->args[hr.i] == NULL && list->file != NULL)
-	{
 		no_args(list);
-		exit(0);
-	}
-	else if (size == 1)
+	if (size == 1 && list->file == NULL)
+	{
 		execute_Cmd(list, hr, size);
-	else
+	}
+	else if (size > 1 && list->args[0])
+	{	
 		execute_pipeline(pipes, list, hr, size);
+	}
+	else
+		exit(g_status()->status);
 }
 
 int	is_valid(t_execution *list)

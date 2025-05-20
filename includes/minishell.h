@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 19:17:20 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:24:43 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include <signal.h>
 # include "here_doc.h"
 # include "libft.h"
+#include <limits.h>
 # include "header.h"
 # define ALLOC 409600
 

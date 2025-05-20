@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/20 20:56:05 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:28:15 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,7 +316,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		print(pre, tokens);
+		// print(pre, tokens);
         check_command_type(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/19 15:19:24 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:27:44 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_unset(t_execution *list)
 
 void	ft_exit(t_execution *input, int size)
 {
+	int check = 0;
 	if (size == 1)
 	{
 		g_status()->status = 0;		
@@ -118,7 +119,15 @@ void	ft_exit(t_execution *input, int size)
 		g_status()->status = 1;
 	}
 	else if (input->args[1])
-		g_status()->status = ft_atoi(input->args[1]);
+	{
+		check =	ft_atoi(input->args[1]);
+		if (check == -1)
+		{
+			print_error("bash: exit: ", input->args[1]);
+			write(2,": numeric argument required\n",28);
+		}
+		g_status()->status = check; 
+	}
 	else
 		exit(g_status()->status);
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:21 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 21:08:27 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,10 @@ void	check_command_type(t_execution *list)
 	ft_execution(list, size);
 }
 
-void	no_args(t_execution *list)
-{
-	pid_t pid;
-	pid = fork();
-	if (pid == 0)
-		exit(ft_redirection(list->file));
-	waitpid(pid,&g_status()->status,0);
-}
+// void	no_args(t_execution *list)
+// {
+// 	return(ft_redirection(list->file));
+// }
 
 void	ft_execution(t_execution *list, int size)
 {
@@ -53,7 +49,7 @@ void	ft_execution(t_execution *list, int size)
 	pid_t	*pid;
 
 	hr.i = 0;
-	pid = malloc(sizeof(pid_t) * size - 1);
+	pid = malloc(sizeof(pid_t) * size);
 	while (hr.i < size)
 	{
 		if (if_builtin(list->args[0]) != 0 && size == 1)

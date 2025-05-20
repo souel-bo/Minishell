@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 15:48:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:12:00 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 	{
 		execute_Cmd(list, hr, size);
 	}
-	else if (size > 1 && list->args[0])
+	else if (list->args[0])
 	{	
 		execute_pipeline(pipes, list, hr, size);
 	}

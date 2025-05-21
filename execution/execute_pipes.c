@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 21:29:59 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:41:17 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,int size)
+void	execute_pipeline(int pipes[2][2], t_execution *list,
+	t_hr helper, int size)
 {
-	setup_pipes(pipes, helper.i, size,list);
+	setup_pipes(pipes, helper.i, size, list);
 	int check = 1;
 	if (list->args[0] == NULL && list->file->file_name != NULL)
 	{
@@ -25,7 +26,7 @@ void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,int size)
 	}
 	if (ft_redirection(list->file) == 1)
 		exit(1);
-	execute_Cmd(list, helper, size);
+	execute_cmds(list, helper, size);
 	exit(1);
 }
 

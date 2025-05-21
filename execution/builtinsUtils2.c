@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtinsUtils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 15:20:26 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:40:23 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	already_in(char *arg)
 	key = ft_strndup(arg, len_key);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, key, len_key) == 0 
-			&& tmp->key[len_key] == '\0') 
+		if (ft_strncmp(tmp->key, key, len_key) == 0
+			&& tmp->key[len_key] == '\0')
 		{
 			if (append)
 				new_value = ft_strjoin(tmp->value, arg + len_key + 2);
@@ -47,6 +47,7 @@ int	already_in(char *arg)
 	free(key);
 	return (0);
 }
+
 int	if_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "export"))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/20 21:24:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:30:23 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # include "header.h"
 # define ALLOC 409600
 
+void	cmdwithpath(t_execution *list, char **path, int size);
 int	checkifnum(char *number);
 int	ft_open(char *file_name, int flag);
 char		*ft_itoa(int n);
@@ -88,7 +89,7 @@ void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);
 void check_builtin(t_execution *list, int size);
 void setup_pipes(int pipes[2][2], int i, int size,t_execution *list);
-void execute_Cmd(t_execution *list, t_hr hr,int size);
+void execute_cmds(t_execution *list, t_hr hr,int size);
 void	close_previous(int pipes[2][2], int i);
 void	wait_all(pid_t *pids, t_hr hr);
 int	check_sen(char *list);

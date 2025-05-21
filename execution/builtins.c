@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 21:27:44 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 03:39:13 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void	ft_exit(t_execution *input, int size)
 		write(2, "exit\n", 5);
 	}
 	if (input->args[1] && checkifnum(input->args[1]) == 0)
-		print_error2("bash: exit: ", input
-			->args[1], ": numeric argument required", 2);
+		print_error2("bash: exit: ",
+			input->args[1], ": numeric argument required", 2);
 	else if (input->args[2])
 	{
 		write(2, "bash: exit: too many arguments\n", 31);
@@ -103,8 +103,8 @@ void	ft_exit(t_execution *input, int size)
 	{
 		check = ft_atoi(input->args[1]);
 		if (check == -1)
-			print_error2("bash: exit: ", input
-				->args[1], ": numeric argument required", 1);
+			print_error2("bash: exit: ",
+				input->args[1], ": numeric argument required", 1);
 		g_status()->status = check;
 	}
 	else

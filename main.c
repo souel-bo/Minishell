@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/20 21:28:15 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 15:46:45 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,8 +283,8 @@ int	main(int argc, char **argv, char **envp)
         signal(SIGINT, handler);
         signal(SIGQUIT, SIG_IGN);
         g_status()->flag = 0;
-        // input = read_input();
-        input = readline("minishell $>: ");
+        input = read_input();
+        // input = readline("minishell $>: ");
         if (!input)
         {
             if (isatty(STDIN_FILENO))

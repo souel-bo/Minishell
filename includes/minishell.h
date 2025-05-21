@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 03:30:23 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/21 21:36:11 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 void	cmdwithpath(t_execution *list, char **path, int size);
 int	checkifnum(char *number);
-int	ft_open(char *file_name, int flag);
+int	ft_open(char *file_name, int flag,int in_out);
 char		*ft_itoa(int n);
 t_status	*g_status(void);
 int			ft_isdigit(int c);
@@ -67,7 +67,7 @@ t_envp		*ft_create_envp(char **envp);
 void		ft_lstadd_back2(t_envp **lst, t_envp *new);
 t_envp		*new_element2(char *line);
 int			countlenkey(char *line);
-int	unset_var(t_envp *prev, t_envp *current);
+void	unset_var(t_envp *prev, t_envp *current);
 void	export_signle(t_envp *export);
 void	child(t_execution *list, t_hr hr, int pipes[2][2], int size);
 int			count_pipe_line(t_execution *list);
@@ -110,4 +110,5 @@ int	is_valid(t_execution *list);
 void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,
 		int size);
 int	execute_cmd(t_execution *list, char *cmd);
+void num_error(t_execution *input, int size);
 #endif

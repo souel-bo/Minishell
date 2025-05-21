@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtinsUtils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 03:40:23 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/21 15:46:11 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
+void	find_it(int append, t_envp *tmp, char *arg, int len_key)
+{
+	char	*new_value;
+
+	if (append)
+		new_value = ft_strjoin(tmp->value, arg + len_key + 2);
+	else
+		new_value = ft_strdup(arg + len_key + 1);
+	free(tmp->value);
+	tmp->value = new_value;
+}
+
 int	already_in(char *arg)
 {
-	t_envp	*tmp;
 	char	*key;
 	char	*new_value;
 	int		len_key;
-	int		append;
 
-	tmp = g_new_envp;
-	append = 0;
+	int (append) = 0;
+	t_envp *(tmp) = g_new_envp;
 	len_key = countlenkey(arg);
 	if (arg[len_key] == '+' && arg[len_key + 1] == '=')
 		append = 1;
@@ -33,13 +43,7 @@ int	already_in(char *arg)
 		if (ft_strncmp(tmp->key, key, len_key) == 0
 			&& tmp->key[len_key] == '\0')
 		{
-			if (append)
-				new_value = ft_strjoin(tmp->value, arg + len_key + 2);
-			else
-				new_value = ft_strdup(arg + len_key + 1);
-			free(tmp->value);
-			tmp->value = new_value;
-			free(key);
+			find_it(append, tmp, arg, len_key);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -69,7 +73,7 @@ int	if_builtin(char *cmd)
 	return (0);
 }
 
-int	unset_var(t_envp *prev, t_envp *current)
+void	unset_var(t_envp *prev, t_envp *current)
 {
 	if (prev == NULL)
 		g_new_envp = current->next;

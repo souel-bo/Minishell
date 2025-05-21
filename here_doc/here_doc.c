@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 22:47:10 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:09:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	read_here_doc(int fd, char *delimiter)
 	{
 		while (!g_status()->interuppeted)
 		{
-			input = readline("here_doc $-> : ");
+			// input = readline("here_doc $-> : ");
+			input = read_input();
 			if (!input)
 				exit(g_status()->status);
 			else if (ft_strlen(delimiter) == ft_strlen(input)

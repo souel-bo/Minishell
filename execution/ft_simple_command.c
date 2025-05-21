@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:06 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 15:32:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:40:25 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-int	ft_open(char *file_name, int flag)
+int	ft_open(char *file_name, int flag, int in_out)
 {
 	int	fd;
 
@@ -25,7 +25,10 @@ int	ft_open(char *file_name, int flag)
 		g_status()->status = 1;
 		return (-1);
 	}
-	dup2(fd, STDOUT_FILENO);
+	if (in_out == 1)
+		dup2(fd, STDOUT_FILENO);
+	else
+		dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (fd);
 }
@@ -37,19 +40,19 @@ int	ft_redirection(t_file *file)
 	{
 		if (file->outfile)
 		{
-			check = ft_open(file->file_name, O_CREAT | O_TRUNC | O_WRONLY);
+			check = ft_open(file->file_name, O_CREAT | O_TRUNC | O_WRONLY, 1);
 			if (check == -1)
 				return (1);
 		}
 		if (file->infile)
 		{
-			check = ft_open(file->file_name, O_RDONLY);
+			check = ft_open(file->file_name, O_RDONLY, 0);
 			if (check == -1)
 				return (1);
 		}
 		if (file->append)
 		{
-			check = ft_open(file->file_name, O_CREAT | O_APPEND | O_WRONLY);
+			check = ft_open(file->file_name, O_CREAT | O_APPEND | O_WRONLY, 1);
 			if (check == -1)
 				return (1);
 		}

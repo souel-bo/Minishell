@@ -1,6 +1,6 @@
 NAME = minishell
 
-CC = cc -ggdb #-fsanitize=address 
+CC = cc -g3 #-fsanitize=address 
 
 # CFLAGS = -Wall -Wextra -Werror -ggdb
 
@@ -32,10 +32,10 @@ TOKENIZER_OBJ = $(TOKENIZER:.c=.o)
 all: $(NAME)
 
 $(NAME):	$(MINISHELL_OBJ)	$(LIBFT_OBJ)	$(TOKENIZER_OBJ)	$(EXECUTION_OBJ) $(EXPANTION_OBJ)
-	$(CC)	$(CFLAGS)	$^	-lreadline	-o	$(NAME)
+	$(CC)	$(CFLAGS)	$^	-lreadline 	-o	$(NAME)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c  -I./includes $< -o $@
+	$(CC) $(CFLAGS) -c -I./includes $< -o $@
 
 clean:
 	rm -rf $(MINISHELL_OBJ) $(LIBFT_OBJ) $(TOKENIZER_OBJ) $(EXECUTION_OBJ) $(EXPANTION_OBJ)

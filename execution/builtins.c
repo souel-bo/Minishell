@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 15:12:46 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:19:24 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_exit(t_execution *input, int size)
 		g_status()->status = 0;		
 		write(2,"exit\n",5);
 	}
-	if (checkifnum(input->args[1]) == 0)
+	if (input->args[1] && checkifnum(input->args[1]) == 0)
 	{
 		print_error("bash: exit: ", input->args[1]);
 		write(2,": numeric argument required\n",28);
@@ -119,6 +119,8 @@ void	ft_exit(t_execution *input, int size)
 	}
 	else if (input->args[1])
 		g_status()->status = ft_atoi(input->args[1]);
+	else
+		exit(g_status()->status);
 }
 
 void	ft_pwd(void)

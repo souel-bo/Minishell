@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 11:44:41 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:18:13 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ t_token	*copy_elements(t_execution *exec, t_token *iterate, t_token *tokens,
 	{
 		if (iterate->type == PIPE)
 			break ;
-		if (iterate->type == RED_IN || iterate->type == RED_OUT || iterate->type == APPEND)
+		if (iterate->type == RED_IN || iterate->type == RED_OUT
+			|| iterate->type == HERE_DOC || iterate->type == APPEND)
 		{
 			iterate = handle_redirection(exec, iterate, tokens, exec_list);
 			continue ;
@@ -85,12 +86,10 @@ t_token	*copy_elements(t_execution *exec, t_token *iterate, t_token *tokens,
 
 t_execution	*pre_execution(t_token *tokens)
 {
-	int			i;
 	t_execution	*exec_list;
 	t_execution	*temp;
 	t_token		*iterate;
 
-	i = 0;
 	exec_list = NULL;
 	temp = NULL;
 	iterate = tokens;
@@ -101,7 +100,6 @@ t_execution	*pre_execution(t_token *tokens)
 		temp = create_element(iterate);
 		iterate = copy_elements(temp, iterate, tokens, exec_list);
 		ft_lstadd_back_v2(&exec_list, temp);
-		i++;
 	}
 	return (exec_list);
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/18 20:44:16 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:55:08 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,12 @@ void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,int size)
 {
 	setup_pipes(pipes, helper.i, size,list);
 	execute_Cmd(list, helper, size);
-	
 	exit(1);
 }
 
 void	setup_pipes(int pipes[2][2], int i, int size,t_execution *list)
 {
-	int fd;
-	if (list->infile > 0)
-	{
-		fd = ft_open("/tmp/minishell",O_RDWR);
-		dup2(fd,STDIN_FILENO);
-		close(fd);
-	}
-	else if (i > 0)
+	if (i > 0)
 		dup2(pipes[(i + 1) % 2][0], STDIN_FILENO);
 	close_previous(pipes, i);
 	if (i < size - 1)
@@ -45,7 +37,6 @@ void	setup_pipes(int pipes[2][2], int i, int size,t_execution *list)
 void	cleanup(pid_t *pid, t_hr hr)
 {
 	wait_all(pid, hr);
-	free(pid);
 }
 void	wait_all(pid_t *pids, t_hr hr)
 {

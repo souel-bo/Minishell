@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/20 16:57:57 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:51:54 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void print(t_execution *list, t_token *list2)
     
                 while (iterate)
                 { 
-                    printf("[%s] [%d] [%d] [%d] \n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append);
+                    // printf("[%s] [%d] [%d] [%d] {%d}\n", iterate->file_name, iterate->infile, iterate->outfile, iterate->append, iterate->heredoc);
                     iterate = iterate->next;
                 }
             }
@@ -248,6 +248,7 @@ t_status *g_status()
 
 void handler(int sig)
 {
+	
     (void)sig;
     if (g_status()->flag == 0)
     {
@@ -282,8 +283,8 @@ int	main(int argc, char **argv, char **envp)
         signal(SIGINT, handler);
         signal(SIGQUIT, SIG_IGN);
         g_status()->flag = 0;
-        input = readline("minishell $>: ");
         // input = read_input();
+        input = readline("minishell $>: ");
         if (!input)
         {
             if (isatty(STDIN_FILENO))
@@ -306,6 +307,7 @@ int	main(int argc, char **argv, char **envp)
             ft_lstclear(&tokens, free);
             // free(input);
         }
+		tokens = expantion(tokens);
 		tokens = handle_heredoc(tokens);
 		if (!tokens)
 		{
@@ -313,10 +315,9 @@ int	main(int argc, char **argv, char **envp)
             free(input);
 			continue;
 		}
-		tokens = expantion(tokens);
 		pre = pre_execution(tokens);
-		print(pre, tokens);
-        // check_command_type(pre);
+		// print(pre, tokens);
+        check_command_type(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

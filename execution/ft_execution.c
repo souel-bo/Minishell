@@ -6,13 +6,13 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/18 21:38:38 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:55:21 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-#include "../includes/minishell.h"
-#include "../includes/tokenizer.h"
+#include "libft.h"
+#include "minishell.h"
+#include "tokenizer.h"
 
 int	is_dir(char *path)
 {
@@ -29,14 +29,7 @@ void	print_error(char *name, char *error)
 	ft_putstr_fd(error, 2);
 	ft_putchar_fd('\n', 2);
 }
-// void execute_single(t_execution *list)
-// {
-// 	char **path = searchAndsave("PATH");
-// 	if (search_in_env("PATH"))
-// 		cmdWpath(list, path);
-// 	else
-// 		scan_cmd(list);
-// }
+
 void	check_command_type(t_execution *list)
 {
 	int	size;
@@ -60,7 +53,7 @@ void	ft_execution(t_execution *list, int size)
 	pid_t	*pid;
 
 	hr.i = 0;
-	pid = malloc(sizeof(pid_t) * size);
+	pid = malloc(sizeof(pid_t) * size - 1);
 	while (hr.i < size)
 	{
 		if (if_builtin(list->args[0]) != 0 && size == 1)
@@ -75,16 +68,12 @@ void	ft_execution(t_execution *list, int size)
 		{
 			sig_child();
 			execute_commands(list, hr, pipes, size);
+			free(pid);
 		}
 		close_previous(pipes, hr.i);
 		hr.i++;
 		list = list->next;
 	}
 	cleanup(pid, hr);
+	free(pid);
 }
-/*
-yaaitmou@e1r7p2:~/Desktop/MINI$ echo 'touch "
-"' | ./minishell 
-minishell: syntax error: unclosed quotes
-minishell: syntax error: unclosed quotes
-*/

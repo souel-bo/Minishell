@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 12:22:44 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:47:36 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char		**get_path(void);
 void		ft_execution(t_execution *list, int size);
 const char	*type_to_string(t_type type);
 t_execution	*pre_execution(t_token *tokens);
+t_token		*handle_heredoc(t_token *tokens);
 void		ft_freeEnvp(void);
 void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);
@@ -103,4 +104,8 @@ int	is_valid(t_execution *list);
 void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,
 		int size);
 int	execute_cmd(t_execution *list, char *cmd);
+int	find_dollar(char *s);
+char	*expand_env(char *key);
+int	is_special(char c);
+void	join_value(char *temp, const char *s, int *j);
 #endif

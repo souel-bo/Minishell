@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expantion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 21:39:00 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:38:18 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,6 @@ void	join_value(char *temp, const char *s, int *j)
 	temp[*j] = '\0';
 }
 
-// echo hhhhhhhhhhhhhhhhhhhh"$USER"$USER
 
 t_token	*expand_value(t_token *token)
 {

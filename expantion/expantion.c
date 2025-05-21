@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 21:13:40 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/21 23:17:28 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,18 +151,7 @@ t_token	*expand_value(t_token *token)
 	iterate = token;
 	while (iterate)
 	{
-		if (iterate->token && ft_strcmp(iterate->token, "export") == 0)
-		{
-			// Move to next to skip "export" itself
-			iterate = iterate->next;
-
-			// Skip all ARGUMENT-type tokens after export (they're not to be expanded)
-			while (iterate && iterate->type == ARGUMENT)
-				iterate = iterate->next;
-
-			continue;
-		}
-		else if (find_dollar(iterate->token) && iterate->type != DELIMITER)
+		if (find_dollar(iterate->token) && iterate->type != DELIMITER)
 		{
 			iterate->expanded = 1;
 			i = 0;

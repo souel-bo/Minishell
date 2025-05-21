@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 16:38:18 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:13:40 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,18 @@ t_token	*expand_value(t_token *token)
 	iterate = token;
 	while (iterate)
 	{
-		if (find_dollar(iterate->token) && iterate->type != DELIMITER)
+		if (iterate->token && ft_strcmp(iterate->token, "export") == 0)
+		{
+			// Move to next to skip "export" itself
+			iterate = iterate->next;
+
+			// Skip all ARGUMENT-type tokens after export (they're not to be expanded)
+			while (iterate && iterate->type == ARGUMENT)
+				iterate = iterate->next;
+
+			continue;
+		}
+		else if (find_dollar(iterate->token) && iterate->type != DELIMITER)
 		{
 			iterate->expanded = 1;
 			i = 0;
@@ -345,6 +356,6 @@ t_token	*expantion(t_token *token)
 	token = expand_value(token);
 	token = expand_wildcard(token);
 	token = join_token(token);
-	token = handle_quote(token);
+	// token = handle_quote(token);
 	return (token);
 }

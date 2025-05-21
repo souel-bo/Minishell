@@ -42,13 +42,13 @@
 # include "header.h"
 # define ALLOC 409600
 
-void	no_args(t_execution *list);
+int	checkifnum(char *number);
 int	ft_open(char *file_name, int flag);
 char		*ft_itoa(int n);
 t_status	*g_status(void);
 int			ft_isdigit(int c);
 int			ft_isalpha(int c);
-char		*searchAndsave(char *var);
+char		*searchandsave(char *var);
 int			search_in_env(char *var);
 int			change_in_env(char *var, char *buf);
 void		ft_exit(t_execution *input, int size);
@@ -59,13 +59,16 @@ void		ft_unset(t_execution *list);
 void		ft_export(t_execution *list);
 void		is_builtin(char *cmd, t_execution *list, int size);
 void		ft_unset(t_execution *list);
-char		**listToArray(void);
+char		**listtoarray(void);
 void		ft_env(void);
 void		ft_unset(t_execution *list);
 t_envp		*ft_create_envp(char **envp);
 void		ft_lstadd_back2(t_envp **lst, t_envp *new);
 t_envp		*new_element2(char *line);
-int			CountLenKey(char *line);
+int			countlenkey(char *line);
+int	unset_var(t_envp *prev, t_envp *current);
+void	export_signle(t_envp *export);
+void	child(t_execution *list, t_hr hr, int pipes[2][2], int size);
 int			count_pipe_line(t_execution *list);
 int			ft_lstsize_envp(t_envp *lst);
 int			ft_lstsize(t_execution *lst);
@@ -90,6 +93,7 @@ void	close_previous(int pipes[2][2], int i);
 void	wait_all(pid_t *pids, t_hr hr);
 int	check_sen(char *list);
 void	print_error(char *name, char *error);
+void	print_error2(char *name, char *error,char *message,int status);
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size);
 t_envp	*ft_lstlast2(t_envp *lst);
 void	scan_cmd(t_execution *list);

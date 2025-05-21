@@ -17,6 +17,14 @@
 void	execute_pipeline(int pipes[2][2], t_execution *list, t_hr helper,int size)
 {
 	setup_pipes(pipes, helper.i, size,list);
+	int check = 1;
+	if (list->args[0] == NULL && list->file->file_name != NULL)
+	{
+		check = ft_redirection(list->file);
+		exit(check);
+	}
+	if (ft_redirection(list->file) == 1)
+		exit(1);
 	execute_Cmd(list, helper, size);
 	exit(1);
 }

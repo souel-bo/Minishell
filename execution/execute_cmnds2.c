@@ -31,3 +31,9 @@ void	scan_cmd(t_execution *list)
 	ft_freeEnvp();
 	exit(g_status()->status);
 }
+
+void	child(t_execution *list, t_hr hr, int pipes[2][2], int size)
+{
+	sig_child();
+	execute_commands(list, hr, pipes, size);
+}

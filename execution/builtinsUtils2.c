@@ -24,7 +24,7 @@ int	already_in(char *arg)
 
 	tmp = g_new_envp;
 	append = 0;
-	len_key = CountLenKey(arg);
+	len_key = countlenkey(arg);
 	if (arg[len_key] == '+' && arg[len_key + 1] == '=')
 		append = 1;
 	key = ft_strndup(arg, len_key);
@@ -66,4 +66,27 @@ int	if_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "exit"))
 		return (1);
 	return (0);
+}
+
+int	unset_var(t_envp *prev, t_envp *current)
+{
+	if (prev == NULL)
+		g_new_envp = current->next;
+	else
+		prev->next = current->next;
+	free(current->key);
+	free(current->value);
+	free(current);
+}
+
+void	export_signle(t_envp *export)
+{
+	while (export)
+	{
+		if (export->key && export->value)
+			printf("declare -x %s=\"%s\"\n", export->key, export->value);
+		else if (export->key)
+			printf("declare -x %s\n", export->key);
+		export = export->next;
+	}
 }

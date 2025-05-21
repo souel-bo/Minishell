@@ -23,6 +23,15 @@ int	is_dir(char *path)
 	return (0);
 }
 
+void	print_error2(char *name, char *error, char *message, int status)
+{
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(error, 2);
+	ft_putstr_fd(message, 2);
+	ft_putchar_fd('\n', 2);
+	g_status()->status = status;
+}
+
 void	print_error(char *name, char *error)
 {
 	ft_putstr_fd(name, 2);
@@ -33,14 +42,10 @@ void	print_error(char *name, char *error)
 void	check_command_type(t_execution *list)
 {
 	int	size;
+
 	size = ft_lstsize(list);
 	ft_execution(list, size);
 }
-
-// void	no_args(t_execution *list)
-// {
-// 	return(ft_redirection(list->file));
-// }
 
 void	ft_execution(t_execution *list, int size)
 {
@@ -61,11 +66,7 @@ void	ft_execution(t_execution *list, int size)
 			pipe(pipes[hr.i % 2]);
 		pid[hr.i] = fork();
 		if (pid[hr.i] == 0)
-		{
-			sig_child();
-			execute_commands(list, hr, pipes, size);
-			free(pid);
-		}
+			child(list, hr, pipes, size);
 		close_previous(pipes, hr.i);
 		hr.i++;
 		list = list->next;

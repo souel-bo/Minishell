@@ -14,7 +14,7 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-char	*searchAndsave(char *var)
+char	*searchandsave(char *var)
 {
 	t_envp	*tmp;
 
@@ -41,6 +41,7 @@ int	search_in_env(char *var)
 	}
 	return (0);
 }
+
 int	change_in_env(char *var, char *buf)
 {
 	t_envp	*tmp;
@@ -58,30 +59,32 @@ int	change_in_env(char *var, char *buf)
 	}
 	return (0);
 }
-int	CountLenKey(char *line)
+
+int	countlenkey(char *line)
 {
 	int	count;
 
 	count = 0;
-	while (line[count] && line[count] != '=' && !(line[count] == '+'
-			&& line[count + 1] == '='))
+	while (line[count] && line[count] != '=' && !(line[count]
+			== '+' && line[count + 1] == '='))
 		count++;
 	return (count);
 }
-t_envp	*AddToList(char *line)
-{
-	t_envp	*node;
-	int		LenKey;
 
-	LenKey = CountLenKey(line);
+t_envp	*addtolist(char *line)
+{
+	int		lenkey;
+	t_envp	*node;
+
+	lenkey = countlenkey(line);
 	node = malloc(sizeof(t_envp));
 	if (!node)
 		return (NULL);
-	node->key = ft_strndup(line, LenKey);
-	if (line[LenKey] == '=' && line[LenKey + 1] != '\0')
+	node->key = ft_strndup(line, lenkey);
+	if (line[lenkey] == '=' && line[lenkey + 1] != '\0')
 	{
-		node->value = ft_strndup(line + LenKey + 1, ft_strlen(line) - LenKey
-				+ 1);
+		node->value = ft_strndup(line + lenkey + 1, ft_strlen
+				(line) - lenkey + 1);
 	}
 	else
 		node->value = ft_strdup("");

@@ -14,56 +14,60 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-void	ft_chdir(t_execution *input)
+void	without_argument(t_execution *input)
 {
-	if (input->args[2])
-	{
-		print_error(input->args[0],": too many arguments");
-		g_status()->status = 1;
-	}
-	else if (!input->args[1])
-	{
-		if (search_in_env("HOME") == 1)
-		{
-			change_in_env("OLDPWD", getcwd(NULL, 0));
-			if (chdir(searchAndsave("HOME")))
-			{
-				g_status()->status = 0;
-				return ;				
-			}
-			change_in_env("PWD", getcwd(NULL, 0));
-			g_status()->status = 0;
-		}
-		else
-		{
-			printf("%s\n", "cd: HOME not set");
-			g_status()->status = 1;
-		}
-	}
-	else
+	if (search_in_env("HOME") == 1)
 	{
 		change_in_env("OLDPWD", getcwd(NULL, 0));
-		if (chdir(input->args[1]) == -1)
-		{	
-			g_status()->status = 1;
-			print_error("bash: cd: " ,input->args[1]);
-			write(2,":No such file or directory\n",25);
+		if (chdir(searchandsave("HOME")))
+		{
+			g_status()->status = 0;
 			return ;
 		}
 		change_in_env("PWD", getcwd(NULL, 0));
 		g_status()->status = 0;
 	}
-	// g_status()->status = 0;
+	else
+	{
+		printf("%s\n", "cd: HOME not set");
+		g_status()->status = 1;
+	}
+}
+
+void	invalid_argument(t_execution *input)
+{
+	change_in_env("OLDPWD", getcwd(NULL, 0));
+	if (chdir(input->args[1]) == -1)
+	{
+		g_status()->status = 1;
+		print_error2("bash: cd: ", input
+			->args[1], " :No such file or directory", 1);
+		return ;
+	}
+	change_in_env("PWD", getcwd(NULL, 0));
+	g_status()->status = 0;
+}
+
+void	ft_chdir(t_execution *input)
+{
+	if (input->args[2])
+	{
+		print_error(input->args[0], ": too many arguments");
+		g_status()->status = 1;
+	}
+	else if (!input->args[1])
+		without_argument(input);
+	else
+		invalid_argument(input);
 }
 
 void	ft_echo(t_execution *input)
 {
-	int i = 1;
-	int flag = 1;
-
+	int (j) = 2;
+	int (i) = 1;
+	int (flag) = 1;
 	while (input->args[i] && strncmp(input->args[i], "-n", 2) == 0)
 	{
-		int j = 2;
 		while (input->args[i][j] == 'n')
 			j++;
 		if (input->args[i][j] != '\0')

@@ -17,7 +17,7 @@ LIBFT_SRC = libft/ft_lstaddback.c libft/ft_lstdelone.c libft/ft_lstnew.c libft/f
 
 EXECUTIN_SRC = execution/ft_simple_command.c execution/ft_execution.c execution/execute_pipes.c execution/builtins.c execution/builtins2.c \
 			   execution/builtinsUtils.c execution/builtinsUtils2.c execution/controlEnvp.c execution/controlEnvp2.c execution/execute_cmnds.c \
-			   execution/execute_cmnds2.c 
+			   execution/execute_cmnds2.c execution/builtinsUtils3.c 
 
 EXECUTION_OBJ = $(EXECUTIN_SRC:.c=.o)
 

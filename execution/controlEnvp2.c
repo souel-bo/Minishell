@@ -16,18 +16,16 @@
 
 t_envp	*ft_create_envp(char **envp)
 {
-	int		i;
 	t_envp	*head;
 	t_envp	*node;
 	t_envp	*tmp;
 
-	i = 0;
 	head = NULL;
 	if (!envp)
 		return (NULL);
-	while (envp[i])
+	while (*envp)
 	{
-		node = new_element2(envp[i]);
+		node = new_element2(*envp);
 		if (!node)
 		{
 			while (head)
@@ -39,10 +37,11 @@ t_envp	*ft_create_envp(char **envp)
 			return (NULL);
 		}
 		ft_lstadd_back2(&head, node);
-		i++;
+		envp++;
 	}
 	return (head);
 }
+
 void	ft_lstadd_back2(t_envp **lst, t_envp *new)
 {
 	t_envp	*last;
@@ -57,6 +56,7 @@ void	ft_lstadd_back2(t_envp **lst, t_envp *new)
 		last->next = new;
 	}
 }
+
 t_envp	*ft_lstlast2(t_envp *lst)
 {
 	t_envp	*last_content;
@@ -71,26 +71,26 @@ t_envp	*ft_lstlast2(t_envp *lst)
 	return (last_content);
 }
 
-char	**listToArray(void)
+char	**listtoarray(void)
 {
 	int		size;
 	char	*tmp;
 	int		i;
-	char	**envpExecve;
+	char	**envpexecve;
 	t_envp	*head;
 
 	i = 0;
 	size = ft_lstsize_envp(g_new_envp);
-	envpExecve = malloc(sizeof(char *) * (size + 1));
+	envpexecve = malloc(sizeof(char *) * (size + 1));
 	head = g_new_envp;
 	while (head)
 	{
 		tmp = ft_strjoin(head->key, "=");
-		envpExecve[i] = ft_strjoin(tmp, head->value);
+		envpexecve[i] = ft_strjoin(tmp, head->value);
 		i++;
 		free(tmp);
 		head = head->next;
 	}
-	envpExecve[i] = NULL;
-	return (envpExecve);
+	envpexecve[i] = NULL;
+	return (envpexecve);
 }

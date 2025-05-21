@@ -16,16 +16,7 @@
 
 int	execute_cmd(t_execution *list, char *cmd)
 {	
-	int check = 1;
-	if (list->args[0] == NULL && list->file != NULL)
-	{
-		check = ft_redirection(list->file);
-		exit(check);
-	}
-	if (ft_redirection(list->file) == 1)
-		exit(1);
-	else
-		execve(cmd, list->args, listToArray());
+	execve(cmd, list->args, listtoarray());
 	free(cmd);
 	exit(127);
 }
@@ -67,20 +58,21 @@ void	execute_Cmd(t_execution *list, t_hr hr, int size)
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	int check = 1;
-	// fprintf(stderr,"%s %s\n",list->file->file_name,list->args[0]);
 	if (list->args[0] == NULL && list->file->file_name != NULL)
-	{
-		// fprintf(stderr,"->>>>>dkhelt\n");
 		check = ft_redirection(list->file);
-	}
-	if (size == 1 && list->file == NULL)
+	if (size == 1 && list->args[0])
 	{
-		execute_Cmd(list, hr, size);
+		if (list->args[0] == NULL && list->file->file_name != NULL)
+		{
+			check = ft_redirection(list->file);
+			exit(check);
+		}
+		if (ft_redirection(list->file) == 1)
+			exit(1);
+			execute_Cmd(list, hr, size);
 	}
 	else if (list->args[0])
-	{	
 		execute_pipeline(pipes, list, hr, size);
-	}
 	else
 		exit(check);
 }

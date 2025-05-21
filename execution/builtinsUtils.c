@@ -23,7 +23,6 @@ void	check_builtin(t_execution *list, int size)
 	stdin_copy = dup(0);
 	if (list->file)
 	{
-		
 		if (ft_redirection(list->file) == 0)
 		{
 			is_builtin(list->args[0], list, size);
@@ -33,7 +32,6 @@ void	check_builtin(t_execution *list, int size)
 	}
 	else
 	{
-
 		is_builtin(list->args[0], list, size);
 		dup2(stdout_copy, 1);
 		dup2(stdin_copy, 0);
@@ -62,38 +60,8 @@ int	check_sen(char *list)
 	return (1);
 }
 
-int	checkifnum(char *number)
+char	*appand_add(char *line, char *value, int len_key)
 {
-	int	j;
-	int	i;
-
-	j = 0;
-	i = 0;
-	if ((number[j] == '-') || (number[j] == '+'))
-		j++;
-	while (number[i])
-	{
-		if (number[j] >= 48 && number[j] <= 57)
-			j++;
-		i++;
-	}
-	if (j == i)
-		return (1);
-	return 0;
-}
-
-t_envp	*new_element2(char *line)
-{
-	char	*key;
-	t_envp	*new;
-	int		len_key;
-	char	*value;
-
-	if (!line)
-		return (NULL);
-	len_key = CountLenKey(line);
-	key = ft_strndup(line, len_key);
-	value = NULL;
 	if (line[len_key] == '=')
 	{
 		if (line[len_key + 1] != '\0')
@@ -108,6 +76,23 @@ t_envp	*new_element2(char *line)
 		else
 			value = ft_strdup("");
 	}
+	return (value);
+}
+
+t_envp	*new_element2(char *line)
+{
+	char	*key;
+	t_envp	*new;
+	int		len_key;
+	char	*value;
+
+	if (!line)
+		return (NULL);
+	len_key = countlenkey(line);
+	key = ft_strndup(line, len_key);
+	value = NULL;
+	if ((line[len_key] == '=') || (line[len_key] == '+'))
+		value = appand_add(line, value, len_key);
 	new = malloc(sizeof(t_envp));
 	if (!new)
 	{

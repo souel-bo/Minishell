@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/18 17:33:05 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:48:33 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-void	without_argument(t_execution *input)
+void	without_argument(void)
 {
 	if (search_in_env("HOME") == 1)
 	{
@@ -56,7 +56,7 @@ void	ft_chdir(t_execution *input)
 		g_status()->status = 1;
 	}
 	else if (!input->args[1])
-		without_argument(input);
+		without_argument();
 	else
 		invalid_argument(input);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 20:09:50 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:23:31 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	read_here_doc(int fd, char *delimiter)
 	{
 		while (!g_status()->interuppeted)
 		{
-			// input = readline("here_doc $-> : ");
-			input = read_input();
+			// input = read_input();
+			input = readline("here_doc $-> : ");
 			if (!input)
 				exit(g_status()->status);
 			else if (ft_strlen(delimiter) == ft_strlen(input)

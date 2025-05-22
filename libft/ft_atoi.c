@@ -40,14 +40,11 @@ static int	parse_number(char *str, int *i, int sign, long long *final)
 		*final = -(long long)result;
 	return (0);
 }
-int	ft_atoi(char *str)
+int	ft_atoi(char *str,int *j)
 {
     long long final;
-    int (digit);
 	int (i) = 0;
 	int (sign) = 1;
-	unsigned long long (result) = 0;
-    unsigned long long	limit;
 	if (!str || str[0] == '\0')
 		return (999);
 	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
@@ -59,6 +56,9 @@ int	ft_atoi(char *str)
 		i++;
 	}
     if (parse_number(str, &i, sign, &final) != 0)
-        return (999);
+	{
+		(*j) = 1;
+		return 0;
+	}
 	return ((unsigned char)final);
 }

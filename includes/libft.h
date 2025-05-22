@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 15:27:42 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:21:29 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 char	*ft_strdup(char *s);
-int		ft_atoi(char *str);
+int		ft_atoi(char *str, int *j);
 t_token	*new_element(char *ptr);
 size_t	ft_strlen(const char *s);
 char	*ft_strndup(char *s, size_t n);

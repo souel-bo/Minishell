@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 21:36:11 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:09:13 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,10 @@ int			countlenkey(char *line);
 void	unset_var(t_envp *prev, t_envp *current);
 void	export_signle(t_envp *export);
 void	child(t_execution *list, t_hr hr, int pipes[2][2], int size);
-int			count_pipe_line(t_execution *list);
 int			ft_lstsize_envp(t_envp *lst);
 int			ft_lstsize(t_execution *lst);
-void		execute_pipes(char **path, t_execution *list, int size);
 char		**get_path(void);
 char		**ft_split(char const *s, char c);
-void		execute_simple_cmnd(char **path, t_execution *list, int size);
 void		ft_free(char **ptr);
 int			ft_isprint(int c);
 char		**get_path(void);
@@ -88,7 +85,7 @@ void		ft_freeEnvp(void);
 void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);
 void check_builtin(t_execution *list, int size);
-void setup_pipes(int pipes[2][2], int i, int size,t_execution *list);
+void setup_pipes(int pipes[2][2], int i, int size);
 void execute_cmds(t_execution *list, t_hr hr,int size);
 void	close_previous(int pipes[2][2], int i);
 void	wait_all(pid_t *pids, t_hr hr);

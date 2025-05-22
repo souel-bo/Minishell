@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtinsUtils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 15:46:11 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:08:25 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	find_it(int append, t_envp *tmp, char *arg, int len_key)
 int	already_in(char *arg)
 {
 	char	*key;
-	char	*new_value;
 	int		len_key;
 
 	int (append) = 0;

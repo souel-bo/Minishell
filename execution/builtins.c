@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 21:39:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:21:46 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_unset(t_execution *list)
 
 void	ft_exit(t_execution *input, int size)
 {
+	int (j) = 0;
 	int (check) = 0;
 	if (size == 1)
 	{
@@ -101,8 +102,8 @@ void	ft_exit(t_execution *input, int size)
 	}
 	else if (input->args[1])
 	{
-		check = ft_atoi(input->args[1]);
-		if (check == 999)
+		check = ft_atoi(input->args[1], &j);
+		if (j == 1)
 			num_error(input, size);
 		else
 			g_status()->status = check;

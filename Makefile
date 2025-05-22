@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc -g3 #-fsanitize=address 
 
-# CFLAGS = -Wall -Wextra -Werror -ggdb
+CFLAGS = -Wall -Wextra -Werror -ggdb
 
 MINISHELL_SRC = main.c
 

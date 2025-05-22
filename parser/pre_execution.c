@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 19:18:13 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:06:22 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ t_token	*copy_elements(t_execution *exec, t_token *iterate, t_token *tokens,
 		t_execution *exec_list)
 {
 	int	i;
-	int	flag;
 
 	i = 0;
-	flag = 0;
 	while (iterate)
 	{
 		if (iterate->type == PIPE)

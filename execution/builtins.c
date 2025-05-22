@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 16:21:29 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:05:52 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_env(void)
 {
 	t_envp	*tmp;
 
-	tmp = g_new_envp;
+	tmp = g_status()->new_envp;
 	while (tmp)
 	{
 		if (tmp->key && tmp->value != NULL)
@@ -33,7 +33,7 @@ void	ft_export(t_execution *list)
 	t_envp	*export;
 
 	int (i) = 1;
-	export = g_new_envp;
+	export = g_status()->new_envp;
 	while (list->args[i])
 	{
 		if (check_sen(list->args[i]) == 0)
@@ -48,7 +48,7 @@ void	ft_export(t_execution *list)
 		else
 		{
 			node = new_element2(list->args[i]);
-			ft_lstadd_back2(&g_new_envp, node);
+			ft_lstadd_back2(&g_status()->new_envp, node);
 			i++;
 		}
 	}
@@ -65,7 +65,7 @@ void	ft_unset(t_execution *list)
 	int (i) = 1;
 	while (list->args[i])
 	{
-		current = g_new_envp;
+		current = g_status()->new_envp;
 		prev = NULL;
 		while (current)
 		{
@@ -89,18 +89,22 @@ void free_and_exit()
 	free(g_status()->pid);
 	exit(g_status()->status);
 }
+
 void	ft_exit(t_execution *input, int size)
 {
 	int (j) = 0;
 	int (check) = 0;
-	if (size == 1)
+	int len_args;
+	len_args = array_len(input->args);
+	if (size == 1 && len_args == 1)
 	{
-		g_status()->status = 0;
 		write(2, "exit\n", 5);
+		ft_freeEnvp();
+		free_and_exit();
 	}
-	if (input->args[1] && checkifnum(input->args[1]) == 0)
+	else if (input->args[1] && checkifnum(input->args[1]) == 0)
 		num_error(input, size);
-	else if (input->args[2])
+	else if (len_args >= 3)
 	{
 		write(2, "bash: exit: too many arguments\n", 31);
 		g_status()->status = 1;
@@ -113,10 +117,16 @@ void	ft_exit(t_execution *input, int size)
 		else
 			g_status()->status = check;
 		if (size == 1)
+		{
+			ft_freeEnvp();
 			free_and_exit();
+		}
 	}
 	else
+	{
+		ft_freeEnvp();
 		free_and_exit();
+	}
 }
 
 void	ft_pwd(void)

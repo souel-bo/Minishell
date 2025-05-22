@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:58 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 16:21:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:08:17 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,19 @@ void	num_error(t_execution *input, int size)
 	print_error2("bash: exit: ",
 		input->args[1], ": numeric argument required", 2);
 	if (size == 1)
+	{
+		ft_freeEnvp();
 		free_and_exit();
+	}
+}
+
+int	array_len(char **args)
+{
+	int i;
+	i = 0;
+	if (!args)
+		return -1;
+	while(args[i])
+		i++;
+	return (i);
 }

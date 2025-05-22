@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtinsUtils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 04:08:25 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 20:20:53 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	already_in(char *arg)
 	int		len_key;
 
 	int (append) = 0;
-	t_envp *(tmp) = g_new_envp;
+	t_envp *(tmp) = g_status()->new_envp;
 	len_key = countlenkey(arg);
 	if (arg[len_key] == '+' && arg[len_key + 1] == '=')
 		append = 1;
@@ -75,7 +75,7 @@ int	if_builtin(char *cmd)
 void	unset_var(t_envp *prev, t_envp *current)
 {
 	if (prev == NULL)
-		g_new_envp = current->next;
+		g_status()->new_envp = current->next;
 	else
 		prev->next = current->next;
 	free(current->key);

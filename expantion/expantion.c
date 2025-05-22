@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 21:39:00 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:22:17 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*expand_env(char *key)
 {
 	t_envp	*iterate;
 
-	iterate = g_new_envp;
+	iterate = g_status()->new_envp;
 	while (iterate)
 	{
 		if (ft_strlen(key) == ft_strlen(iterate->key) && ft_strncmp(key,

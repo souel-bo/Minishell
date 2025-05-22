@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 15:38:20 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:10:49 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,6 @@ typedef struct s_execution
 	struct s_execution	*next;
 }						t_execution;
 
-typedef struct s_status
-{
-	int 				interuppeted;
-	int					status;
-	pid_t				*pid;
-	int                 flag;
-}						t_status;
 
 typedef struct s_envp
 {
@@ -73,7 +66,18 @@ typedef struct s_envp
 	char				*value;
 	int					status;
 	struct s_envp		*next;
-}						t_envp;
+}
+						t_envp;
+typedef struct s_status
+{
+	int					stdout_copy;
+	int					stdin_copy;
+	t_envp				*new_envp;
+	int 				interuppeted;
+	int					status;
+	pid_t				*pid;
+	int                 flag;
+}						t_status;
 
 typedef struct s_norm
 {
@@ -89,6 +93,6 @@ typedef struct s_hr
 	char **path;
 } t_hr;
 
-extern t_envp			*g_new_envp;
+// extern t_envp			*g_new_envp;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/18 20:07:49 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:59:22 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,27 @@
 
 void	check_builtin(t_execution *list, int size)
 {
-	int	stdout_copy;
-	int	stdin_copy;
-
-	stdout_copy = dup(1);
-	stdin_copy = dup(0);
-	if (list->file)
+	int stdout_copy;
+	int stdin_copy;
+	if (list)
 	{
-		if (ft_redirection(list->file) == 0)
+		
+		if (list->file)
 		{
-			is_builtin(list->args[0], list, size);
-			dup2(stdout_copy, 1);
-			dup2(stdin_copy, 0);
+			if (ft_redirection(list->file) == 0)
+			{
+				stdout_copy = dup(1);
+				stdin_copy = dup(0);
+				is_builtin(list->args[0], list, size);
+				dup2(stdout_copy, 1);
+				dup2(stdin_copy, 0);
+				close(stdin_copy);
+				close(stdout_copy);
+			}
 		}
+		else
+			is_builtin(list->args[0], list, size);
 	}
-	else
-	{
-		is_builtin(list->args[0], list, size);
-		dup2(stdout_copy, 1);
-		dup2(stdin_copy, 0);
-	}
-	close(stdout_copy);
-	close(stdin_copy);
 }
 
 int	check_sen(char *list)

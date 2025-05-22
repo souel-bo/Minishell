@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 15:02:01 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:42:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,10 +231,10 @@ int check_space(char *input)
 void ft_freeEnvp()
 {
     t_envp *temp;
-    while (g_new_envp)
+    while (g_status()->new_envp)
     {
-        temp = g_new_envp;
-        g_new_envp = g_new_envp->next;
+        temp = g_status()->new_envp;
+        g_status()->new_envp = g_status()->new_envp->next;
         free(temp->key);
         free(temp->value);
         free(temp);
@@ -276,8 +276,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	t_token	*tokens = NULL;
 	t_execution	*pre = NULL;
-    g_new_envp = NULL;
-    g_new_envp = ft_create_envp(envp);
+    g_status()->new_envp = NULL;
+    g_status()->new_envp = ft_create_envp(envp);
 	while (1)
 	{
         signal(SIGINT, handler);

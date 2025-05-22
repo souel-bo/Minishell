@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 16:48:49 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:50:03 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@ char	*file_name(void)
 {
 	static int	i = 0;
 	char		*join;
-
-	join = ft_strjoin(HERE_DOC_FILE, ft_itoa(i));
+	char *it;
+	
+	it = NULL;
+	join = NULL;
+	it = ft_itoa(i);
+	join = ft_strjoin(HERE_DOC_FILE, it);
+	free(it);
 	while (!access(join, F_OK))
 	{
 		i++;
-		join = ft_strjoin(HERE_DOC_FILE, ft_itoa(i));
+		it = ft_itoa(i);
+		free(join);
+		join = ft_strjoin(HERE_DOC_FILE, it);
+		free(it);
 	}
 	return (join);
 }
@@ -124,7 +132,7 @@ char *expand_here_doc(char *input)
 	return (input);
 }
 
-int	read_here_doc(int fd, char *delimiter, int flag)
+int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file_nm)
 {
 	char	*input;
 	pid_t	pid;
@@ -136,14 +144,18 @@ int	read_here_doc(int fd, char *delimiter, int flag)
 		{
 			input = readline("here_doc $-> : ");
 			if (!input)
+			{
+				ft_lstclear(&tokens, free);
+				ft_freeEnvp();
+				free(file_nm);
+				close(fd);
 				exit(g_status()->status);
+			}
 			else if (ft_strlen(delimiter) == ft_strlen(input)
 				&& !ft_strncmp(delimiter, input, ft_strlen(delimiter)))
 				break ;
 			if (!flag)
-			{
 				input = expand_here_doc(input);
-			}
 			ft_putstr_fd(input, fd);
 			ft_putchar_fd('\n', fd);
 		}
@@ -175,9 +187,7 @@ t_token	*handle_heredoc(t_token *tokens)
 	while (iterate)
 	{
 		while (iterate && iterate->type != HERE_DOC)
-        {
 			    iterate = iterate->next;
-        }
 		if (iterate && iterate->type == HERE_DOC)
 		{
 			free(iterate->token);
@@ -186,10 +196,12 @@ t_token	*handle_heredoc(t_token *tokens)
 			iterate = iterate->next;
 			file_nm = file_name();
 			fd = open(file_nm, O_CREAT | O_RDWR, 0666);
-            if (read_here_doc(fd, iterate->token, iterate->heredoc))
+            if (read_here_doc(fd, iterate->token, iterate->heredoc, tokens, file_nm))
                 return NULL;
             free(iterate->token);
             iterate->token = ft_strndup(file_nm, ft_strlen(file_nm));
+			iterate->type = FILE_NAME;
+			free(file_nm);
             close(fd);
 		}
         else {

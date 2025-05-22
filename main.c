@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 21:10:22 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:04:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,8 +289,8 @@ int	main(int argc, char **argv, char **envp)
         {
             if (isatty(STDIN_FILENO))
                 write(2,"exit",4);
+			ft_freeEnvp();
 			exit(g_status()->status);
-            ft_freeEnvp();
         }
 		add_history(input);
         g_status()->flag = 1;

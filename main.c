@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 04:24:14 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 15:02:01 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,8 +289,8 @@ int	main(int argc, char **argv, char **envp)
         {
             if (isatty(STDIN_FILENO))
                 write(2,"exit",4);
-			exit(g_status()->status);
             ft_freeEnvp();
+			exit(g_status()->status);
         }
 		add_history(input);
         g_status()->flag = 1;

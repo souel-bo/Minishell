@@ -6,12 +6,14 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 19:14:28 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:38:20 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
+
+#include <sys/types.h>
 
 typedef enum s_type
 {
@@ -61,6 +63,7 @@ typedef struct s_status
 {
 	int 				interuppeted;
 	int					status;
+	pid_t				*pid;
 	int                 flag;
 }						t_status;
 

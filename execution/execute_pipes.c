@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 04:07:18 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 16:17:20 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ void	execute_pipeline(int pipes[2][2], t_execution *list,
 	if (list->args[0] == NULL && list->file->file_name != NULL)
 	{
 		check = ft_redirection(list->file);
+		free(g_status()->pid);
 		exit(check);
 	}
 	if (ft_redirection(list->file) == 1)
+	{
+		free(g_status()->pid);	
 		exit(1);
+	}
 	execute_cmds(list, helper, size);
 	exit(1);
 }
@@ -60,7 +64,7 @@ void	wait_all(pid_t *pids, t_hr hr)
 		waitpid(pids[j], &status, 0);
 		g_status()->status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			g_status()->status = WTERMSIG(status) + 2;
+			g_status()->status = WTERMSIG(status) + 128;
 		j++;
 	}
 }

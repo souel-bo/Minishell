@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 04:48:33 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 16:14:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,22 @@ void	ft_chdir(t_execution *input)
 
 void	ft_echo(t_execution *input)
 {
-	int (j) = 2;
+	int (j) = 0;
 	int (i) = 1;
 	int (flag) = 1;
-	while (input->args[i] && strncmp(input->args[i], "-n", 2) == 0)
+	while (input->args[i] && input->args[i][j] && input->args[i][j] == '-')
 	{
-		while (input->args[i][j] == 'n')
+		j++;
+		while (input->args[i][j] && input->args[i][j] == 'n' )
 			j++;
-		if (input->args[i][j] != '\0')
+		if (input->args[i][j] == '\0')
+		{
+			flag = 0;
+			j = 0;
+			i++;
+		}
+		else
 			break ;
-		flag = 0;
-		i++;
 	}
 	while (input->args[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 04:09:13 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 16:21:53 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	child(t_execution *list, t_hr hr, int pipes[2][2], int size);
 int			ft_lstsize_envp(t_envp *lst);
 int			ft_lstsize(t_execution *lst);
 char		**get_path(void);
+void free_and_exit();
 char		**ft_split(char const *s, char c);
 void		ft_free(char **ptr);
 int			ft_isprint(int c);

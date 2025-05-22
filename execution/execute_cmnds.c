@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 19:45:48 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:18:39 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@
 
 int	execute_cmd(t_execution *list, char *cmd)
 {
-	execve(cmd, list->args, listtoarray());
+	char ** env_char;
+
+	env_char = listtoarray();
+	execve(cmd, list->args, env_char);
 	free(cmd);
+	ft_free(env_char);
 	exit(127);
 }
 
@@ -27,6 +31,7 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 	if (if_builtin(list->args[0]) != 0)
 	{
 		is_builtin(list->args[0], list, size);
+		free(g_status()->pid);
 		ft_freeEnvp();
 		exit(g_status()->status);
 	}
@@ -36,6 +41,8 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 	{
 		print_error(list->args[0], ": command not found");
 		g_status()->status = 127;
+		ft_freeEnvp();
+		free(g_status()->pid);
 		exit(127);
 	}
 	else if (is_valid(list) == 1)
@@ -43,6 +50,7 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 		g_status()->status = 127;
 		print_error(list->args[0], ": command not found");
 		ft_freeEnvp();
+		free(g_status()->pid);
 		exit(127);
 	}
 }
@@ -65,10 +73,14 @@ void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 		if (list->args[0] == NULL && list->file->file_name != NULL)
 		{
 			check = ft_redirection(list->file);
+			free(g_status()->pid);
 			exit(check);
 		}
 		if (ft_redirection(list->file) == 1)
+		{
+			free(g_status()->pid);
 			exit(1);
+		}
 		execute_cmds(list, hr, size);
 	}
 	else if (list->args[0])

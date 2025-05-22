@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 21:39:56 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:49:10 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	scan_cmd(t_execution *list)
 		g_status()->status = 126;
 		print_error(list->args[0], ": Is a directory");
 		ft_freeEnvp();
+		free(g_status()->pid);
 		exit(g_status()->status);
 	}
 	else if (access(list->args[0], X_OK | F_OK) == 0)
@@ -34,6 +35,7 @@ void	scan_cmd(t_execution *list)
 			g_status()->status = 127;
 	}
 	ft_freeEnvp();
+	free(g_status()->pid);
 	exit(g_status()->status);
 }
 

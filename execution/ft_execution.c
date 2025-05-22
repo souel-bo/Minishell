@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/21 21:40:07 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:39 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ void	ft_execution(t_execution *list, int size)
 {
 	t_hr	hr;
 	int		pipes[2][2];
-	pid_t	*pid;
 
 	hr.i = 0;
-	pid = malloc(sizeof(pid_t) * size);
+	g_status()->pid = malloc(sizeof(pid_t) * size);
 	while (hr.i < size)
 	{
 		if (if_builtin(list->args[0]) != 0 && size == 1)
@@ -64,13 +63,15 @@ void	ft_execution(t_execution *list, int size)
 		}
 		if (hr.i < size - 1)
 			pipe(pipes[hr.i % 2]);
-		pid[hr.i] = fork();
-		if (pid[hr.i] == 0)
+		g_status()->pid[hr.i] = fork();
+		if (g_status()->pid[hr.i] == 0)
+		{
 			child(list, hr, pipes, size);
+		}
 		close_previous(pipes, hr.i);
 		hr.i++;
 		list = list->next;
 	}
-	cleanup(pid, hr);
-	free(pid);
+	cleanup(g_status()->pid, hr);
+	free(g_status()->pid);
 }

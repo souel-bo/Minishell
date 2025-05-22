@@ -12,6 +12,7 @@
         "span": "c",
         "algorithm": "c",
         "stat.h": "c",
-        "string": "c"
+        "string": "c",
+        "struct_timespec.h": "c"
     }
 }

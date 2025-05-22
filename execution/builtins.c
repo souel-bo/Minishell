@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 04:21:46 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/22 16:21:29 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ void	ft_unset(t_execution *list)
 	g_status()->status = 0;
 }
 
+void free_and_exit()
+{
+	free(g_status()->pid);
+	exit(g_status()->status);
+}
 void	ft_exit(t_execution *input, int size)
 {
 	int (j) = 0;
@@ -108,10 +113,10 @@ void	ft_exit(t_execution *input, int size)
 		else
 			g_status()->status = check;
 		if (size == 1)
-			exit (g_status()->status);
+			free_and_exit();
 	}
 	else
-		exit(g_status()->status);
+		free_and_exit();
 }
 
 void	ft_pwd(void)

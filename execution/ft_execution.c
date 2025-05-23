@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 15:33:39 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:50:25 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	check_command_type(t_execution *list)
 }
 
 void	ft_execution(t_execution *list, int size)
-{
+{ //benba
 	t_hr	hr;
 	int		pipes[2][2];
 

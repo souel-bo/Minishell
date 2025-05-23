@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 20:59:22 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:34:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,12 @@ int	check_sen(char *list)
 		if (list[j] == '+' && list[j + 1] == '=')
 		{
 			j++;
+			return (1);
 		}
 		if ((ft_isalnum(list[j]) == 0) && list[j] != '=')
+		{
 			return (0);
+		}
 		j++;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 16:14:50 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:44:52 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 
 void	without_argument(void)
 {
+	char *home;
 	if (search_in_env("HOME") == 1)
 	{
 		change_in_env("OLDPWD", getcwd(NULL, 0));
-		if (chdir(searchandsave("HOME")))
+		home = searchandsave("HOME");
+		if (chdir(home) == 0)
 		{
+			free(home);
 			g_status()->status = 0;
 			return ;
 		}
@@ -36,6 +39,7 @@ void	without_argument(void)
 
 void	invalid_argument(t_execution *input)
 {
+	char *tmp;
 	change_in_env("OLDPWD", getcwd(NULL, 0));
 	if (chdir(input->args[1]) == -1)
 	{
@@ -44,13 +48,17 @@ void	invalid_argument(t_execution *input)
 			->args[1], " :No such file or directory", 1);
 		return ;
 	}
-	change_in_env("PWD", getcwd(NULL, 0));
+	tmp = getcwd(NULL, 0);
+	change_in_env("PWD", tmp);
+	free(tmp);
 	g_status()->status = 0;
 }
 
 void	ft_chdir(t_execution *input)
 {
-	if (input->args[2])
+	int len_args;
+	len_args = array_len(input->args);
+	if (len_args >= 3)
 	{
 		print_error(input->args[0], ": too many arguments");
 		g_status()->status = 1;

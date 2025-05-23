@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 20:20:53 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:24:27 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	already_in(char *arg)
 			&& tmp->key[len_key] == '\0')
 		{
 			find_it(append, tmp, arg, len_key);
+			free(key);
 			return (1);
 		}
 		tmp = tmp->next;

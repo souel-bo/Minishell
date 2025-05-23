@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 20:42:58 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:47:38 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,9 +235,12 @@ void ft_freeEnvp()
     {
         temp = g_status()->new_envp;
         g_status()->new_envp = g_status()->new_envp->next;
-        free(temp->key);
-        free(temp->value);
-        free(temp);
+        if (temp->key)
+			free(temp->key);
+        if (temp->value)
+			free(temp->value);
+        if (temp)
+			free(temp);
     }
 }
 t_status *g_status()

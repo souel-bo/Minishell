@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:18:50 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:38:53 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 	{
 		is_builtin(list->args[0], list, size);
 		free(g_status()->pid);
-		ft_freeEnvp();
+		ft_freenvp();
 		exit(g_status()->status);
 	}
 	else if (ft_strchr(list->args[0], '/'))
-		scan_cmd(list);
+		scan_cmd(list, size);
 	else if (is_dir(list->args[0]))
 	{
 		command_not_found(list);
@@ -50,7 +50,7 @@ void	execute_cmds(t_execution *list, t_hr hr, int size)
 	if (search_in_env("PATH"))
 		cmdwithpath(list, hr.path, size);
 	else
-		scan_cmd(list);
+		scan_cmd(list, size);
 }
 
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)

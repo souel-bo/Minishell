@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:47 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 20:21:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:47:29 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,31 @@ char	**listtoarray(void)
 	}
 	envpexecve[i] = NULL;
 	return (envpexecve);
+}
+
+void	set_env_var(char *key, char *value)
+{
+	t_envp	*node;
+
+	t_envp (*curr) = g_status()->new_envp;
+	t_envp (*prev) = NULL;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, key) == 0)
+		{
+			free(curr->value);
+			curr->value = ft_strdup(value);
+			return ;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+	node = malloc(sizeof(t_envp));
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
+	node->next = NULL;
+	if (prev)
+		prev->next = node;
+	else
+		g_status()->new_envp = node;
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:21:58 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:39:02 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	without_argument(void)
 {
 	char	*home;
+	char	*current;
 
 	if (search_in_env("HOME") == 1)
 	{
@@ -26,10 +27,11 @@ void	without_argument(void)
 		{
 			free(home);
 			g_status()->status = 0;
+			current = getcwd(NULL, 0);
+			set_env_var("PWD", current);
+			free(current);
 			return ;
 		}
-		change_in_env("PWD", getcwd(NULL, 0));
-		g_status()->status = 0;
 	}
 	else
 	{
@@ -40,9 +42,10 @@ void	without_argument(void)
 
 void	invalid_argument(t_execution *input)
 {
-	char	*tmp;
+	char	*old_pwd;
+	char	*new_pwd;
 
-	change_in_env("OLDPWD", getcwd(NULL, 0));
+	old_pwd = getcwd(NULL, 0);
 	if (chdir(input->args[1]) == -1)
 	{
 		g_status()->status = 1;
@@ -50,8 +53,17 @@ void	invalid_argument(t_execution *input)
 			->args[1], " :No such file or directory", 1);
 		return ;
 	}
-	tmp = getcwd(NULL, 0);
-	change_in_env("PWD", tmp);
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+	{
+		perror("getcwd");
+		return ;
+	}
+	set_env_var("PWD", new_pwd);
+	if (old_pwd)
+		set_env_var("OLDPWD", old_pwd);
+	free(new_pwd);
+	free(old_pwd);
 	g_status()->status = 0;
 }
 
@@ -69,6 +81,13 @@ void	ft_chdir(t_execution *input)
 		without_argument();
 	else
 		invalid_argument(input);
+}
+
+void	echo_args(t_execution *input, int i)
+{
+	ft_putstr_fd(input->args[i], 1);
+	if (input->args[i + 1])
+		ft_putchar_fd(' ', 1);
 }
 
 void	ft_echo(t_execution *input)
@@ -92,9 +111,7 @@ void	ft_echo(t_execution *input)
 	}
 	while (input->args[i])
 	{
-		ft_putstr_fd(input->args[i], 1);
-		if (input->args[i + 1])
-			ft_putchar_fd(' ', 1);
+		echo_args(input, i);
 		i++;
 	}
 	if (flag)

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:19:56 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:49:44 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_env(void)
 	tmp = g_status()->new_envp;
 	while (tmp)
 	{
-		if (tmp->key && tmp->value != NULL)
+		if (tmp->key && tmp->value[0] != '\0')
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
@@ -39,7 +39,7 @@ void	ft_export(t_execution *list)
 		if (check_sen(list->args[i]) == 0)
 		{
 			print_error2("bash: export:", list->args[i],
-				": not a valid identifier\n", 2);
+				": not a valid identifier", 2);
 			g_status()->status = 1;
 			i++;
 		}
@@ -88,13 +88,11 @@ void	ft_exit(t_execution *input, int size)
 {
 	int	len_args;
 
-	int (j) = 0;
-	int (check) = 0;
 	len_args = array_len(input->args);
 	if (size == 1 && len_args == 1)
 	{
 		write(2, "exit\n", 5);
-		ft_freeEnvp();
+		ft_freenvp();
 		free_and_exit();
 	}
 	else if (input->args[1] && checkifnum(input->args[1]) == 0)
@@ -105,21 +103,10 @@ void	ft_exit(t_execution *input, int size)
 		g_status()->status = 1;
 	}
 	else if (input->args[1])
-	{
-		check = ft_atoi(input->args[1], &j);
-		if (j == 1)
-			num_error(input, size);
-		else
-			g_status()->status = check;
-		if (size == 1)
-		{
-			ft_freeEnvp();
-			free_and_exit();
-		}
-	}
+		check_number(input, size);
 	else
 	{
-		ft_freeEnvp();
+		ft_freenvp();
 		free_and_exit();
 	}
 }
@@ -133,6 +120,5 @@ void	ft_pwd(void)
 		printf("%s\n", searchandsave("PWD"));
 	else
 		printf("%s\n", buf);
-	free(buf);
 	g_status()->status = 0;
 }

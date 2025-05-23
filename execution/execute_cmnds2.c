@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:20:28 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:43:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,37 @@
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
 
-void	scan_cmd(t_execution *list)
+void	permission_notfound(t_execution *list)
 {
+	perror(list->args[0]);
+	if (errno == EACCES)
+		g_status()->status = 126;
+	else
+		g_status()->status = 127;
+}
+
+void	scan_cmd(t_execution *list, int size)
+{
+	if (if_builtin(list->args[0]) != 0)
+	{
+		is_builtin(list->args[0], list, size);
+		free(g_status()->pid);
+		ft_freenvp();
+		exit(g_status()->status);
+	}
 	if (is_dir(list->args[0]))
 	{
 		g_status()->status = 126;
 		print_error(list->args[0], ": Is a directory");
-		ft_freeEnvp();
+		ft_freenvp();
 		free(g_status()->pid);
 		exit(g_status()->status);
 	}
 	else if (access(list->args[0], X_OK | F_OK) == 0)
 		execute_cmd(list, list->args[0]);
 	else
-	{
-		perror(list->args[0]);
-		if (errno == EACCES)
-			g_status()->status = 126;
-		else
-			g_status()->status = 127;
-	}
-	ft_freeEnvp();
+		permission_notfound(list);
+	ft_freenvp();
 	free(g_status()->pid);
 	exit(g_status()->status);
 }
@@ -49,7 +59,7 @@ void	command_not_found(t_execution *list)
 {
 	g_status()->status = 127;
 	print_error(list->args[0], ": command not found");
-	ft_freeEnvp();
+	ft_freenvp();
 	free(g_status()->pid);
 	exit(127);
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 15:24:27 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:42:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	unset_var(t_envp *prev, t_envp *current)
 		g_status()->new_envp = current->next;
 	else
 		prev->next = current->next;
-	free(current->key);
-	free(current->value);
-	free(current);
+	free (current->value);
+	free (current->key);
+	free (current);
 }
 
 void	export_signle(t_envp *export)

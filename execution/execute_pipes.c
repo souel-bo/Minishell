@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:22:09 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:58:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	setup_pipes(int pipes[2][2], int i, int size)
 void	cleanup(pid_t *pid, t_hr hr)
 {
 	wait_all(pid, hr);
+	free(g_status()->pid);
 }
 
 void	wait_all(pid_t *pids, t_hr hr)

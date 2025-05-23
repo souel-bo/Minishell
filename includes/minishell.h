@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 16:18:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:37:27 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@
 #include <limits.h>
 # include "header.h"
 # define ALLOC 409600
+void	set_env_var(char *key, char *value);
+int	start(char *input);
+char	*setup_input(void);
+void	check_number(t_execution *input, int size);
 void	command_not_found(t_execution *list);
 int	array_len(char **args);
 void	cmdwithpath(t_execution *list, char **path, int size);
@@ -83,7 +87,7 @@ void		ft_execution(t_execution *list, int size);
 const char	*type_to_string(t_type type);
 t_execution	*pre_execution(t_token *tokens);
 t_token		*handle_heredoc(t_token *tokens);
-void		ft_freeEnvp(void);
+void		ft_freenvp(void);
 void		print(t_execution *list, t_token *list2);
 void	check_command_type(t_execution *list);
 void check_builtin(t_execution *list, int size);
@@ -96,7 +100,7 @@ void	print_error(char *name, char *error);
 void	print_error2(char *name, char *error,char *message,int status);
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size);
 t_envp	*ft_lstlast2(t_envp *lst);
-void	scan_cmd(t_execution *list);
+void	scan_cmd(t_execution *list, int size);
 void handler(int sig);
 void sig_child();
 void	cleanup(pid_t *pid, t_hr hr);

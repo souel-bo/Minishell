@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:58 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:15:24 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 20:37:18 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	num_error(t_execution *input, int size)
 		input->args[1], ": numeric argument required", 2);
 	if (size == 1)
 	{
-		ft_freeEnvp();
+		ft_freenvp();
 		free_and_exit();
 	}
 }
@@ -55,4 +55,20 @@ int	array_len(char **args)
 	while (args[i])
 		i++;
 	return (i);
+}
+
+void	check_number(t_execution *input, int size)
+{
+	int (j) = 0;
+	int (check) = 0;
+	check = ft_atoi(input->args[1], &j);
+	if (j == 1)
+		num_error(input, size);
+	else
+		g_status()->status = check;
+	if (size == 1)
+	{
+		ft_freenvp();
+		free_and_exit();
+	}
 }

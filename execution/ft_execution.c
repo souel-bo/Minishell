@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:00:11 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:43:07 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,10 @@ void	ft_execution(t_execution *list, int size)
 			pipe(pipes[hr.i % 2]);
 		g_status()->pid[hr.i] = fork();
 		if (g_status()->pid[hr.i] == 0)
-		{
 			child(list, hr, pipes, size);
-		}
 		close_previous(pipes, hr.i);
 		hr.i++;
 		list = list->next;
 	}
 	cleanup(g_status()->pid, hr);
-	free(g_status()->pid);
 }

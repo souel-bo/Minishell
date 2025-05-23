@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 04:23:31 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/23 20:53:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ int	read_here_doc(int fd, char *delimiter)
 		{
 			g_status()->status = WEXITSTATUS(g_status()->status);
             if (g_status()->status == 130)
-            {
-                printf("test 1\n");
                 return 1;
-            }
 			return 0;
 		}
 	}

@@ -13,6 +13,8 @@
         "algorithm": "c",
         "stat.h": "c",
         "string": "c",
-        "struct_timespec.h": "c"
+        "struct_timespec.h": "c",
+        "chrono": "c",
+        "functional": "c"
     }
 }

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 21:58:09 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 00:04:13 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,15 @@ void	execute_pipeline(int pipes[2][2], t_execution *list,
 	if (list->args[0] == NULL && list->file->file_name != NULL)
 	{
 		check = ft_redirection(list->file);
-		free(g_status()->pid);
-		exit(check);
+		ft_freenvp();
+		ft_lstclear_v2(&list);
+		free_and_exit();
 	}
 	if (ft_redirection(list->file) == 1)
 	{
-		free (g_status()->pid);
-		exit(1);
+		ft_freenvp();
+		ft_lstclear_v2(&list);
+		free_and_exit();
 	}
 	execute_cmds(list, helper, size);
 	exit(1);

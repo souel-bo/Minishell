@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:33:54 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 20:57:01 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:27:26 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	start(char	*input)
 	}
 	tokens = expantion(tokens);
 	pre = pre_execution(tokens);
-	check_command_type(pre);
 	ft_lstclear(&tokens, free);
+	check_command_type(pre);
 	ft_lstclear_v2(&pre);
 	free(input);
 	return 0;

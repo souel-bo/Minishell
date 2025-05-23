@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 20:53:50 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:22:30 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,20 @@ char	*file_name(void)
 {
 	static int	i = 0;
 	char		*join;
-
-	join = ft_strjoin(HERE_DOC_FILE, ft_itoa(i));
+	char *it;
+	
+	it = NULL;
+	join = NULL;
+	it = ft_itoa(i);
+	join = ft_strjoin(HERE_DOC_FILE, it);
+	free(it);
 	while (!access(join, F_OK))
 	{
 		i++;
-		join = ft_strjoin(HERE_DOC_FILE, ft_itoa(i));
+		it = ft_itoa(i);
+		free(join);
+		join = ft_strjoin(HERE_DOC_FILE, it);
+		free(it);
 	}
 	return (join);
 }
@@ -47,7 +55,98 @@ pid_t	fork_here_doc(void)
 	return (pid);
 }
 
-int	read_here_doc(int fd, char *delimiter)
+char *expand_here_doc(char *input)
+{
+	char *temp;
+	int i;
+	char *s;
+	int j;
+	int k;
+	char *l;
+	int n;
+	temp = NULL;
+	s = NULL;
+	j  = 0;
+	i = 0;
+	
+	if (find_dollar(input))
+	{
+		temp = malloc(ALLOC);
+		i = 0;
+		j = 0;
+		while (input[i])
+		{
+			if (input[i] == '$')
+				{
+					if (!input[i + 1] || input[i + 1] == '$'
+						|| (!ft_is_alpha(input[i + 1])
+							&& input[i + 1] != '?' && input[i
+							+ 1] != '_' && input[i + 1] != '\''
+							&& input[i + 1] != '"'
+							&& !ft_isdigit(input[i])))
+						temp[j++] = input[i++];
+					else
+					{
+						i++;
+						if (input[i] >= '0'
+							&& input[i] <= '9')
+						{
+							i++;
+							continue ;
+						}
+						else
+						{
+							s = malloc(ft_strlen(&input[i]) + 1);
+							if (!s)
+								return (NULL);
+							k = 0;
+							if (input[i] == '?')
+							{
+								i++;
+								l = ft_itoa(g_status()->status);
+								n = 0;
+								while (l[n])
+									temp[j++] = l[n++];
+								free(l);
+							}
+							else
+							{
+								while (input[i]
+									&& (ft_is_alpha(input[i])
+										|| input[i] == '_')
+									&& !is_special(input[i]))
+									s[k++] = input[i++];
+							}
+							s[k] = '\0';
+							s = expand_env(s);
+							if (s)
+							{
+								join_value(temp, s, &j);
+								free(s);
+							}
+						}
+					}
+				}
+				else
+					temp[j++] = input[i++];
+		}
+		temp[j] = '\0';
+		free(input);
+		input = ft_strndup(temp, ft_strlen(temp));
+		free(temp);
+	}
+	return (input);
+}
+
+void ft_free_here_doc(t_token *tokens, char *file_nm, int fd)
+{
+	ft_lstclear(&tokens, free);
+	ft_freenvp();
+	free(file_nm);
+	close(fd);
+}
+
+int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file_nm)
 {
 	char	*input;
 	pid_t	pid;
@@ -57,17 +156,26 @@ int	read_here_doc(int fd, char *delimiter)
 	{
 		while (!g_status()->interuppeted)
 		{
-			// input = read_input();
 			input = readline("here_doc $-> : ");
 			if (!input)
+			{
+				ft_putstr_fd("MINISHELL : warning: here-document at line 1 delimited by end-of-file (wanted `", 2);
+				ft_putstr_fd(delimiter, 2);
+				ft_putstr_fd("')\n", 2);
+				ft_free_here_doc(tokens, file_nm, fd);
 				exit(g_status()->status);
+			}
 			else if (ft_strlen(delimiter) == ft_strlen(input)
 				&& !ft_strncmp(delimiter, input, ft_strlen(delimiter)))
 				break ;
+			if (!flag)
+				input = expand_here_doc(input);
 			ft_putstr_fd(input, fd);
 			ft_putchar_fd('\n', fd);
+			free(input);
 		}
 		g_status()->status = 0;
+		ft_free_here_doc(tokens, file_nm, fd);
 		exit(g_status()->status);
 	}
 	else
@@ -94,9 +202,7 @@ t_token	*handle_heredoc(t_token *tokens)
 	while (iterate)
 	{
 		while (iterate && iterate->type != HERE_DOC)
-        {
 			    iterate = iterate->next;
-        }
 		if (iterate && iterate->type == HERE_DOC)
 		{
 			free(iterate->token);
@@ -105,10 +211,17 @@ t_token	*handle_heredoc(t_token *tokens)
 			iterate = iterate->next;
 			file_nm = file_name();
 			fd = open(file_nm, O_CREAT | O_RDWR, 0666);
-            if (read_here_doc(fd, iterate->token))
+            if (read_here_doc(fd, iterate->token, iterate->heredoc, tokens, file_nm))
+			{
+				ft_lstclear(&tokens, free);
+				free(file_nm);
+				close(fd);
                 return NULL;
+			}
             free(iterate->token);
             iterate->token = ft_strndup(file_nm, ft_strlen(file_nm));
+			iterate->type = FILE_NAME;
+			free(file_nm);
             close(fd);
 		}
         else {

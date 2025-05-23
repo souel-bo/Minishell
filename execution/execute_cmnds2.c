@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 22:43:55 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:54:01 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	scan_cmd(t_execution *list, int size)
 		is_builtin(list->args[0], list, size);
 		free(g_status()->pid);
 		ft_freenvp();
+		ft_lstclear_v2(&list);
 		exit(g_status()->status);
 	}
 	if (is_dir(list->args[0]))
@@ -37,6 +38,7 @@ void	scan_cmd(t_execution *list, int size)
 		g_status()->status = 126;
 		print_error(list->args[0], ": Is a directory");
 		ft_freenvp();
+		ft_lstclear_v2(&list);;
 		free(g_status()->pid);
 		exit(g_status()->status);
 	}
@@ -45,6 +47,7 @@ void	scan_cmd(t_execution *list, int size)
 	else
 		permission_notfound(list);
 	ft_freenvp();
+	ft_lstclear_v2(&list);
 	free(g_status()->pid);
 	exit(g_status()->status);
 }
@@ -61,6 +64,7 @@ void	command_not_found(t_execution *list)
 	print_error(list->args[0], ": command not found");
 	ft_freenvp();
 	free(g_status()->pid);
+	ft_lstclear_v2(&list);
 	exit(127);
 }
 

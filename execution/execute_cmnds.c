@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 22:38:53 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 00:01:03 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	execute_cmd(t_execution *list, char *cmd)
 	execve(cmd, list->args, env_char);
 	free(cmd);
 	ft_free(env_char);
+	ft_lstclear_v2(&list);
 	exit(127);
 }
 
@@ -33,6 +34,7 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 		is_builtin(list->args[0], list, size);
 		free(g_status()->pid);
 		ft_freenvp();
+		ft_lstclear_v2(&list);
 		exit(g_status()->status);
 	}
 	else if (ft_strchr(list->args[0], '/'))
@@ -56,27 +58,37 @@ void	execute_cmds(t_execution *list, t_hr hr, int size)
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	int (check) = 1;
-	if (list->args[0] == NULL && list->file->file_name != NULL)
+	if (list->args[0] == NULL && list->file->file_name != NULL && size == 1)
+	{
 		check = ft_redirection(list->file);
+		ft_freenvp();
+		ft_lstclear_v2(&list);
+		free_and_exit();
+	}
 	if (size == 1 && list->args[0])
 	{
 		if (list->args[0] == NULL && list->file->file_name != NULL)
 		{
 			check = ft_redirection(list->file);
 			free(g_status()->pid);
+			ft_lstclear_v2(&list);
 			exit(check);
 		}
 		if (ft_redirection(list->file) == 1)
 		{
 			free(g_status()->pid);
+			ft_lstclear_v2(&list);
 			exit(1);
 		}
 		execute_cmds(list, hr, size);
 	}
-	else if (list->args[0])
+	else if (size > 1)
 		execute_pipeline(pipes, list, hr, size);
 	else
+	{
+		ft_lstclear_v2(&list);
 		exit(check);
+	}
 }
 
 int	is_valid(t_execution *list)

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 22:39:02 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:43:08 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	ft_echo(t_execution *input)
 	int (j) = 0;
 	int (i) = 1;
 	int (flag) = 1;
+
 	while (input->args[i] && input->args[i][j] && input->args[i][j] == '-')
 	{
 		j++;

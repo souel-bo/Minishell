@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:13:45 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:49:42 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	check_builtin(t_execution *list, int size)
 {
 	int	stdout_copy;
 	int	stdin_copy;
+	stdout_copy = dup(1);
+	stdin_copy = dup(0);
 
 	if (list)
 	{
@@ -25,18 +27,16 @@ void	check_builtin(t_execution *list, int size)
 		{
 			if (ft_redirection(list->file) == 0)
 			{
-				stdout_copy = dup(1);
-				stdin_copy = dup(0);
 				is_builtin(list->args[0], list, size);
 				dup2(stdout_copy, 1);
 				dup2(stdin_copy, 0);
-				close(stdin_copy);
-				close(stdout_copy);
 			}
 		}
 		else
-			is_builtin(list->args[0], list, size);
+		is_builtin(list->args[0], list, size);
 	}
+	close(stdin_copy);
+	close(stdout_copy);
 }
 
 int	check_sen(char *list)

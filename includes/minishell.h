@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 22:37:27 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:22:20 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@
 #include <limits.h>
 # include "header.h"
 # define ALLOC 409600
+int	find_dollar(char *s);
+int	is_special(char c);
+void	join_value(char *temp, const char *s, int *j);
+char	*expand_env(char *key);
 void	set_env_var(char *key, char *value);
 int	start(char *input);
 char	*setup_input(void);

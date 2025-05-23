@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:37 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 13:18:38 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:35:55 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,15 @@ int	is_special(char c);
 int	find_dollar(char *s);
 int	check_quote(char *delimiter);
 void	set_quote(t_token *new);
+void	expand_exit_status(t_norm_v2 *obj);
+void	expand_single_quote(t_norm_v2 *obj, t_token *iterate);
+int	check(t_norm_v2 *obj, t_token *iterate);
+int	check_2(t_norm_v2 *obj, t_token *iterate);
+void	copy_variable(t_norm_v2 *obj, t_token *iterate);
+void	normal_expand(t_norm_v2 *obj, t_token *iterate);
+void	finish_it(t_norm_v2 *obj);
+void	skip(t_norm_v2 *obj, t_token *iterate);
+void	helper(t_norm_v2 *obj, t_token *iterate);
+void	expand_double_quote(t_norm_v2 *obj, t_token *iterate);
+t_token	*handle_quote(t_token *tokens);
 #endif

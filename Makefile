@@ -8,7 +8,7 @@ MINISHELL_SRC = main.c
 
 TOKENIZER = tokenizer/tokenizer.c parser/parser.c parser/parser_utils.c parser/pre_execution.c tokenizer/lexer.c tokenizer/tokenizer_utils.c here_doc/here_doc.c
 
-EXPANTION = expantion/expantion.c expantion/expand_value.c
+EXPANTION = expantion/expantion.c expantion/expand_value.c expantion/expand_value_utils_2.c  expantion/expand_value_utils.c expantion/expantion_utils.c
 
 LIBFT_SRC = libft/ft_lstaddback.c libft/ft_lstdelone.c libft/ft_lstnew.c libft/ft_strjoin.c libft/ft_strlcpy.c libft/ft_strndup.c \
             libft/ft_lstclear.c libft/ft_lstlast.c libft/ft_strchr.c libft/ft_strlcat.c libft/ft_strlen.c \

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 13:03:08 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 14:30:57 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:09 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	check(t_norm_v2 *obj, t_token *iterate)
 {
 	if (!iterate->token[obj->i + 1] || iterate->token[obj->i + 1] == '$'
 		|| (!ft_is_alpha(iterate->token[obj->i + 1]) && iterate->token[obj->i
-			+ 1] != '?' && iterate->token[obj->i + 1] != '_'
+				+ 1] != '?' && iterate->token[obj->i + 1] != '_'
 			&& iterate->token[obj->i + 1] != SINGLE_QUOTE
 			&& iterate->token[obj->i + 1] != DOUBLE_QUOTE
 			&& !ft_isdigit(iterate->token[obj->i])))
@@ -46,9 +46,9 @@ int	check(t_norm_v2 *obj, t_token *iterate)
 int	check_2(t_norm_v2 *obj, t_token *iterate)
 {
 	if (iterate->token[obj->i + 1] == DOUBLE_QUOTE || !iterate->token[obj->i
-		+ 1] || iterate->token[obj->i + 1] == '$'
+			+ 1] || iterate->token[obj->i + 1] == '$'
 		|| (!ft_is_alpha(iterate->token[obj->i + 1]) && iterate->token[obj->i
-			+ 1] != '?' && iterate->token[obj->i + 1] != '_'))
+				+ 1] != '?' && iterate->token[obj->i + 1] != '_'))
 		return (1);
 	return (0);
 }
@@ -88,40 +88,70 @@ void	normal_expand(t_norm_v2 *obj, t_token *iterate)
 	}
 }
 
+void	finish_it(t_norm_v2 *obj)
+{
+	obj->s[obj->k] = '\0';
+	obj->s = expand_env(obj->s);
+	if (obj->s)
+		(join_value(obj->temp, obj->s, &obj->j), free(obj->s));
+}
+
+void	skip(t_norm_v2 *obj, t_token *iterate)
+{
+	obj->i++;
+	if (iterate->token[obj->i] >= '0' && iterate->token[obj->i] <= '9')
+		obj->i++;
+}
+
+void	helper(t_norm_v2 *obj, t_token *iterate)
+{
+	if (check_2(obj, iterate))
+		obj->temp[obj->j++] = iterate->token[obj->i++];
+	else
+	{
+		skip(obj, iterate);
+		obj->s = malloc(ft_strlen(&iterate->token[obj->i]) + 1);
+		if (!obj->s)
+			return ;
+		obj->k = 0;
+		if (iterate->token[obj->i] == '?')
+			expand_exit_status(obj);
+		else
+			copy_variable(obj, iterate);
+		finish_it(obj);
+	}
+}
+
 void	expand_double_quote(t_norm_v2 *obj, t_token *iterate)
 {
 	obj->temp[obj->j++] = iterate->token[obj->i++];
 	while (iterate->token[obj->i] && iterate->token[obj->i] != DOUBLE_QUOTE)
 	{
 		if (iterate->token[obj->i] == '$')
-		{
-			if (check_2(obj, iterate))
-				obj->temp[obj->j++] = iterate->token[obj->i++];
-			else
-			{
-				obj->i++;
-				if (iterate->token[obj->i] >= '0'
-					&& iterate->token[obj->i] <= '9')
-					obj->i++;
-				obj->s = malloc(ft_strlen(&iterate->token[obj->i]) + 1);
-				if (!obj->s)
-					return ;
-				obj->k = 0;
-				if (iterate->token[obj->i] == '?')
-					expand_exit_status(obj);
-				else
-					copy_variable(obj, iterate);
-				obj->s[obj->k] = '\0';
-				obj->s = expand_env(obj->s);
-				if (obj->s)
-					(join_value(obj->temp, obj->s, &obj->j), free(obj->s));
-			}
-		}
+			helper(obj, iterate);
 		else
 			obj->temp[obj->j++] = iterate->token[obj->i++];
 	}
 	if (iterate->token[obj->i] == DOUBLE_QUOTE)
 		obj->temp[obj->j++] = iterate->token[obj->i++];
+}
+
+void	asign_clean(t_norm_v2 *obj, t_token *iterate)
+{
+	obj->temp[obj->j] = '\0';
+	free(iterate->token);
+	iterate->token = ft_strndup(obj->temp, ft_strlen(obj->temp));
+	free(obj->temp);
+}
+
+void	initialize_value(t_norm_v2 *obj, t_token *iterate)
+{
+	iterate->expanded = 1;
+	obj->i = 0;
+	obj->j = 0;
+	obj->temp = malloc(ALLOC);
+	if (!obj->temp)
+		return ;
 }
 
 t_token	*expand_value(t_token *token)
@@ -134,12 +164,7 @@ t_token	*expand_value(t_token *token)
 	{
 		if (find_dollar(iterate->token) && iterate->type != DELIMITER)
 		{
-			iterate->expanded = 1;
-			obj.i = 0;
-			obj.j = 0;
-			obj.temp = malloc(ALLOC);
-			if (!obj.temp)
-				return (NULL);
+			initialize_value(&obj, iterate);
 			while (iterate->token[obj.i])
 			{
 				if (iterate->token[obj.i] == DOUBLE_QUOTE)
@@ -151,10 +176,7 @@ t_token	*expand_value(t_token *token)
 				else
 					obj.temp[obj.j++] = iterate->token[obj.i++];
 			}
-			obj.temp[obj.j] = '\0';
-			free(iterate->token);
-			iterate->token = ft_strndup(obj.temp, ft_strlen(obj.temp));
-			free(obj.temp);
+			asign_clean(&obj, iterate);
 		}
 		iterate = iterate->next;
 	}

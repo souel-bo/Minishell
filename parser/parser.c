@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/16 12:53:29 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:28:24 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,34 +15,34 @@
 int	check_quotes(char *input)
 {
 	int	i;
-	int	in_single;
-	int	in_double;
+	char quote;
 
 	i = 0;
-	in_single = 0;
-	in_double = 0;
+	quote = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' && in_double == 0)
+		if ((input[i] == '\'' || input[i] == '"') && quote == 0)
 		{
-			if (in_single == 0)
-				in_single = 1;
-			else
-				in_single = 0;
+			quote = input[i];
+			if (input[i] == '"')
+				input[i] = DOUBLE_QUOTE;
+			else 
+				input[i] = SINGLE_QUOTE;
 		}
-		else if (input[i] == '\"' && in_single == 0)
+		else if (input[i] == quote)
 		{
-			if (in_double == 0)
-				in_double = 1;
-			else
-				in_double = 0;
+			quote = 0;
+			if (input[i] == '"')
+				input[i] = DOUBLE_QUOTE;
+			else 
+				input[i] = SINGLE_QUOTE;
 		}
 		i++;
 	}
-	if (in_single || in_double)
+	if (quote != 0)
 	{
 		g_status()->status = 2;
-		return (1);
+		return 1;
 	}
 	return (0);
 }

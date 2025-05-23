@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/19 19:14:28 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:06:56 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_token
 	char				*token;
 	t_type				type;
 	int					index;
-	int heredoc;
+	int					heredoc;
 	int					expanded;
 	struct s_token		*next;
 }						t_token;
@@ -59,9 +59,9 @@ typedef struct s_execution
 
 typedef struct s_status
 {
-	int 				interuppeted;
+	int					interuppeted;
 	int					status;
-	int                 flag;
+	int					flag;
 }						t_status;
 
 typedef struct s_envp
@@ -80,11 +80,22 @@ typedef struct s_norm
 	t_execution			*exec_list;
 }						t_norm;
 
+typedef struct s_norm_v2
+{
+	char				*s;
+	char				*temp;
+	char				*l;
+	int					i;
+	int					j;
+	int					k;
+	int					n;
+}						t_norm_v2;
+
 typedef struct s_hr
 {
-	int i;
-	char **path;
-} t_hr;
+	int					i;
+	char				**path;
+}						t_hr;
 
 extern t_envp			*g_new_envp;
 

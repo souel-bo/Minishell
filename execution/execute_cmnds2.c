@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/16 22:14:23 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 21:39:56 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,19 @@ void	scan_cmd(t_execution *list)
 	else if (access(list->args[0], X_OK | F_OK) == 0)
 		execute_cmd(list, list->args[0]);
 	else
+	{
 		perror(list->args[0]);
-	g_status()->status = 127;
+		if (errno == EACCES)
+			g_status()->status = 126;
+		else
+			g_status()->status = 127;
+	}
 	ft_freeEnvp();
 	exit(g_status()->status);
+}
+
+void	child(t_execution *list, t_hr hr, int pipes[2][2], int size)
+{
+	sig_child();
+	execute_commands(list, hr, pipes, size);
 }

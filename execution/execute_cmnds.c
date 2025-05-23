@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/20 16:12:00 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:45:48 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,13 @@
 #include "../includes/tokenizer.h"
 
 int	execute_cmd(t_execution *list, char *cmd)
-{	
-	if (list->args[0] == NULL && list->file != NULL)
-	{
-		no_args(list);
-		exit(0);
-	}
-	if (ft_redirection(list->file) == 1)
-		exit(1);
-	else
-		execve(cmd, list->args, listToArray());
+{
+	execve(cmd, list->args, listtoarray());
 	free(cmd);
 	exit(127);
 }
 
-void	cmdWpath(t_execution *list, char **path, int size)
+void	cmdwithpath(t_execution *list, char **path, int size)
 {
 	(void)path;
 	if (if_builtin(list->args[0]) != 0)
@@ -55,39 +47,45 @@ void	cmdWpath(t_execution *list, char **path, int size)
 	}
 }
 
-void	execute_Cmd(t_execution *list, t_hr hr, int size)
+void	execute_cmds(t_execution *list, t_hr hr, int size)
 {
 	if (search_in_env("PATH"))
-		cmdWpath(list, hr.path, size);
+		cmdwithpath(list, hr.path, size);
 	else
 		scan_cmd(list);
 }
 
 void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
-	if (list->args[hr.i] == NULL && list->file != NULL)
-		no_args(list);
-	if (size == 1 && list->file == NULL)
+	int (check) = 1;
+	if (list->args[0] == NULL && list->file->file_name != NULL)
+		check = ft_redirection(list->file);
+	if (size == 1 && list->args[0])
 	{
-		execute_Cmd(list, hr, size);
+		if (list->args[0] == NULL && list->file->file_name != NULL)
+		{
+			check = ft_redirection(list->file);
+			exit(check);
+		}
+		if (ft_redirection(list->file) == 1)
+			exit(1);
+		execute_cmds(list, hr, size);
 	}
 	else if (list->args[0])
-	{	
 		execute_pipeline(pipes, list, hr, size);
-	}
 	else
-		exit(g_status()->status);
+		exit(check);
 }
 
 int	is_valid(t_execution *list)
 {
-	int		i;
 	char	*tmp;
 	char	*full_cmd;
 	char	**paths;
-	i = 0;
-	if ( (list->args[0]== NULL) || (list->args[0][0] == '\0'))
-		return 1;
+
+	int (i) = 0;
+	if ((list->args[0] == NULL) || (list->args[0][0] == '\0'))
+		return (1);
 	paths = get_path();
 	while (paths[i])
 	{

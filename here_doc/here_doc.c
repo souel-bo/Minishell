@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 10:50:03 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:23:57 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ char *expand_here_doc(char *input)
 	int k;
 	char *l;
 	int n;
+	temp = NULL;
+	s = NULL;
+	j  = 0;
+	i = 0;
+	
 	if (find_dollar(input))
 	{
 		temp = malloc(ALLOC);
@@ -125,11 +130,20 @@ char *expand_here_doc(char *input)
 				else
 					temp[j++] = input[i++];
 		}
+		temp[j] = '\0';
 		free(input);
 		input = ft_strndup(temp, ft_strlen(temp));
 		free(temp);
 	}
 	return (input);
+}
+
+void ft_free_here_doc(t_token *tokens, char *file_nm, int fd)
+{
+	ft_lstclear(&tokens, free);
+	ft_freeEnvp();
+	free(file_nm);
+	close(fd);
 }
 
 int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file_nm)
@@ -145,10 +159,10 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file
 			input = readline("here_doc $-> : ");
 			if (!input)
 			{
-				ft_lstclear(&tokens, free);
-				ft_freeEnvp();
-				free(file_nm);
-				close(fd);
+				ft_putstr_fd("MINISHELL : warning: here-document at line 1 delimited by end-of-file (wanted `", 2);
+				ft_putstr_fd(delimiter, 2);
+				ft_putstr_fd("')\n", 2);
+				ft_free_here_doc(tokens, file_nm, fd);
 				exit(g_status()->status);
 			}
 			else if (ft_strlen(delimiter) == ft_strlen(input)
@@ -158,8 +172,10 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file
 				input = expand_here_doc(input);
 			ft_putstr_fd(input, fd);
 			ft_putchar_fd('\n', fd);
+			free(input);
 		}
 		g_status()->status = 0;
+		ft_free_here_doc(tokens, file_nm, fd);
 		exit(g_status()->status);
 	}
 	else
@@ -169,7 +185,6 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens, char *file
 		{
 			g_status()->status = WEXITSTATUS(g_status()->status);
             if (g_status()->status == 130)
-
                 return 1;
 			return 0;
 		}
@@ -197,7 +212,12 @@ t_token	*handle_heredoc(t_token *tokens)
 			file_nm = file_name();
 			fd = open(file_nm, O_CREAT | O_RDWR, 0666);
             if (read_here_doc(fd, iterate->token, iterate->heredoc, tokens, file_nm))
+			{
+				ft_lstclear(&tokens, free);
+				free(file_nm);
+				close(fd);
                 return NULL;
+			}
             free(iterate->token);
             iterate->token = ft_strndup(file_nm, ft_strlen(file_nm));
 			iterate->type = FILE_NAME;

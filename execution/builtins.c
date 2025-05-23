@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 21:05:52 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:04:57 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	ft_export(t_execution *list)
 	{
 		if (check_sen(list->args[i]) == 0)
 		{
-			print_error("bash: export:", list->args[i]);
-			write(2, ": not a valid identifier\n", 25);
+			print_error2("bash: export:", list->args[i],
+				": not a valid identifier\n",2);
 			g_status()->status = 1;
 			i++;
 		}

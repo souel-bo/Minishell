@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 15:47:38 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:10:14 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,16 +231,17 @@ int check_space(char *input)
 void ft_freeEnvp()
 {
     t_envp *temp;
+	t_envp *next;
     while (g_status()->new_envp)
     {
         temp = g_status()->new_envp;
-        g_status()->new_envp = g_status()->new_envp->next;
-        if (temp->key)
+        next = temp->next;
+		if (temp->key)
 			free(temp->key);
         if (temp->value)
 			free(temp->value);
-        if (temp)
-			free(temp);
+		free(temp);
+        g_status()->new_envp = next;
     }
 }
 t_status *g_status()

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 15:44:52 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:00:49 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	invalid_argument(t_execution *input)
 	}
 	tmp = getcwd(NULL, 0);
 	change_in_env("PWD", tmp);
-	free(tmp);
+	// free(tmp);
 	g_status()->status = 0;
 }
 

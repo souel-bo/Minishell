@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 16:00:49 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:21:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 
 void	without_argument(void)
 {
-	char *home;
+	char	*home;
+
 	if (search_in_env("HOME") == 1)
 	{
 		change_in_env("OLDPWD", getcwd(NULL, 0));
@@ -39,7 +40,8 @@ void	without_argument(void)
 
 void	invalid_argument(t_execution *input)
 {
-	char *tmp;
+	char	*tmp;
+
 	change_in_env("OLDPWD", getcwd(NULL, 0));
 	if (chdir(input->args[1]) == -1)
 	{
@@ -50,13 +52,13 @@ void	invalid_argument(t_execution *input)
 	}
 	tmp = getcwd(NULL, 0);
 	change_in_env("PWD", tmp);
-	// free(tmp);
 	g_status()->status = 0;
 }
 
 void	ft_chdir(t_execution *input)
 {
-	int len_args;
+	int	len_args;
+
 	len_args = array_len(input->args);
 	if (len_args >= 3)
 	{

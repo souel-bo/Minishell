@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 16:17:20 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:22:09 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	execute_pipeline(int pipes[2][2], t_execution *list,
 	}
 	if (ft_redirection(list->file) == 1)
 	{
-		free(g_status()->pid);	
+		free (g_status()->pid);
 		exit(1);
 	}
 	execute_cmds(list, helper, size);

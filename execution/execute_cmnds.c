@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 20:38:36 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:18:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	execute_cmd(t_execution *list, char *cmd)
 {
-	char ** env_char;
+	char	**env_char;
 
 	env_char = listtoarray();
 	execve(cmd, list->args, env_char);
@@ -39,20 +39,10 @@ void	cmdwithpath(t_execution *list, char **path, int size)
 		scan_cmd(list);
 	else if (is_dir(list->args[0]))
 	{
-		print_error(list->args[0], ": command not found");
-		g_status()->status = 127;
-		ft_freeEnvp();
-		free(g_status()->pid);
-		exit(127);
+		command_not_found(list);
 	}
 	else if (is_valid(list) == 1)
-	{
-		g_status()->status = 127;
-		print_error(list->args[0], ": command not found");
-		ft_freeEnvp();
-		free(g_status()->pid);
-		exit(127);
-	}
+		command_not_found(list);
 }
 
 void	execute_cmds(t_execution *list, t_hr hr, int size)

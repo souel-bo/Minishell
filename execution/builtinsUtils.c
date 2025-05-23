@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:32 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 15:34:09 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:13:45 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 
 void	check_builtin(t_execution *list, int size)
 {
-	int stdout_copy;
-	int stdin_copy;
+	int	stdout_copy;
+	int	stdin_copy;
+
 	if (list)
 	{
-		
 		if (list->file)
 		{
 			if (ft_redirection(list->file) == 0)

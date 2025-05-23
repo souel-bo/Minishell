@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:58 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 21:08:17 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:15:24 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ void	num_error(t_execution *input, int size)
 
 int	array_len(char **args)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	if (!args)
-		return -1;
-	while(args[i])
+		return (-1);
+	while (args[i])
 		i++;
 	return (i);
 }

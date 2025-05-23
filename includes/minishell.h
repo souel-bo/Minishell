@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 20:28:55 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:18:43 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 #include <limits.h>
 # include "header.h"
 # define ALLOC 409600
+void	command_not_found(t_execution *list);
 int	array_len(char **args);
 void	cmdwithpath(t_execution *list, char **path, int size);
 int	checkifnum(char *number);

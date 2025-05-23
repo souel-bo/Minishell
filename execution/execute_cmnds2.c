@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/22 15:49:10 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/23 16:20:28 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ void	child(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	sig_child();
 	execute_commands(list, hr, pipes, size);
+}
+
+void	command_not_found(t_execution *list)
+{
+	g_status()->status = 127;
+	print_error(list->args[0], ": command not found");
+	ft_freeEnvp();
+	free(g_status()->pid);
+	exit(127);
+}
+
+void	free_and_exit(void)
+{
+	free(g_status()->pid);
+	exit(g_status()->status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mainHelper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:33:54 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 23:27:26 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	start(char	*input)
 	pre = pre_execution(tokens);
 	ft_lstclear(&tokens, free);
 	check_command_type(pre);
-	ft_lstclear_v2(&pre);
+	ft_lstclear_v2(&g_status()->original_list);
 	free(input);
 	return 0;
 }

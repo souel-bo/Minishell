@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/13 22:35:55 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 01:56:53 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,25 @@ void	ft_lstclear(t_token **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
+// void	ft_lstclear4(t_file *file)
+// {
+// 	t_file	*current;
+// 	t_file	*next_node;
+
+// 	if (!file)
+// 		return ;
+// 	current = file;
+// 	while (current != NULL)
+// 	{
+// 		next_node = current->next;
+// 		if (current->file_name != NULL)
+// 			printf("wselt\n");
+// 		// free(current->file_name);
+// 		current = next_node;
+// 	}
+// 	free(file);
+// }
+
 void	ft_lstclear_v2(t_execution **lst)
 {
 	t_execution	*current;

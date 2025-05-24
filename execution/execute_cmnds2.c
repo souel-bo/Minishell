@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmnds2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 23:54:01 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	scan_cmd(t_execution *list, int size)
 		is_builtin(list->args[0], list, size);
 		free(g_status()->pid);
 		ft_freenvp();
-		ft_lstclear_v2(&list);
+		ft_lstclear_v2(&g_status()->original_list);
 		exit(g_status()->status);
 	}
 	if (is_dir(list->args[0]))
@@ -38,7 +38,7 @@ void	scan_cmd(t_execution *list, int size)
 		g_status()->status = 126;
 		print_error(list->args[0], ": Is a directory");
 		ft_freenvp();
-		ft_lstclear_v2(&list);;
+		ft_lstclear_v2(&g_status()->original_list);;
 		free(g_status()->pid);
 		exit(g_status()->status);
 	}
@@ -47,12 +47,12 @@ void	scan_cmd(t_execution *list, int size)
 	else
 		permission_notfound(list);
 	ft_freenvp();
-	ft_lstclear_v2(&list);
+	ft_lstclear_v2(&g_status()->original_list);
 	free(g_status()->pid);
 	exit(g_status()->status);
 }
 
-void	child(t_execution *list, t_hr hr, int pipes[2][2], int size)
+void		child(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	sig_child();
 	execute_commands(list, hr, pipes, size);
@@ -64,7 +64,7 @@ void	command_not_found(t_execution *list)
 	print_error(list->args[0], ": command not found");
 	ft_freenvp();
 	free(g_status()->pid);
-	ft_lstclear_v2(&list);
+	ft_lstclear_v2(&g_status()->original_list);
 	exit(127);
 }
 

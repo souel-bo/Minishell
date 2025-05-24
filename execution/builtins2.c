@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 23:43:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 01:33:42 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	invalid_argument(t_execution *input)
 		g_status()->status = 1;
 		print_error2("bash: cd: ", input
 			->args[1], " :No such file or directory", 1);
+		free (old_pwd);
 		return ;
 	}
 	new_pwd = getcwd(NULL, 0);

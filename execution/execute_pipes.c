@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 00:04:13 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@ void	execute_pipeline(int pipes[2][2], t_execution *list,
 	t_hr helper, int size)
 {
 	setup_pipes(pipes, helper.i, size);
-	int (check) = 1;
 	if (list->args[0] == NULL && list->file->file_name != NULL)
 	{
-		check = ft_redirection(list->file);
+		ft_redirection(list->file);
 		ft_freenvp();
-		ft_lstclear_v2(&list);
+		ft_lstclear_v2(&g_status()->original_list);
 		free_and_exit();
 	}
 	if (ft_redirection(list->file) == 1)
 	{
 		ft_freenvp();
-		ft_lstclear_v2(&list);
+		ft_lstclear_v2(&g_status()->original_list);
 		free_and_exit();
 	}
 	execute_cmds(list, helper, size);

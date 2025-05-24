@@ -12,10 +12,10 @@
 
 #include "includes/minishell.h"
 
-int	start(char	*input)
+int	start(char *input)
 {
-	t_token (*tokens) = NULL;
-	t_execution (*pre) = NULL;
+	t_token(*tokens) = NULL;
+	t_execution(*pre) = NULL;
 	tokens = tokenizer(input, tokens);
 	if (parser(tokens))
 		ft_lstclear(&tokens, free);
@@ -53,7 +53,7 @@ char	*setup_input(void)
 	input = readline("minishell $>: ");
 	if (!input)
 	{
-		if (isatty(STDIN_FILENO))	
+		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 5);
 		ft_freenvp();
 		exit(g_status()->status);

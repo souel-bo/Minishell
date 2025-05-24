@@ -99,8 +99,8 @@ typedef struct s_here_doc
 	int					flag;
 	t_token				*tokens;
 	char				*file_nm;
-	char 	     		*buffer;
-	char                *tmp;
+	char				*buffer;
+	char				*tmp;
 }						t_here_doc;
 
 typedef struct s_norm

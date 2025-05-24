@@ -6,12 +6,11 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 21:18:09 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 21:18:25 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:20:33 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
-
 
 void	help_normal(char *input, t_here_doc *here)
 {

@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 00:07:57 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 20:38:06 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:20:47 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	str[i + j] = '\0';
 	return (str);
 }
+
 char	*ft_strjoin_heredoc(char *s1, char *s2)
 {
 	char	*str;

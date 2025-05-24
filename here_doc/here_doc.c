@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 17:44:03 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:19:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	process_heredoc(t_token *here_token, t_token **tokens)
 {
 	char		*file_nm;
-	int			fd;
 	t_here_doc	here;
 
 	free(here_token->token);
@@ -23,21 +22,17 @@ int	process_heredoc(t_token *here_token, t_token **tokens)
 	here_token->type = RED_IN;
 	here_token = here_token->next;
 	file_nm = file_name();
-	fd = open(file_nm, O_CREAT | O_RDWR, 0666);
-	here.fd = fd;
 	here.file_nm = file_nm;
 	if (read_here_doc(&here, here_token->token, here_token->heredoc, *tokens))
 	{
 		free(file_nm);
 		ft_lstclear(tokens, free);
-		close(fd);
 		return (1);
 	}
 	free(here_token->token);
 	here_token->token = ft_strndup(file_nm, ft_strlen(file_nm));
 	here_token->type = FILE_NAME;
 	free(file_nm);
-	close(fd);
 	return (0);
 }
 

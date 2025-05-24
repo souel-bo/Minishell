@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 19:50:12 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 21:04:38 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ typedef struct s_here_doc
 	int					flag;
 	t_token				*tokens;
 	char				*file_nm;
+	char 	     		*buffer;
+	char                *tmp;
 }						t_here_doc;
 
 typedef struct s_norm

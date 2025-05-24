@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:41:04 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 18:13:08 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:38:17 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 char	*ft_itoa(int n);
-
+char	*ft_strjoin_heredoc(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);
 #endif

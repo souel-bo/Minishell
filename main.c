@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 15:26:47 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:59:42 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,7 +317,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		pre = pre_execution(tokens);
 		print(pre, tokens);
-        // check_command_type(pre);
+        check_command_type(pre);
 		ft_lstclear(&tokens, free);
 		ft_lstclear_v2(&pre);
 		free(input);

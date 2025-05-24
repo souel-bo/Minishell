@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 15:26:34 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:22:04 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,72 @@ pid_t	fork_here_doc(void)
 	return (pid);
 }
 
+int	copy_character(char *input, t_norm_v2 *obj)
+{
+	if (!input[obj->i + 1] || input[obj->i + 1] == '$'
+		|| (!ft_is_alpha(input[obj->i + 1]) && input[obj->i + 1] != '?'
+			&& input[obj->i + 1] != '_' && input[obj->i + 1] != '\''
+			&& input[obj->i + 1] != '"' && !ft_isdigit(input[obj->i])))
+		return (1);
+	return (0);
+}
+
+void	copy_variables_here(char *input, t_norm_v2 *obj)
+{
+	while (input[obj->i] && (ft_is_alpha(input[obj->i]) || input[obj->i] == '_')
+		&& !is_special(input[obj->i]))
+		obj->s[obj->k++] = input[obj->i++];
+}
+
+void	expand_value_here_doc(char *input, t_norm_v2 *obj)
+{
+	obj->s = malloc(ft_strlen(&input[obj->i]) + 1);
+	if (!obj->s)
+		return ;
+	obj->k = 0;
+	if (input[obj->i] == '?')
+		expand_exit_status(obj);
+	else
+		copy_variables_here(input, obj);
+	obj->s[obj->k] = '\0';
+	obj->s = expand_env(obj->s);
+	if (obj->s)
+		(join_value(obj->temp, obj->s, &obj->j), free(obj->s));
+}
+
+void	initialize_obj(t_norm_v2 *obj)
+{
+	obj->temp = NULL;
+	obj->i = 0;
+	obj->s = NULL;
+	obj->j = 0;
+	obj->k = 0;
+	obj->l = NULL;
+	obj->n = 0;
+}
+
+void	expand(char *input, t_norm_v2 *obj)
+{
+	obj->i++;
+	if (input[obj->i] >= '0' && input[obj->i] <= '9')
+		obj->i++;
+	else
+		expand_value_here_doc(input, obj);
+}
+
+void	clean_and_replace(char *input, t_norm_v2 *obj)
+{
+	obj->temp[obj->j] = '\0';
+	free(input);
+	input = ft_strndup(obj->temp, ft_strlen(obj->temp));
+	free(obj->temp);
+}
+
 char	*expand_here_doc(char *input)
 {
 	t_norm_v2	obj;
 
-	obj.temp = NULL;
-	obj.i = 0;
-	obj.s = NULL;
-	obj.j = 0;
-	obj.k = 0;
-	obj.l = NULL;
-	obj.n = 0;
+	initialize_obj(&obj);
 	if (find_dollar(input))
 	{
 		obj.temp = malloc(ALLOC);
@@ -75,59 +130,15 @@ char	*expand_here_doc(char *input)
 		{
 			if (input[obj.i] == '$')
 			{
-				if (!input[obj.i + 1] || input[obj.i + 1] == '$'
-					|| (!ft_is_alpha(input[obj.i + 1]) && input[obj.i
-						+ 1] != '?' && input[obj.i + 1] != '_' && input[obj.i
-						+ 1] != '\'' && input[obj.i + 1] != '"'
-						&& !ft_isdigit(input[obj.i])))
+				if (copy_character(input, &obj))
 					obj.temp[obj.j++] = input[obj.i++];
 				else
-				{
-					obj.i++;
-					if (input[obj.i] >= '0' && input[obj.i] <= '9')
-					{
-						obj.i++;
-						continue ;
-					}
-					else
-					{
-						obj.s = malloc(ft_strlen(&input[obj.i]) + 1);
-						if (!obj.s)
-							return (NULL);
-						obj.k = 0;
-						if (input[obj.i] == '?')
-						{
-							obj.i++;
-							obj.l = ft_itoa(g_status()->status);
-							obj.n = 0;
-							while (obj.l[obj.n])
-								obj.temp[obj.j++] = obj.l[obj.n++];
-							free(obj.l);
-						}
-						else
-						{
-							while (input[obj.i] && (ft_is_alpha(input[obj.i])
-									|| input[obj.i] == '_')
-								&& !is_special(input[obj.i]))
-								obj.s[obj.k++] = input[obj.i++];
-						}
-						obj.s[obj.k] = '\0';
-						obj.s = expand_env(obj.s);
-						if (obj.s)
-						{
-							join_value(obj.temp, obj.s, &obj.j);
-							free(obj.s);
-						}
-					}
-				}
+					expand(input, &obj);
 			}
 			else
 				obj.temp[obj.j++] = input[obj.i++];
 		}
-		obj.temp[obj.j] = '\0';
-		free(input);
-		input = ft_strndup(obj.temp, ft_strlen(obj.temp));
-		free(obj.temp);
+		clean_and_replace(input, &obj);
 	}
 	return (input);
 }
@@ -148,7 +159,6 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens,
 			{
 				if (!g_status()->interuppeted)
 				{
-					printf("CTRL + D\n");
 					ft_lstclear(&tokens, free);
 					ft_freeEnvp();
 					free(file_nm);
@@ -157,7 +167,6 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens,
 				}
 				else
 				{
-					printf("CTRL + C\n");
 					ft_lstclear(&tokens, free);
 					ft_freeEnvp();
 					free(file_nm);
@@ -174,7 +183,6 @@ int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens,
 			ft_putchar_fd('\n', fd);
 			free(input);
 		}
-		printf("dkhel hna\n");
 		ft_lstclear(&tokens, free);
 		ft_freeEnvp();
 		free(file_nm);

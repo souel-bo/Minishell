@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/22 13:28:24 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:06:11 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ int	check_quotes(char *input)
 int	parser(t_token *tokens)
 {
 	t_token	*iterate;
+	int i;
 
+	i = 0;
 	iterate = tokens;
 	while (iterate)
 	{
 		if (iterate->type == PIPE)
 		{
-			if (!iterate->next || iterate->next->type == PIPE)
+			if (!iterate->next || iterate->next->type == PIPE || (i == 0 && iterate->type == PIPE))
 			{
 				ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
 				g_status()->status = 2;
@@ -82,52 +84,7 @@ int	parser(t_token *tokens)
 			}
 		}
 		iterate = iterate->next;
-	}
-	return (0);
-}
-
-
-int	check_parenthis(char *input)
-{
-	int	i;
-	int	open_parenthis;
-
-	i = 0;
-	open_parenthis = 0;
-	while (input[i])
-	{
-		if (input[i] == ')' && open_parenthis == 0)
-		{
-			ft_putstr_fd("minishell: parse error near `)'\n", 2);
-			return (1);
-		}
-		else if (input[i] == '(' && open_parenthis == 0)
-		{
-			i++;
-			open_parenthis = 1;
-			while (input[i] && input[i] != ')')
-			{
-				if (input[i] == '(')
-				{
-					ft_putstr_fd("minishell: parse error near `('\n", 2);
-					return (1);
-				}
-				i++;
-			}
-			if (input[i] == ')' && input[i - 1] == '(')
-			{
-				ft_putstr_fd("minishell : (empty subshell)\n", 2);
-				return (1);
-			}
-			else if (input[i] == ')')
-				open_parenthis = 0;
-		}
 		i++;
-	}
-	if (input[i] == '\0' && open_parenthis == 1)
-	{
-		ft_putstr_fd("minishell : unclosed subshell `('\n", 2);
-		return (1);
 	}
 	return (0);
 }

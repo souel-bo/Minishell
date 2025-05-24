@@ -6,67 +6,11 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 19:00:24 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 16:34:52 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:01:48 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/expantion.h"
-
-t_token	*handle_quote(t_token *tokens)
-{
-	t_token	*iterate;
-	char	*temp;
-
-	iterate = tokens;
-	int i, j;
-	while (iterate)
-	{
-		i = 0;
-		j = 0;
-		temp = malloc(ft_strlen(iterate->token) + 1);
-		if (!temp)
-			return (NULL);
-		while (iterate->token[i])
-		{
-			if (iterate->token[i] == DOUBLE_QUOTE)
-			{
-				i++;
-				while (iterate->token[i] && iterate->token[i] != DOUBLE_QUOTE)
-				{
-					temp[j] = iterate->token[i];
-					j++;
-					i++;
-				}
-				if (iterate->token[i] == DOUBLE_QUOTE)
-					i++;
-			}
-			else if (iterate->token[i] == SINGLE_QUOTE)
-			{
-				i++;
-				while (iterate->token[i] && iterate->token[i] != SINGLE_QUOTE)
-				{
-					temp[j] = iterate->token[i];
-					j++;
-					i++;
-				}
-				if (iterate->token[i] == SINGLE_QUOTE)
-					i++;
-			}
-			else
-			{
-				temp[j] = iterate->token[i];
-				j++;
-				i++;
-			}
-		}
-		temp[j] = '\0';
-		free(iterate->token);
-		iterate->token = ft_strndup(temp, j);
-		free(temp);
-		iterate = iterate->next;
-	}
-	return (tokens);
-}
 
 int	find_dollar(char *s)
 {

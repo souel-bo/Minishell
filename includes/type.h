@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/23 14:06:56 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:28:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ typedef struct s_norm_v2
 	int					k;
 	int					n;
 }						t_norm_v2;
+
+typedef struct s_here_doc
+{
+	int fd;
+	char *delimiter;
+	int flag; 
+	t_token *tokens;	
+	char *file_nm;
+} t_here_doc;
 
 typedef struct s_hr
 {

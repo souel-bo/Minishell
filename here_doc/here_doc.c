@@ -6,210 +6,44 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 12:13:17 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 16:22:04 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:44:03 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "here_doc.h"
 
-char	*file_name(void)
+int	process_heredoc(t_token *here_token, t_token **tokens)
 {
-	static int	i = 0;
-	char		*join;
-	char		*it;
+	char		*file_nm;
+	int			fd;
+	t_here_doc	here;
 
-	it = NULL;
-	join = NULL;
-	it = ft_itoa(i);
-	join = ft_strjoin(HERE_DOC_FILE, it);
-	free(it);
-	while (!access(join, F_OK))
+	free(here_token->token);
+	here_token->token = ft_strndup("<", 1);
+	here_token->type = RED_IN;
+	here_token = here_token->next;
+	file_nm = file_name();
+	fd = open(file_nm, O_CREAT | O_RDWR, 0666);
+	here.fd = fd;
+	here.file_nm = file_nm;
+	if (read_here_doc(&here, here_token->token, here_token->heredoc, *tokens))
 	{
-		i++;
-		it = ft_itoa(i);
-		free(join);
-		join = ft_strjoin(HERE_DOC_FILE, it);
-		free(it);
-	}
-	return (join);
-}
-
-void	here_doc_handler(int i)
-{
-	(void)i;
-	g_status()->status = 130;
-	g_status()->interuppeted = 1;
-	write(2, "\n", 1);
-	close(STDIN_FILENO);
-}
-
-pid_t	fork_here_doc(void)
-{
-	pid_t	pid;
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	pid = fork();
-	if (pid == 0)
-		signal(SIGINT, here_doc_handler);
-	return (pid);
-}
-
-int	copy_character(char *input, t_norm_v2 *obj)
-{
-	if (!input[obj->i + 1] || input[obj->i + 1] == '$'
-		|| (!ft_is_alpha(input[obj->i + 1]) && input[obj->i + 1] != '?'
-			&& input[obj->i + 1] != '_' && input[obj->i + 1] != '\''
-			&& input[obj->i + 1] != '"' && !ft_isdigit(input[obj->i])))
-		return (1);
-	return (0);
-}
-
-void	copy_variables_here(char *input, t_norm_v2 *obj)
-{
-	while (input[obj->i] && (ft_is_alpha(input[obj->i]) || input[obj->i] == '_')
-		&& !is_special(input[obj->i]))
-		obj->s[obj->k++] = input[obj->i++];
-}
-
-void	expand_value_here_doc(char *input, t_norm_v2 *obj)
-{
-	obj->s = malloc(ft_strlen(&input[obj->i]) + 1);
-	if (!obj->s)
-		return ;
-	obj->k = 0;
-	if (input[obj->i] == '?')
-		expand_exit_status(obj);
-	else
-		copy_variables_here(input, obj);
-	obj->s[obj->k] = '\0';
-	obj->s = expand_env(obj->s);
-	if (obj->s)
-		(join_value(obj->temp, obj->s, &obj->j), free(obj->s));
-}
-
-void	initialize_obj(t_norm_v2 *obj)
-{
-	obj->temp = NULL;
-	obj->i = 0;
-	obj->s = NULL;
-	obj->j = 0;
-	obj->k = 0;
-	obj->l = NULL;
-	obj->n = 0;
-}
-
-void	expand(char *input, t_norm_v2 *obj)
-{
-	obj->i++;
-	if (input[obj->i] >= '0' && input[obj->i] <= '9')
-		obj->i++;
-	else
-		expand_value_here_doc(input, obj);
-}
-
-void	clean_and_replace(char *input, t_norm_v2 *obj)
-{
-	obj->temp[obj->j] = '\0';
-	free(input);
-	input = ft_strndup(obj->temp, ft_strlen(obj->temp));
-	free(obj->temp);
-}
-
-char	*expand_here_doc(char *input)
-{
-	t_norm_v2	obj;
-
-	initialize_obj(&obj);
-	if (find_dollar(input))
-	{
-		obj.temp = malloc(ALLOC);
-		obj.i = 0;
-		obj.j = 0;
-		while (input[obj.i])
-		{
-			if (input[obj.i] == '$')
-			{
-				if (copy_character(input, &obj))
-					obj.temp[obj.j++] = input[obj.i++];
-				else
-					expand(input, &obj);
-			}
-			else
-				obj.temp[obj.j++] = input[obj.i++];
-		}
-		clean_and_replace(input, &obj);
-	}
-	return (input);
-}
-
-int	read_here_doc(int fd, char *delimiter, int flag, t_token *tokens,
-		char *file_nm)
-{
-	char	*input;
-	pid_t	pid;
-
-	pid = fork_here_doc();
-	if (pid == 0)
-	{
-		while (!g_status()->interuppeted)
-		{
-			input = readline("here_doc $-> : ");
-			if (!input)
-			{
-				if (!g_status()->interuppeted)
-				{
-					ft_lstclear(&tokens, free);
-					ft_freeEnvp();
-					free(file_nm);
-					close(fd);
-					exit(0);
-				}
-				else
-				{
-					ft_lstclear(&tokens, free);
-					ft_freeEnvp();
-					free(file_nm);
-					close(fd);
-					exit(g_status()->status);
-				}
-			}
-			else if (ft_strlen(delimiter) == ft_strlen(input)
-				&& !ft_strncmp(delimiter, input, ft_strlen(delimiter)))
-				break ;
-			if (!flag)
-				input = expand_here_doc(input);
-			ft_putstr_fd(input, fd);
-			ft_putchar_fd('\n', fd);
-			free(input);
-		}
-		ft_lstclear(&tokens, free);
-		ft_freeEnvp();
 		free(file_nm);
-		free(input);
+		ft_lstclear(tokens, free);
 		close(fd);
-		g_status()->status = 0;
-		exit(g_status()->status);
+		return (1);
 	}
-	else
-	{
-		waitpid(pid, &g_status()->status, 0);
-		if (WIFEXITED(g_status()->status))
-		{
-			g_status()->status = WEXITSTATUS(g_status()->status);
-			if (g_status()->status == 130)
-				return (1);
-			return (0);
-		}
-	}
+	free(here_token->token);
+	here_token->token = ft_strndup(file_nm, ft_strlen(file_nm));
+	here_token->type = FILE_NAME;
+	free(file_nm);
+	close(fd);
 	return (0);
 }
 
 t_token	*handle_heredoc(t_token *tokens)
 {
-	t_token *iterate;
-	char *file_nm;
-	int fd;
+	t_token	*iterate;
 
 	iterate = tokens;
 	while (iterate)
@@ -218,31 +52,11 @@ t_token	*handle_heredoc(t_token *tokens)
 			iterate = iterate->next;
 		if (iterate && iterate->type == HERE_DOC)
 		{
-			free(iterate->token);
-			iterate->token = ft_strndup("<", 1);
-			iterate->type = RED_IN;
-			iterate = iterate->next;
-			file_nm = file_name();
-			fd = open(file_nm, O_CREAT | O_RDWR, 0666);
-			if (read_here_doc(fd, iterate->token, iterate->heredoc, tokens,
-					file_nm))
-			{
-				free(file_nm);
-				ft_lstclear(&tokens, free);
-				close(fd);
+			if (process_heredoc(iterate, &tokens))
 				return (NULL);
-			}
-			free(iterate->token);
-			iterate->token = ft_strndup(file_nm, ft_strlen(file_nm));
-			iterate->type = FILE_NAME;
-			free(file_nm);
-			close(fd);
 		}
-		else
-		{
-			if (iterate && iterate->next)
-				iterate = iterate->next;
-		}
+		else if (iterate && iterate->next)
+			iterate = iterate->next;
 	}
 	return (tokens);
 }

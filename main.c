@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 05:57:18 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 15:59:42 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:52:00 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,10 +262,18 @@ void handler(int sig)
         return;
 }
 
+void child_handler(int sig)
+{
+	
+    (void)sig;
+    write(STDERR_FILENO, "\n",1);
+	g_status()->status = 130;
+	exit(g_status()->status);
+}
 
 void sig_child()
 {
-    signal(SIGINT, SIG_DFL);
+    signal(SIGINT, child_handler);
     signal(SIGQUIT, SIG_DFL);
 }
 

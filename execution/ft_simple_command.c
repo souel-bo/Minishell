@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:06 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 15:13:32 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:14:58 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,13 @@ int	ft_redirection(t_file *file)
 	return (0);
 }
 
-int	ft_isprint(int c)
+void	free_after_exit(void)
 {
-	return (c >= 32 && c <= 126);
+	ft_lstclear_v2(&g_status()->original_list);
+	ft_freenvp();
+	close(g_status()->stdin_copy);
+	close(g_status()->stdout_copy);
+	free_and_exit();
 }
 
 char	**get_path(void)

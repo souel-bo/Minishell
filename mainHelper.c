@@ -6,11 +6,12 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 20:33:54 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 20:06:10 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:58:07 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+#include <termios.h>
 
 int	start(char *input)
 {
@@ -35,16 +36,24 @@ int	start(char *input)
 	return (0);
 }
 
+void	setup_terminal(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL ;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 char	*setup_input(void)
 {
 	char	*input;
 
+	setup_terminal();
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	g_status()->flag = 0;
-	if (g_status()->sig_int_received == true)
-		printf("\n");
 	if (g_status()->sig_quit == true)
 	{
 		g_status()->sig_quit = false;

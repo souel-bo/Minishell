@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 14:55:24 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:14:12 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_env(void)
 	tmp = g_status()->new_envp;
 	while (tmp)
 	{
-		if (tmp->key && tmp->value[0] != '\0')
+		if (tmp->key && tmp->value && tmp->value != NULL)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
@@ -93,8 +93,7 @@ void	ft_exit(t_execution *input, int size)
 	if (size == 1 && len_args == 1)
 	{
 		write(2, "exit\n", 5);
-		ft_freenvp();
-		free_and_exit();
+		free_after_exit();
 	}
 	else if (input->args[1] && checkifnum(input->args[1]) == 0)
 		num_error(input, size);
@@ -107,6 +106,7 @@ void	ft_exit(t_execution *input, int size)
 		check_number(input, size);
 	else
 	{
+		ft_lstclear_v2(&g_status()->original_list);
 		ft_freenvp();
 		free_and_exit();
 	}
@@ -114,13 +114,19 @@ void	ft_exit(t_execution *input, int size)
 
 void	ft_pwd(void)
 {
+	char	*mypwd;
 	char	*buf;
 
+	mypwd = searchandsave("PWD");
 	buf = getcwd(NULL, 0);
-	if (!buf)
-		printf("%s\n", searchandsave("PWD"));
+	if (search_in_env("PWD"))
+		printf("%s\n", mypwd);
 	else
-		printf("%s\n", buf);
-	free (buf);
+	{
+		free (buf);
+		return ;
+	}
+	free(buf);
+	free(mypwd);
 	g_status()->status = 0;
 }

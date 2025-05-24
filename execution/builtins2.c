@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 14:56:43 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 22:34:25 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,12 @@ void	ft_chdir(t_execution *input)
 		invalid_argument(input);
 }
 
-void	echo_args(t_execution *input, int i)
+void	echo_args(t_execution *input, int *i)
 {
-	ft_putstr_fd(input->args[i], 1);
-	if (input->args[i + 1])
+	ft_putstr_fd(input->args[*i], 1);
+	if (input->args[*i + 1])
 		ft_putchar_fd(' ', 1);
+	(*i)++;
 }
 
 void	ft_echo(t_execution *input)
@@ -96,7 +97,8 @@ void	ft_echo(t_execution *input)
 	int (j) = 0;
 	int (i) = 1;
 	int (flag) = 1;
-	while (input->args[i] && input->args[i][j] && input->args[i][j] == '-')
+	while (input->args[i] && input->args
+		[i][j] && input->args[i][j] == '-' && input->args[i][j + 1] != '\0')
 	{
 		j++;
 		while (input->args[i][j] && input->args[i][j] == 'n' )
@@ -111,10 +113,7 @@ void	ft_echo(t_execution *input)
 			break ;
 	}
 	while (input->args[i])
-	{
-		echo_args(input, i);
-		i++;
-	}
+		echo_args(input, &i);
 	if (flag)
 		ft_putchar_fd('\n', 1);
 	g_status()->status = 0;

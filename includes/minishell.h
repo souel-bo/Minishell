@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 03:59:00 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 19:52:01 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 23:16:18 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define SINGLE_QUOTE -2
 # define DOUBLE_QUOTE -1
 
+void		free_after_exit(void);
 void		single_command(t_execution *list, t_hr hr, int size);
 void		redir_free(t_execution *list);
 int			find_dollar(char *s);

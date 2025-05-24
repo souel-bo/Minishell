@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:39:00 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 17:28:16 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,21 @@ void	wait_all(pid_t *pids, t_hr hr)
 	int	j;
 	int	status;
 
+	status = 0;
 	j = 0;
 	while (j < hr.i)
 	{
+		g_status()->sig_quit = false;
+		g_status()->sig_int_received = false;
 		waitpid(pids[j], &status, 0);
-		g_status()->status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 			g_status()->status = WTERMSIG(status) + 128;
+		else
+			g_status()->status = WEXITSTATUS(status);
+		if (WTERMSIG(status) == SIGINT)
+			g_status()->sig_int_received = true;
+		else if (WTERMSIG(status) == SIGQUIT)
+			g_status()->sig_quit = true;
 		j++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmnds.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:53 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 15:28:20 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,36 +59,13 @@ void	execute_commands(t_execution *list, t_hr hr, int pipes[2][2], int size)
 {
 	if (list->args[0] == NULL && list->file->file_name != NULL && size == 1)
 	{
-		ft_redirection(list->file);
-		ft_freenvp();
-		ft_lstclear_v2(&g_status()->original_list);
+		redir_free(list);
 		free_and_exit();
 	}
 	if (size == 1 && list->args[0])
-	{
-		if (list->args[0] == NULL && list->file->file_name != NULL)
-		{
-			ft_redirection(list->file);
-			ft_freenvp();
-			ft_lstclear_v2(&g_status()->original_list);
-			free_and_exit();
-		}
-		if (ft_redirection(list->file) == 1)
-		{
-			free(g_status()->pid);
-			ft_freenvp();
-			ft_lstclear_v2(&g_status()->original_list);
-			exit(1);
-		}
-		execute_cmds(list, hr, size);
-	}
+		single_command(list, hr, size);
 	else if (size > 1)
 		execute_pipeline(pipes, list, hr, size);
-	else
-	{
-		ft_lstclear_v2(&g_status()->original_list);
-		exit(g_status()->status);
-	}
 }
 
 int	is_valid(t_execution *list)

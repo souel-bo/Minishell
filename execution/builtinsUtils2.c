@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:37 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 21:42:42 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:12:41 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	find_it(int append, t_envp *tmp, char *arg, int len_key)
 		new_value = ft_strdup(arg + len_key + 1);
 	free(tmp->value);
 	tmp->value = new_value;
+	g_status()->status = 0;
 }
 
 int	already_in(char *arg)
@@ -94,4 +95,5 @@ void	export_signle(t_envp *export)
 			printf("declare -x %s\n", export->key);
 		export = export->next;
 	}
+	g_status()->status = 0;
 }

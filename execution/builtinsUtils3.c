@@ -6,7 +6,7 @@
 /*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:58 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/23 20:37:18 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:09:50 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	checkifnum(char *number)
 
 	j = 0;
 	i = 0;
+	if (number[i] == '\0')
+		return (1);
 	if ((number[j] == '-') || (number[j] == '+'))
 		j++;
 	while (number[i])
@@ -61,6 +63,8 @@ void	check_number(t_execution *input, int size)
 {
 	int (j) = 0;
 	int (check) = 0;
+	if (input->args[1][j] == '\0')
+		num_error(input, size);
 	check = ft_atoi(input->args[1], &j);
 	if (j == 1)
 		num_error(input, size);
@@ -71,4 +75,11 @@ void	check_number(t_execution *input, int size)
 		ft_freenvp();
 		free_and_exit();
 	}
+}
+
+void	redir_free(t_execution *list)
+{
+	ft_redirection(list->file);
+	ft_freenvp();
+	ft_lstclear_v2(&g_status()->original_list);
 }

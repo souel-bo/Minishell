@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 01:26:48 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 03:08:36 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:46:18 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 t_token	*new_element(char *ptr)
 {
-	t_token *new;
+	t_token	*new;
+
 	new = malloc(sizeof(t_token));
 	if (!new)
 		return (NULL);

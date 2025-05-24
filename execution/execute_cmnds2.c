@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmnds2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:56 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 03:03:03 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 15:28:37 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/libft.h"
 #include "../includes/minishell.h"
 #include "../includes/tokenizer.h"
+
+void	child(t_execution *list, t_hr hr, int pipes[2][2], int size)
+{
+	sig_child();
+	execute_commands(list, hr, pipes, size);
+}
 
 void	permission_notfound(t_execution *list)
 {
@@ -38,7 +44,7 @@ void	scan_cmd(t_execution *list, int size)
 		g_status()->status = 126;
 		print_error(list->args[0], ": Is a directory");
 		ft_freenvp();
-		ft_lstclear_v2(&g_status()->original_list);;
+		ft_lstclear_v2(&g_status()->original_list);
 		free(g_status()->pid);
 		exit(g_status()->status);
 	}
@@ -50,12 +56,6 @@ void	scan_cmd(t_execution *list, int size)
 	ft_lstclear_v2(&g_status()->original_list);
 	free(g_status()->pid);
 	exit(g_status()->status);
-}
-
-void		child(t_execution *list, t_hr hr, int pipes[2][2], int size)
-{
-	sig_child();
-	execute_commands(list, hr, pipes, size);
 }
 
 void	command_not_found(t_execution *list)

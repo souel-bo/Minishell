@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:20:47 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 01:56:53 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 17:56:55 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,35 @@ void	ft_lstclear(t_token **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
-// void	ft_lstclear4(t_file *file)
-// {
-// 	t_file	*current;
-// 	t_file	*next_node;
 
-// 	if (!file)
-// 		return ;
-// 	current = file;
-// 	while (current != NULL)
-// 	{
-// 		next_node = current->next;
-// 		if (current->file_name != NULL)
-// 			printf("wselt\n");
-// 		// free(current->file_name);
-// 		current = next_node;
-// 	}
-// 	free(file);
-// }
+void	free_files(t_file *file)
+{
+	t_file		*file_tmp;
+
+	while (file)
+	{
+		file_tmp = file->next;
+		free(file->file_name);
+		free(file);
+		file = file_tmp;
+	}
+}
 
 void	ft_lstclear_v2(t_execution **lst)
 {
-	t_execution	*current;
-	t_execution	*next_node;
-	int i;
-
+	t_execution (*current);
+	t_execution (*next_node);
+	int (i);
 	if (!lst || !*lst)
 		return ;
-
 	current = *lst;
 	while (current != NULL)
 	{
 		next_node = current->next;
-		t_file *file_tmp;
-		while (current->file) {
-			file_tmp = current->file->next;
-			free(current->file->file_name);
-			free(current->file);
-			current->file = file_tmp;
-		}
+		free_files(current->file);
 		i = 0;
-		while (current->args && current->args[i]) {
+		while (current->args && current->args[i])
+		{
 			free(current->args[i]);
 			i++;
 		}
@@ -82,4 +70,3 @@ void	ft_lstclear_v2(t_execution **lst)
 	}
 	*lst = NULL;
 }
-

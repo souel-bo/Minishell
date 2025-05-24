@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:28 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 01:33:42 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 14:56:43 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	ft_echo(t_execution *input)
 	int (j) = 0;
 	int (i) = 1;
 	int (flag) = 1;
-
 	while (input->args[i] && input->args[i][j] && input->args[i][j] == '-')
 	{
 		j++;

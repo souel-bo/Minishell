@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 02:20:32 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 21:36:09 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:26:08 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ void	handle_quotes(char *input, int *i, int *j)
 	*j = *i;
 	while (input[*i] && !is_space_or_operator(input[*i]))
 	{
-		if (input[*i] == '"')
+		if (input[*i] == DOUBLE_QUOTE)
 		{
 			(*i)++;
-			while (input[*i] && input[*i] != '"')
+			while (input[*i] && input[*i] != DOUBLE_QUOTE)
 				(*i)++;
 			if (input[*i])
 				(*i)++;
 		}
-		else if (input[*i] == '\'')
+		else if (input[*i] == SINGLE_QUOTE)
 		{
 			(*i)++;
-			while (input[*i] && input[*i] != '\'')
+			while (input[*i] && input[*i] != SINGLE_QUOTE)
 				(*i)++;
 			if (input[*i])
 				(*i)++;

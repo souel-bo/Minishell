@@ -1,0 +1,16 @@
+a
+execution
+expantion
+here_doc
+includes
+libft
+main.c
+mainHelper.c
+mainHelper.o
+main.o
+Makefile
+minishell
+parser
+supp.supp
+tokenizer
+ur

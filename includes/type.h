@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   type.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:09:14 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/24 02:55:20 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 19:50:12 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPE_H
 # define TYPE_H
 
-#include <sys/types.h>
+# include <stdbool.h>
+# include <sys/types.h>
 
 typedef enum s_type
 {
@@ -35,7 +36,7 @@ typedef struct s_token
 	char				*token;
 	t_type				type;
 	int					index;
-	int heredoc;
+	int					heredoc;
 	int					expanded;
 	struct s_token		*next;
 }						t_token;
@@ -50,6 +51,17 @@ typedef struct s_list
 	struct s_list		*next;
 }						t_file;
 
+typedef struct s_norm_v2
+{
+	char				*s;
+	char				*temp;
+	char				*l;
+	int					i;
+	int					j;
+	int					k;
+	int					n;
+}						t_norm_v2;
+
 typedef struct s_execution
 {
 	char				**args;
@@ -59,26 +71,35 @@ typedef struct s_execution
 	struct s_execution	*next;
 }						t_execution;
 
-
 typedef struct s_envp
 {
 	char				*key;
 	char				*value;
 	int					status;
 	struct s_envp		*next;
-}
-						t_envp;
+}						t_envp;
 typedef struct s_status
 {
 	t_execution			*original_list;
 	int					stdout_copy;
 	int					stdin_copy;
 	t_envp				*new_envp;
-	int 				interuppeted;
+	int					interuppeted;
 	int					status;
 	pid_t				*pid;
-	int                 flag;
+	int					flag;
+	bool				sig_quit;
+	bool				sig_int_received;
 }						t_status;
+
+typedef struct s_here_doc
+{
+	int					fd;
+	char				*delimiter;
+	int					flag;
+	t_token				*tokens;
+	char				*file_nm;
+}						t_here_doc;
 
 typedef struct s_norm
 {
@@ -90,9 +111,9 @@ typedef struct s_norm
 
 typedef struct s_hr
 {
-	int i;
-	char **path;
-} t_hr;
+	int					i;
+	char				**path;
+}						t_hr;
 
 // extern t_envp			*g_new_envp;
 

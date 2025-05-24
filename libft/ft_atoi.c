@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 17:39:54 by yaaitmou          #+#    #+#             */
+/*   Updated: 2025/05/24 17:41:53 by yaaitmou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/libft.h"
 
 #include <limits.h>
@@ -16,6 +28,7 @@ static int	check_overflow(unsigned long long result,
 		return (1);
 	return (0);
 }
+
 static int	parse_number(char *str, int *i, int sign, long long *final)
 {
 	unsigned long long	result;
@@ -40,9 +53,10 @@ static int	parse_number(char *str, int *i, int sign, long long *final)
 		*final = -(long long)result;
 	return (0);
 }
-int	ft_atoi(char *str,int *j)
+
+int	ft_atoi(char *str, int *j)
 {
-    long long final;
+	long long (final);
 	int (i) = 0;
 	int (sign) = 1;
 	if (!str || str[0] == '\0')
@@ -55,10 +69,10 @@ int	ft_atoi(char *str,int *j)
 			sign = -1;
 		i++;
 	}
-    if (parse_number(str, &i, sign, &final) != 0)
+	if (parse_number(str, &i, sign, &final) != 0)
 	{
 		(*j) = 1;
-		return 0;
+		return (0);
 	}
 	return ((unsigned char)final);
 }

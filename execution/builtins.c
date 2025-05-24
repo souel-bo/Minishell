@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aniki <aniki@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 14:38:23 by yaaitmou          #+#    #+#             */
-/*   Updated: 2025/05/24 01:32:48 by aniki            ###   ########.fr       */
+/*   Updated: 2025/05/24 14:55:24 by yaaitmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	ft_env(void)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
+	g_status()->status = 0;
 }
 
 void	ft_export(t_execution *list)
 {
-	t_envp	*node;
-	t_envp	*export;
-
+	t_envp (*node);
+	t_envp (*export);
 	int (i) = 1;
 	export = g_status()->new_envp;
 	while (list->args[i])
@@ -50,6 +50,7 @@ void	ft_export(t_execution *list)
 			node = new_element2(list->args[i]);
 			ft_lstadd_back2(&g_status()->new_envp, node);
 			i++;
+			g_status()->status = 0;
 		}
 	}
 	if (!list->args[1])
@@ -99,7 +100,7 @@ void	ft_exit(t_execution *input, int size)
 		num_error(input, size);
 	else if (len_args >= 3)
 	{
-		write(2, "bash: exit: too many arguments\n", 31);
+		print_error("bash: exit:", "too many arguments");
 		g_status()->status = 1;
 	}
 	else if (input->args[1])

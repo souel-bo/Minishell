@@ -1,5 +1,16 @@
-#include "../includes/libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 17:48:02 by yaaitmou          #+#    #+#             */
+/*   Updated: 2025/05/24 17:48:24 by yaaitmou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../includes/libft.h"
 
 char	*ft_word(char const *s, char c, size_t *i)
 {
@@ -28,6 +39,7 @@ char	*ft_word(char const *s, char c, size_t *i)
 	(*i)++;
 	return (ptr);
 }
+
 size_t	ft_count_word(char const *s, char c)
 {
 	size_t	i;

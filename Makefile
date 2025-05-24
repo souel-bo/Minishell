@@ -7,7 +7,7 @@ CFLAGS = -Wall -Wextra -Werror -ggdb
 MINISHELL_SRC = main.c
 
 TOKENIZER = tokenizer/tokenizer.c parser/parser.c parser/parser_utils.c parser/pre_execution.c tokenizer/lexer.c tokenizer/tokenizer_utils.c \
-			here_doc/here_doc.c  here_doc/here_doc_utils_2.c  here_doc/here_doc_utils_3.c  here_doc/here_doc_utils.c
+			here_doc/here_doc.c  here_doc/here_doc_utils_2.c  here_doc/here_doc_utils_3.c  here_doc/here_doc_utils.c parser/grammar.c
 
 EXPANTION = expantion/expantion.c expantion/expand_value.c expantion/expand_value_utils_2.c  expantion/expand_value_utils.c expantion/expantion_utils.c \
 			expantion/qutote_expand.c

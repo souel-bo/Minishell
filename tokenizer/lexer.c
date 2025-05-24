@@ -3,38 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yaaitmou <yaaitmou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:47:59 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/16 22:04:45 by yaaitmou         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:13:27 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/tokenizer.h"
-
-void	check_in(t_token *token)
-{
-	if (!ft_strncmp(token->token, "<", ft_strlen(token->token)))
-	{
-		token->type = RED_IN;
-		if (token->next)
-		{
-			token = token->next;
-			if (!check_if_operator(token))
-				token->type = FILE_NAME;
-		}
-	}
-	else if (!ft_strncmp(token->token, "<<", ft_strlen(token->token)))
-	{
-		token->type = HERE_DOC;
-		if (token->next)
-		{
-			token = token->next;
-			if (!check_if_operator(token))
-				token->type = DELIMITER;
-		}
-	}
-}
 
 void	check_operator(t_token *token)
 {
@@ -93,36 +69,39 @@ int	check_if_builtin(t_token *token)
 	return (0);
 }
 
+void	handle_token(t_token *iter, int *new_cmd)
+{
+	if (*new_cmd && check_if_builtin(iter))
+	{
+		iter->type = BUILTIN;
+		check_argument(iter->next);
+		*new_cmd = 0;
+	}
+	else if (check_if_operator(iter))
+	{
+		check_operator(iter);
+		if (iter->type == PIPE)
+			*new_cmd = 1;
+	}
+	else
+	{
+		iter->type = WORD;
+		*new_cmd = 0;
+	}
+}
+
 t_token	*lexer(t_token *list)
 {
-	int		new_cmd = 1;
-	t_token	*iterate = list;
+	t_token	*iter;
+	int		new_cmd;
 
-	while (iterate != NULL)
+	iter = list;
+	new_cmd = 1;
+	while (iter)
 	{
-		if (iterate->type != TEST)
-		{
-			iterate = iterate->next;
-			continue;
-		}
-		if (new_cmd && check_if_builtin(iterate))
-		{
-			iterate->type = BUILTIN;
-			check_argument(iterate->next);
-			new_cmd = 0;
-		}
-		else if (check_if_operator(iterate))
-		{
-			check_operator(iterate);
-			if (iterate->type == PIPE)
-				new_cmd = 1;
-		}
-		else
-		{
-			iterate->type = WORD;
-			new_cmd = 0;
-		}
-		iterate = iterate->next;
+		if (iter->type == TEST)
+			handle_token(iter, &new_cmd);
+		iter = iter->next;
 	}
 	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:37:06 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/21 16:10:22 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:25:44 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,9 @@ void	init_and_add_file(t_norm *norm, t_file **element, int type);
 t_file	*create_element_file(char *filename);
 t_file	*ft_lstlast_v3(t_file *lst);
 void	ft_lstadd_back_v3(t_file **lst, t_file *new);
-
+int	helper_check(t_token *iterate);
+int	check_redirection(t_token *iter);
+int	check_heredoc(t_token *iter);
+int	check_pipe(t_token *iter, int i);
+void	help_parser(void);
 #endif

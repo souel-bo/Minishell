@@ -6,85 +6,48 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 11:49:01 by sfyn              #+#    #+#             */
-/*   Updated: 2025/05/24 18:06:11 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:44:34 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/tokenizer.h"
+#include "../includes/parser.h"
+
+void	update_quote_state(char *c, char *quote)
+{
+	if ((*c == '\'' || *c == '"') && *quote == 0)
+	{
+		*quote = *c;
+		if (*c == '"')
+			*c = DOUBLE_QUOTE;
+		else
+			*c = SINGLE_QUOTE;
+	}
+	else if (*c == *quote)
+	{
+		*quote = 0;
+		if (*c == '"')
+			*c = DOUBLE_QUOTE;
+		else
+			*c = SINGLE_QUOTE;
+	}
+}
 
 int	check_quotes(char *input)
 {
-	int	i;
-	char quote;
+	int		i;
+	char	quote;
 
 	i = 0;
 	quote = 0;
 	while (input[i])
 	{
-		if ((input[i] == '\'' || input[i] == '"') && quote == 0)
-		{
-			quote = input[i];
-			if (input[i] == '"')
-				input[i] = DOUBLE_QUOTE;
-			else 
-				input[i] = SINGLE_QUOTE;
-		}
-		else if (input[i] == quote)
-		{
-			quote = 0;
-			if (input[i] == '"')
-				input[i] = DOUBLE_QUOTE;
-			else 
-				input[i] = SINGLE_QUOTE;
-		}
+		update_quote_state(&input[i], &quote);
 		i++;
 	}
 	if (quote != 0)
 	{
 		g_status()->status = 2;
-		return 1;
-	}
-	return (0);
-}
-
-int	parser(t_token *tokens)
-{
-	t_token	*iterate;
-	int i;
-
-	i = 0;
-	iterate = tokens;
-	while (iterate)
-	{
-		if (iterate->type == PIPE)
-		{
-			if (!iterate->next || iterate->next->type == PIPE || (i == 0 && iterate->type == PIPE))
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `|'\n", 2);
-				g_status()->status = 2;
-				return (1);
-			}
-		}
-		else if (iterate->type == HERE_DOC)
-		{
-			if (!iterate->next || iterate->next->type != DELIMITER)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-				g_status()->status = 2;
-				return (1);
-			}
-		}
-		else if (iterate->type == RED_IN || iterate->type == RED_OUT || iterate->type == APPEND)
-		{
-			if (!iterate->next || iterate->next->type != FILE_NAME)
-			{
-				ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-				g_status()->status = 2;
-				return (1);
-			}
-		}
-		iterate = iterate->next;
-		i++;
+		return (1);
 	}
 	return (0);
 }
@@ -128,4 +91,26 @@ t_execution	*create_element(t_token *tokens)
 	element->file = NULL;
 	element->next = NULL;
 	return (element);
+}
+
+int	parser(t_token *tokens)
+{
+	t_token	*iterate;
+	int		i;
+
+	i = 0;
+	iterate = tokens;
+	while (iterate)
+	{
+		if (iterate->type == PIPE)
+		{
+			if (check_pipe(iterate, i))
+				return (1);
+		}
+		else if (helper_check(iterate))
+			return (1);
+		iterate = iterate->next;
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: souel-bo <souel-bo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 21:35:50 by souel-bo          #+#    #+#             */
-/*   Updated: 2025/05/22 15:28:40 by souel-bo         ###   ########.fr       */
+/*   Updated: 2025/05/24 18:13:58 by souel-bo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,5 @@ t_execution	*pre_execution(t_token *tokens)
 		iterate = copy_elements(temp, iterate, tokens, exec_list);
 		ft_lstadd_back_v2(&exec_list, temp);
 	}
-	// ft_lstclear(&tokens, free);
 	return (exec_list);
 }
